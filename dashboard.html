@@ -772,6 +772,29 @@
       </div>
     </div>
 
+    <h2 class="section-title">Customer Acquisition Cost (CAC)</h2>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>Monthly CAC</h3>
+        <canvas id="cacChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Meta Spend &amp; Closed Sales by Month</h3>
+        <canvas id="cacSpendChart"></canvas>
+      </div>
+    </div>
+    <table class="rep-table">
+      <thead>
+        <tr><th>Month</th><th>Meta Spend</th><th>Total Closed</th><th>CAC</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>January</td><td>$6,146.63</td><td>18</td><td>$341.48</td></tr>
+        <tr><td>February</td><td>$5,171.37</td><td>24</td><td>$215.47</td></tr>
+        <tr><td>March</td><td>$6,784.02</td><td>20</td><td>$339.20</td></tr>
+        <tr><td>April</td><td>—</td><td>4</td><td>—</td></tr>
+      </tbody>
+    </table>
+
     <h2 class="section-title">Meta Spend Detail - April</h2>
     <table class="rep-table">
       <thead>
@@ -1233,6 +1256,56 @@ new Chart(document.getElementById('cplCompareChart'), {
   options: {
     responsive: true,
     scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + v } } }
+  }
+});
+
+// CAC Monthly Trend
+new Chart(document.getElementById('cacChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+    datasets: [{
+      label: 'CAC',
+      data: [341.48, 215.47, 339.20, 0],
+      backgroundColor: ['#a51e36', '#a51e36', '#a51e36', '#555'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + v } } }
+  }
+});
+
+// CAC Meta Spend & Closed Sales
+new Chart(document.getElementById('cacSpendChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+    datasets: [
+      {
+        label: 'Meta Spend',
+        data: [6146.63, 5171.37, 6784.02, 0],
+        backgroundColor: '#d4a853',
+        borderRadius: 4,
+        yAxisID: 'y'
+      },
+      {
+        label: 'Total Closed',
+        data: [18, 24, 20, 4],
+        backgroundColor: '#2d6a9f',
+        borderRadius: 4,
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => '$' + v } },
+      y1: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Closed Sales' } }
+    }
   }
 });
 </script>
