@@ -9,8 +9,8 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #1c1c2b;
-    color: #fff;
+    background: #f5f5f7;
+    color: #1a1a2e;
     min-height: 100vh;
   }
   .header {
@@ -31,10 +31,12 @@
     display: flex;
     gap: 4px;
     margin-bottom: 20px;
-    background: #16213e;
+    background: #ffffff;
+    border: 1px solid #e2e4ea;
     border-radius: 10px;
     padding: 4px;
     overflow-x: auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   .nav-tab {
     padding: 10px 20px;
@@ -45,10 +47,10 @@
     white-space: nowrap;
     transition: all 0.2s;
     border: none;
-    color: #8899aa;
+    color: #64748b;
     background: transparent;
   }
-  .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .nav-tab:hover { color: #1a1a2e; background: rgba(0,0,0,0.04); }
   .nav-tab.active { background: #8a1a2e; color: #fff; }
 
   /* Panels */
@@ -101,11 +103,12 @@
     margin-bottom: 20px;
   }
   .leader-card {
-    background: linear-gradient(135deg, #0f0f23, #1a1a2e);
-    border: 1px solid #333;
+    background: #ffffff;
+    border: 1px solid #e2e4ea;
     border-radius: 12px;
     padding: 20px;
     text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   .leader-card .label { font-size: 12px; color: #a51e36; text-transform: uppercase; letter-spacing: 1px; }
   .leader-card .name { font-size: 22px; font-weight: 700; margin-top: 6px; color: #a51e36; }
@@ -118,11 +121,13 @@
     margin-bottom: 20px;
   }
   .chart-card {
-    background: #16213e;
+    background: #ffffff;
+    border: 1px solid #e2e4ea;
     border-radius: 12px;
     padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
-  .chart-card h3 { font-size: 16px; margin-bottom: 15px; color: #ccc; }
+  .chart-card h3 { font-size: 16px; margin-bottom: 15px; color: #334155; }
 
   /* Weekly Goals Table */
   .goals-section { margin-bottom: 20px; }
@@ -130,12 +135,15 @@
   .goals-table {
     width: 100%;
     border-collapse: collapse;
-    background: #16213e;
+    background: #ffffff;
+    border: 1px solid #e2e4ea;
     border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   .goals-table th {
     background: #8a1a2e;
+    color: #fff;
     padding: 12px 16px;
     text-align: left;
     font-size: 12px;
@@ -144,12 +152,12 @@
   }
   .goals-table td {
     padding: 12px 16px;
-    border-bottom: 1px solid #1a1a2e;
+    border-bottom: 1px solid #eceef3;
     font-size: 14px;
   }
   .goals-table tr:last-child td { border-bottom: none; }
   .progress-bar-bg {
-    background: #1a1a2e;
+    background: #eceef3;
     border-radius: 10px;
     height: 8px;
     overflow: hidden;
@@ -165,12 +173,15 @@
   .rep-table {
     width: 100%;
     border-collapse: collapse;
-    background: #16213e;
+    background: #ffffff;
+    border: 1px solid #e2e4ea;
     border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   .rep-table th {
     background: #8a1a2e;
+    color: #fff;
     padding: 12px 16px;
     text-align: right;
     font-size: 12px;
@@ -180,13 +191,13 @@
   .rep-table th:first-child { text-align: left; }
   .rep-table td {
     padding: 12px 16px;
-    border-bottom: 1px solid #1a1a2e;
+    border-bottom: 1px solid #eceef3;
     font-size: 14px;
     text-align: right;
   }
   .rep-table td:first-child { text-align: left; font-weight: 600; }
   .rep-table tr:last-child td { border-bottom: none; }
-  .rep-table tr:hover td { background: rgba(255,255,255,0.03); }
+  .rep-table tr:hover td { background: rgba(138,26,46,0.04); }
 
   .section-title { font-size: 18px; margin: 25px 0 12px; color: #a51e36; }
 
@@ -194,12 +205,15 @@
   .monthly-table {
     width: 100%;
     border-collapse: collapse;
-    background: #16213e;
+    background: #ffffff;
+    border: 1px solid #e2e4ea;
     border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   .monthly-table th {
     background: #8a1a2e;
+    color: #fff;
     padding: 12px 16px;
     text-align: right;
     font-size: 12px;
@@ -208,7 +222,7 @@
   .monthly-table th:first-child { text-align: left; }
   .monthly-table td {
     padding: 10px 16px;
-    border-bottom: 1px solid #1a1a2e;
+    border-bottom: 1px solid #eceef3;
     font-size: 14px;
     text-align: right;
   }
@@ -835,8 +849,8 @@ function showPanel(id) {
 }
 
 // Chart defaults
-Chart.defaults.color = '#aaa';
-Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+Chart.defaults.color = '#475569';
+Chart.defaults.borderColor = 'rgba(15,23,42,0.08)';
 
 // Revenue By Day
 new Chart(document.getElementById('revenueByDayChart'), {
@@ -1025,7 +1039,7 @@ new Chart(document.getElementById('warehouseGoalDonut'), {
     responsive: true,
     plugins: {
       legend: { position: 'bottom' },
-      title: { display: true, text: 'April: 350 of 879 (39.82%)', color: '#ccc' }
+      title: { display: true, text: 'April: 350 of 879 (39.82%)', color: '#334155' }
     }
   }
 });
@@ -1154,7 +1168,7 @@ new Chart(document.getElementById('setterChart'), {
     maintainAspectRatio: false,
     plugins: {
       legend: { position: 'bottom' },
-      title: { display: true, text: 'MTD: 31 of 64 Contacts Passed (48.44%)', color: '#ccc' }
+      title: { display: true, text: 'MTD: 31 of 64 Contacts Passed (48.44%)', color: '#334155' }
     }
   }
 });
