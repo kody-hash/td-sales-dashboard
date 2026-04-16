@@ -451,23 +451,17 @@
     </div>
 
     <h2 class="section-title">Returns by Rep (Monthly)</h2>
-    <div class="charts-grid">
-      <div class="chart-card">
-        <h3>Returns by Rep — This Year</h3>
-        <canvas id="repReturnsChart"></canvas>
-      </div>
-    </div>
     <div style="overflow-x:auto;">
       <table class="rep-table">
         <thead>
-          <tr><th>Sales Rep</th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th><th>YTD Total</th></tr>
+          <tr><th>Sales Rep</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th><th>YTD Total</th></tr>
         </thead>
         <tbody id="returnsTableBody">
-          <tr><td>Jon Hutton</td><td>0</td><td>0</td><td>9</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>10</td></tr>
-          <tr><td>Ronnie U</td><td>0</td><td>0</td><td>0</td><td>0</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>0</td></tr>
-          <tr><td>Junior G</td><td>0</td><td>0</td><td>3</td><td>0</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>3</td></tr>
-          <tr><td>Carel H</td><td>0</td><td>0</td><td>17</td><td>14</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>31</td></tr>
-          <tr><td>Zach B</td><td>0</td><td>0</td><td>2</td><td>0</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>2</td></tr>
+          <tr><td>Jon Hutton</td><td>9</td><td>1</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>10</td></tr>
+          <tr><td>Ronnie U</td><td>0</td><td>0</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>0</td></tr>
+          <tr><td>Junior G</td><td>3</td><td>0</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>3</td></tr>
+          <tr><td>Carel H</td><td>17</td><td>14</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>31</td></tr>
+          <tr><td>Zach B</td><td>2</td><td>0</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>2</td></tr>
         </tbody>
       </table>
     </div>
@@ -973,33 +967,6 @@ new Chart(document.getElementById('repFollowUpsChart'), {
     ]
   },
   options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
-});
-
-// Returns by Rep — stacked bar, one stack per rep, segments = months
-// Data arrays below are updated by the refresh task. Jan=[..], Feb=[..], etc., one value per rep in repNames order.
-// Order matches repNames: [Jon Hutton, Ronnie U, Junior G, Carel H, Zach B]
-const returnsJan = [0, 0, 0, 0, 0];
-const returnsFeb = [0, 0, 0, 0, 0];
-const returnsMar = [9, 0, 3, 17, 2];
-const returnsApr = [1, 0, 0, 14, 0];
-new Chart(document.getElementById('repReturnsChart'), {
-  type: 'bar',
-  data: {
-    labels: repNames.slice(0, 5),
-    datasets: [
-      { label: 'Jan', data: returnsJan, backgroundColor: '#A0171C' },
-      { label: 'Feb', data: returnsFeb, backgroundColor: '#C8102E' },
-      { label: 'Mar', data: returnsMar, backgroundColor: '#475569' },
-      { label: 'Apr', data: returnsApr, backgroundColor: '#94a3b8' }
-    ]
-  },
-  options: {
-    responsive: true,
-    scales: {
-      x: { stacked: true },
-      y: { stacked: true, beginAtZero: true, ticks: { precision: 0 } }
-    }
-  }
 });
 
 // Goal Progress Chart
