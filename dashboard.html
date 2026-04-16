@@ -19,11 +19,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: #ffffff;
   }
   .header-left { display: flex; align-items: center; gap: 16px; }
   .header-left img { height: 48px; }
-  .header h1 { font-size: 22px; font-weight: 700; }
-  .header .week-info { font-size: 14px; opacity: 0.9; }
+  .header h1 { font-size: 22px; font-weight: 700; color: #ffffff; }
+  .header .week-info { font-size: 14px; opacity: 0.9; color: #ffffff; }
   .container { padding: 20px; max-width: 1600px; margin: 0 auto; }
 
   /* Navigation tabs */
@@ -71,13 +72,14 @@
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    color: #ffffff;
   }
   .kpi-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(138,26,46,0.5); }
-  .kpi-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; margin-bottom: 8px; }
-  .kpi-card .value { font-size: 28px; font-weight: 700; }
+  .kpi-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; margin-bottom: 8px; color: #ffffff; }
+  .kpi-card .value { font-size: 28px; font-weight: 700; color: #ffffff; }
   .kpi-card.dark { background: linear-gradient(135deg, #1a1a2e, #2d2d44); }
   .kpi-card.dark:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
-  .kpi-card .sub { font-size: 11px; opacity: 0.7; margin-top: 4px; }
+  .kpi-card .sub { font-size: 11px; opacity: 0.7; margin-top: 4px; color: #ffffff; }
 
   /* Setter cards */
   .setter-grid {
@@ -91,9 +93,10 @@
     border-radius: 12px;
     padding: 16px;
     text-align: center;
+    color: #ffffff;
   }
-  .setter-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
-  .setter-card .value { font-size: 22px; font-weight: 700; margin-top: 4px; }
+  .setter-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; color: #ffffff; }
+  .setter-card .value { font-size: 22px; font-weight: 700; margin-top: 4px; color: #ffffff; }
 
   /* Leader cards */
   .leader-grid {
