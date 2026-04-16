@@ -383,7 +383,6 @@
         <tr><td>Junior G</td><td>$16,506.30</td><td>$21,969.27</td><td>$21,969.27</td><td>$114,772.43</td></tr>
         <tr><td>Carel H</td><td>$23,962.16</td><td>$59,368.56</td><td>$59,368.56</td><td>$350,675.25</td></tr>
         <tr><td>Zach B</td><td>$0.00</td><td>$966.10</td><td>$966.10</td><td>$25,259.68</td></tr>
-        <tr><td>Alaina P</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td></tr>
       </tbody>
     </table>
 
@@ -398,7 +397,6 @@
         <tr><td>Junior G</td><td>66.67%</td><td>31.25%</td><td>31.25%</td><td>22.58%</td></tr>
         <tr><td>Carel H</td><td>100.00%</td><td>64.71%</td><td>64.71%</td><td>37.35%</td></tr>
         <tr><td>Zach B</td><td>0.00%</td><td>0.00%</td><td>0.00%</td><td>5.88%</td></tr>
-        <tr><td>Alaina P</td><td>0.00%</td><td>0.00%</td><td>0.00%</td><td>0.00%</td></tr>
       </tbody>
     </table>
 
@@ -424,7 +422,6 @@
         <tr><td>Junior G</td><td>$8,253.15</td><td>$4,393.85</td><td>$4,393.85</td><td>$5,465.35</td></tr>
         <tr><td>Carel H</td><td>$7,987.39</td><td>$5,397.14</td><td>$5,397.14</td><td>$5,656.05</td></tr>
         <tr><td>Zach B</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$4,209.95</td></tr>
-        <tr><td>Alaina P</td><td>$0.00</td><td>$0.00</td><td>$0.00</td><td>$0.00</td></tr>
       </tbody>
     </table>
 
@@ -880,15 +877,15 @@ new Chart(document.getElementById('quotesByDayChart'), {
 });
 
 // Rep Revenue Chart
-const repNames = ['Jon Hutton', 'Ronnie U', 'Junior G', 'Carel H', 'Zach B', 'Alaina P'];
+const repNames = ['Jon Hutton', 'Ronnie U', 'Junior G', 'Carel H', 'Zach B'];
 new Chart(document.getElementById('repRevenueChart'), {
   type: 'bar',
   data: {
     labels: repNames,
     datasets: [
-      { label: 'WTD', data: [6701.07, 1373.07, 16506.30, 23962.16, 0, 0], backgroundColor: '#d4a853' },
-      { label: 'MTD', data: [80337.46, 29630.09, 21969.27, 59368.56, 966.10, 0], backgroundColor: '#a51e36' },
-      { label: 'YTD', data: [449503.52, 383759.71, 114772.43, 350675.25, 25259.68, 0], backgroundColor: '#EAE5E0' }
+      { label: 'WTD', data: [6701.07, 1373.07, 16506.30, 23962.16, 0], backgroundColor: '#d4a853' },
+      { label: 'MTD', data: [80337.46, 29630.09, 21969.27, 59368.56, 966.10], backgroundColor: '#a51e36' },
+      { label: 'YTD', data: [449503.52, 383759.71, 114772.43, 350675.25, 25259.68], backgroundColor: '#EAE5E0' }
     ]
   },
   options: {
@@ -903,8 +900,8 @@ new Chart(document.getElementById('repCloseChart'), {
   data: {
     labels: repNames,
     datasets: [
-      { label: 'MTD Close %', data: [54.84, 25.00, 31.25, 64.71, 0, 0], backgroundColor: '#a51e36' },
-      { label: 'YTD Close %', data: [36.43, 32.26, 22.58, 37.35, 5.88, 0], backgroundColor: '#d4a853' }
+      { label: 'MTD Close %', data: [54.84, 25.00, 31.25, 64.71, 0], backgroundColor: '#a51e36' },
+      { label: 'YTD Close %', data: [36.43, 32.26, 22.58, 37.35, 5.88], backgroundColor: '#d4a853' }
     ]
   },
   options: {
