@@ -14,7 +14,7 @@
     min-height: 100vh;
   }
   .header {
-    background: linear-gradient(135deg, #8a1a2e, #a51e36);
+    background: linear-gradient(135deg, #A0171C, #C8102E);
     padding: 16px 30px;
     display: flex;
     justify-content: space-between;
@@ -52,7 +52,7 @@
     background: transparent;
   }
   .nav-tab:hover { color: #1a1a2e; background: rgba(0,0,0,0.04); }
-  .nav-tab.active { background: #8a1a2e; color: #fff; }
+  .nav-tab.active { background: #A0171C; color: #fff; }
 
   /* Panels */
   .panel { display: none; }
@@ -66,7 +66,7 @@
     margin-bottom: 20px;
   }
   .kpi-card {
-    background: linear-gradient(135deg, #8a1a2e, #a51e36);
+    background: linear-gradient(135deg, #A0171C, #C8102E);
     border-radius: 12px;
     padding: 20px;
     text-align: center;
@@ -74,7 +74,7 @@
     transition: transform 0.2s, box-shadow 0.2s;
     color: #ffffff;
   }
-  .kpi-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(138,26,46,0.5); }
+  .kpi-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(160,23,28,0.5); }
   .kpi-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; margin-bottom: 8px; color: #ffffff; }
   .kpi-card .value { font-size: 28px; font-weight: 700; color: #ffffff; }
   .kpi-card.dark { background: linear-gradient(135deg, #1a1a2e, #2d2d44); }
@@ -89,7 +89,7 @@
     margin-bottom: 20px;
   }
   .setter-card {
-    background: linear-gradient(135deg, #8a1a2e, #a51e36);
+    background: linear-gradient(135deg, #A0171C, #C8102E);
     border-radius: 12px;
     padding: 16px;
     text-align: center;
@@ -113,8 +113,8 @@
     text-align: center;
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
-  .leader-card .label { font-size: 12px; color: #a51e36; text-transform: uppercase; letter-spacing: 1px; }
-  .leader-card .name { font-size: 22px; font-weight: 700; margin-top: 6px; color: #a51e36; }
+  .leader-card .label { font-size: 12px; color: #C8102E; text-transform: uppercase; letter-spacing: 1px; }
+  .leader-card .name { font-size: 22px; font-weight: 700; margin-top: 6px; color: #C8102E; }
 
   /* Chart containers */
   .charts-grid {
@@ -134,7 +134,7 @@
 
   /* Weekly Goals Table */
   .goals-section { margin-bottom: 20px; }
-  .goals-section h2 { font-size: 18px; margin-bottom: 12px; color: #a51e36; }
+  .goals-section h2 { font-size: 18px; margin-bottom: 12px; color: #C8102E; }
   .goals-table {
     width: 100%;
     border-collapse: collapse;
@@ -145,7 +145,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   .goals-table th {
-    background: #8a1a2e;
+    background: #A0171C;
     color: #fff;
     padding: 12px 16px;
     text-align: left;
@@ -168,7 +168,7 @@
   .progress-bar-fill {
     height: 100%;
     border-radius: 10px;
-    background: linear-gradient(90deg, #a51e36, #d4a853);
+    background: linear-gradient(90deg, #C8102E, #475569);
     transition: width 0.5s;
   }
 
@@ -183,7 +183,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   .rep-table th {
-    background: #8a1a2e;
+    background: #A0171C;
     color: #fff;
     padding: 12px 16px;
     text-align: right;
@@ -200,9 +200,9 @@
   }
   .rep-table td:first-child { text-align: left; font-weight: 600; }
   .rep-table tr:last-child td { border-bottom: none; }
-  .rep-table tr:hover td { background: rgba(138,26,46,0.04); }
+  .rep-table tr:hover td { background: rgba(200,16,46,0.05); }
 
-  .section-title { font-size: 18px; margin: 25px 0 12px; color: #a51e36; }
+  .section-title { font-size: 18px; margin: 25px 0 12px; color: #C8102E; }
 
   /* Monthly revenue table */
   .monthly-table {
@@ -215,7 +215,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
   .monthly-table th {
-    background: #8a1a2e;
+    background: #A0171C;
     color: #fff;
     padding: 12px 16px;
     text-align: right;
@@ -863,7 +863,7 @@ new Chart(document.getElementById('revenueByDayChart'), {
     datasets: [{
       label: 'Revenue',
       data: [35438.64, 13103.96, 0, 0, 0],
-      backgroundColor: '#a51e36',
+      backgroundColor: '#C8102E',
       borderRadius: 6
     }]
   },
@@ -882,7 +882,7 @@ new Chart(document.getElementById('quotesByDayChart'), {
     datasets: [{
       label: 'Total Quotes',
       data: [9, 8, 0, 0, 0],
-      backgroundColor: '#d4a853',
+      backgroundColor: '#475569',
       borderRadius: 6
     }]
   },
@@ -900,8 +900,8 @@ new Chart(document.getElementById('repRevenueChart'), {
   data: {
     labels: repNames,
     datasets: [
-      { label: 'WTD', data: [6701.07, 1373.07, 16506.30, 23962.16, 0], backgroundColor: '#d4a853' },
-      { label: 'MTD', data: [80337.46, 29630.09, 21969.27, 59368.56, 966.10], backgroundColor: '#a51e36' },
+      { label: 'WTD', data: [6701.07, 1373.07, 16506.30, 23962.16, 0], backgroundColor: '#475569' },
+      { label: 'MTD', data: [80337.46, 29630.09, 21969.27, 59368.56, 966.10], backgroundColor: '#C8102E' },
       { label: 'YTD', data: [449503.52, 383759.71, 114772.43, 350675.25, 25259.68], backgroundColor: '#EAE5E0' }
     ]
   },
@@ -917,8 +917,8 @@ new Chart(document.getElementById('repCloseChart'), {
   data: {
     labels: repNames,
     datasets: [
-      { label: 'MTD Close %', data: [54.84, 25.00, 31.25, 64.71, 0], backgroundColor: '#a51e36' },
-      { label: 'YTD Close %', data: [36.43, 32.26, 22.58, 37.35, 5.88], backgroundColor: '#d4a853' }
+      { label: 'MTD Close %', data: [54.84, 25.00, 31.25, 64.71, 0], backgroundColor: '#C8102E' },
+      { label: 'YTD Close %', data: [36.43, 32.26, 22.58, 37.35, 5.88], backgroundColor: '#475569' }
     ]
   },
   options: {
@@ -933,7 +933,7 @@ new Chart(document.getElementById('repQuotesSalesChart'), {
   data: {
     labels: repNames.slice(0, 5),
     datasets: [
-      { label: 'MTD Quotes', data: [31, 24, 16, 17, 22], backgroundColor: '#d4a853' },
+      { label: 'MTD Quotes', data: [31, 24, 16, 17, 22], backgroundColor: '#475569' },
       { label: 'MTD Sales', data: [17, 6, 5, 11, 0], backgroundColor: '#EAE5E0' }
     ]
   },
@@ -946,7 +946,7 @@ new Chart(document.getElementById('repFollowUpsChart'), {
   data: {
     labels: repNames.slice(0, 5),
     datasets: [
-      { label: 'MTD Follow Ups', data: [42, 49, 63, 44, 43], backgroundColor: '#a51e36', borderRadius: 6 }
+      { label: 'MTD Follow Ups', data: [42, 49, 63, 44, 43], backgroundColor: '#C8102E', borderRadius: 6 }
     ]
   },
   options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
@@ -958,7 +958,7 @@ new Chart(document.getElementById('goalProgressChart'), {
   data: {
     labels: ['Total Quotes', 'Follow Ups', 'Revenue', 'Avg Sale', 'Same Day Quote %'],
     datasets: [
-      { label: 'Progress %', data: [30.91, 57.33, 44.53, 100, 95.24], backgroundColor: '#a51e36', borderRadius: 6 }
+      { label: 'Progress %', data: [30.91, 57.33, 44.53, 100, 95.24], backgroundColor: '#C8102E', borderRadius: 6 }
     ]
   },
   options: {
@@ -977,7 +977,7 @@ new Chart(document.getElementById('monthlyRevenueChart'), {
     datasets: [{
       label: 'Revenue',
       data: [298948.16, 390444.70, 442306.25, 192271.48],
-      backgroundColor: ['#a51e36', '#8a1a2e', '#a51e36', '#8a1a2e'],
+      backgroundColor: ['#C8102E', '#A0171C', '#C8102E', '#A0171C'],
       borderRadius: 6
     }]
   },
@@ -996,12 +996,12 @@ new Chart(document.getElementById('monthlySalesChart'), {
     datasets: [{
       label: 'Total Sales',
       data: [58, 76, 80, 39],
-      borderColor: '#a51e36',
+      borderColor: '#C8102E',
       backgroundColor: 'rgba(231,76,60,0.1)',
       fill: true,
       tension: 0.3,
       pointRadius: 6,
-      pointBackgroundColor: '#a51e36'
+      pointBackgroundColor: '#C8102E'
     }]
   },
   options: {
@@ -1017,8 +1017,8 @@ new Chart(document.getElementById('repAvgSaleChart'), {
   data: {
     labels: repNames.slice(0, 5),
     datasets: [
-      { label: 'MTD Avg Sale', data: [4725.73, 4938.35, 4393.85, 5397.14, 0], backgroundColor: '#a51e36', borderRadius: 4 },
-      { label: 'YTD Avg Sale', data: [4781.95, 5482.28, 5465.35, 5656.05, 4209.95], backgroundColor: '#d4a853', borderRadius: 4 }
+      { label: 'MTD Avg Sale', data: [4725.73, 4938.35, 4393.85, 5397.14, 0], backgroundColor: '#C8102E', borderRadius: 4 },
+      { label: 'YTD Avg Sale', data: [4781.95, 5482.28, 5465.35, 5656.05, 4209.95], backgroundColor: '#475569', borderRadius: 4 }
     ]
   },
   options: {
@@ -1034,7 +1034,7 @@ new Chart(document.getElementById('warehouseGoalDonut'), {
     labels: ['Built', 'Remaining'],
     datasets: [{
       data: [350, 529],
-      backgroundColor: ['#a51e36', '#2d2d44'],
+      backgroundColor: ['#C8102E', '#2d2d44'],
       borderWidth: 0
     }]
   },
@@ -1055,7 +1055,7 @@ new Chart(document.getElementById('warehouseDailyChart'), {
     datasets: [{
       label: 'Boxes',
       data: [33,47,42,0,9,40,33,43,35,36,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-      backgroundColor: '#a51e36',
+      backgroundColor: '#C8102E',
       borderRadius: 3
     }]
   },
@@ -1072,8 +1072,8 @@ new Chart(document.getElementById('warehouseMonthlyChart'), {
   data: {
     labels: ['Jan', 'Feb', 'Mar', 'Apr'],
     datasets: [
-      { label: 'Boxes Built', data: [639, 637, 688, 350], backgroundColor: '#a51e36', borderRadius: 4 },
-      { label: 'Goal', data: [700, 731, 824, 879], backgroundColor: '#d4a853', borderRadius: 4 }
+      { label: 'Boxes Built', data: [639, 637, 688, 350], backgroundColor: '#C8102E', borderRadius: 4 },
+      { label: 'Goal', data: [700, 731, 824, 879], backgroundColor: '#475569', borderRadius: 4 }
     ]
   },
   options: {
@@ -1088,7 +1088,7 @@ new Chart(document.getElementById('warehouseDelPickChart'), {
   data: {
     labels: ['Jan', 'Feb', 'Mar', 'Apr'],
     datasets: [
-      { label: 'Deliveries', data: [44, 26, 33, 17], backgroundColor: '#d4a853', borderRadius: 4 },
+      { label: 'Deliveries', data: [44, 26, 33, 17], backgroundColor: '#475569', borderRadius: 4 },
       { label: 'Pickups', data: [62, 89, 84, 53], backgroundColor: '#EAE5E0', borderRadius: 4 }
     ]
   },
@@ -1106,7 +1106,7 @@ new Chart(document.getElementById('assemblerMTDChart'), {
     datasets: [{
       label: 'MTD Boxes',
       data: [141.5, 159.5, 78.5],
-      backgroundColor: ['#a51e36', '#d4a853', '#2d6a9f'],
+      backgroundColor: ['#C8102E', '#475569', '#2d6a9f'],
       borderRadius: 6
     }]
   },
@@ -1125,7 +1125,7 @@ new Chart(document.getElementById('assemblerYTDChart'), {
     datasets: [{
       label: 'YTD Boxes',
       data: [765, 732.5, 537],
-      backgroundColor: ['#a51e36', '#d4a853', '#2d6a9f'],
+      backgroundColor: ['#C8102E', '#475569', '#2d6a9f'],
       borderRadius: 6
     }]
   },
@@ -1144,7 +1144,7 @@ new Chart(document.getElementById('assemblerPayPeriodChart'), {
     datasets: [{
       label: 'This Pay Period',
       data: [14, 12, 3],
-      backgroundColor: ['#a51e36', '#d4a853', '#2d6a9f'],
+      backgroundColor: ['#C8102E', '#475569', '#2d6a9f'],
       borderRadius: 6
     }]
   },
@@ -1162,7 +1162,7 @@ new Chart(document.getElementById('setterChart'), {
     labels: ['Passed', 'Not Passed'],
     datasets: [{
       data: [31, 33],
-      backgroundColor: ['#a51e36', '#2d2d44'],
+      backgroundColor: ['#C8102E', '#2d2d44'],
       borderWidth: 0
     }]
   },
@@ -1192,7 +1192,7 @@ new Chart(document.getElementById('metaSpendChart'), {
     datasets: [{
       label: 'Meta Spend',
       data: mktSpend,
-      backgroundColor: '#a51e36',
+      backgroundColor: '#C8102E',
       borderRadius: 4
     }]
   },
@@ -1209,8 +1209,8 @@ new Chart(document.getElementById('leadsChart'), {
   data: {
     labels: mktDates,
     datasets: [
-      { label: 'Meta Leads', data: mktMetaLeads, backgroundColor: '#a51e36', borderRadius: 4 },
-      { label: 'Walk-In / Call-In', data: mktWICILeads, backgroundColor: '#d4a853', borderRadius: 4 }
+      { label: 'Meta Leads', data: mktMetaLeads, backgroundColor: '#C8102E', borderRadius: 4 },
+      { label: 'Walk-In / Call-In', data: mktWICILeads, backgroundColor: '#475569', borderRadius: 4 }
     ]
   },
   options: {
@@ -1227,12 +1227,12 @@ new Chart(document.getElementById('cplChart'), {
     datasets: [{
       label: 'Total CPL',
       data: mktTotalCPL,
-      borderColor: '#a51e36',
-      backgroundColor: 'rgba(165,30,54,0.1)',
+      borderColor: '#C8102E',
+      backgroundColor: 'rgba(200,16,46,0.1)',
       fill: true,
       tension: 0.3,
       pointRadius: 5,
-      pointBackgroundColor: '#a51e36'
+      pointBackgroundColor: '#C8102E'
     }]
   },
   options: {
@@ -1251,22 +1251,22 @@ new Chart(document.getElementById('cplCompareChart'), {
       {
         label: 'Meta CPL',
         data: mktMetaCPL,
-        borderColor: '#d4a853',
-        backgroundColor: 'rgba(212,168,83,0.1)',
+        borderColor: '#475569',
+        backgroundColor: 'rgba(71,85,105,0.1)',
         fill: false,
         tension: 0.3,
         pointRadius: 4,
-        pointBackgroundColor: '#d4a853'
+        pointBackgroundColor: '#475569'
       },
       {
         label: 'Total CPL',
         data: mktTotalCPL,
-        borderColor: '#a51e36',
-        backgroundColor: 'rgba(165,30,54,0.1)',
+        borderColor: '#C8102E',
+        backgroundColor: 'rgba(200,16,46,0.1)',
         fill: false,
         tension: 0.3,
         pointRadius: 4,
-        pointBackgroundColor: '#a51e36'
+        pointBackgroundColor: '#C8102E'
       }
     ]
   },
@@ -1284,7 +1284,7 @@ new Chart(document.getElementById('cacChart'), {
     datasets: [{
       label: 'CAC',
       data: [341.48, 215.47, 339.20, 0],
-      backgroundColor: ['#a51e36', '#a51e36', '#a51e36', '#555'],
+      backgroundColor: ['#C8102E', '#C8102E', '#C8102E', '#555'],
       borderRadius: 6
     }]
   },
@@ -1304,7 +1304,7 @@ new Chart(document.getElementById('cacSpendChart'), {
       {
         label: 'Meta Spend',
         data: [6146.63, 5171.37, 6784.02, 0],
-        backgroundColor: '#d4a853',
+        backgroundColor: '#475569',
         borderRadius: 4,
         yAxisID: 'y'
       },
