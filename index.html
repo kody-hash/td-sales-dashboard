@@ -857,6 +857,22 @@
 // Update time
 document.getElementById('updateTime').textContent = new Date().toLocaleString();
 
+// Auto-bold any Returns by Rep cell with value >= 6
+(function highlightHighReturns() {
+  const body = document.getElementById('returnsTableBody');
+  if (!body) return;
+  body.querySelectorAll('tr').forEach(row => {
+    // Skip the first cell (rep name); check remaining cells
+    Array.from(row.cells).slice(1).forEach(cell => {
+      const n = parseInt(cell.textContent, 10);
+      if (!isNaN(n) && n >= 6) {
+        cell.style.fontWeight = '700';
+        cell.style.color = '#A0171C';
+      }
+    });
+  });
+})();
+
 // Tab navigation
 function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
