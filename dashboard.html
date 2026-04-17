@@ -265,13 +265,14 @@
   <!-- Navigation Tabs -->
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="showPanel('overview')">Overview</button>
-    <button class="nav-tab" onclick="showPanel('reps')">Sales Reps</button>
-    <button class="nav-tab" onclick="showPanel('goals')">Weekly Goals</button>
-    <button class="nav-tab" onclick="showPanel('revenue')">Revenue Tracking</button>
+    <button class="nav-tab" onclick="showPanel('reps')">Sales Stats</button>
+    <button class="nav-tab" onclick="showPanel('overhead')">Sales Reviews</button>
     <button class="nav-tab" onclick="showPanel('setter')">Setter Stats</button>
-    <button class="nav-tab" onclick="showPanel('warehouse')">Warehouse</button>
-    <button class="nav-tab" onclick="showPanel('assembler')">Assembler</button>
-    <button class="nav-tab" onclick="showPanel('marketing')">Marketing</button>
+    <button class="nav-tab" onclick="showPanel('marketing')">Marketing KPI's</button>
+    <button class="nav-tab" onclick="showPanel('goals')">Weekly Goals</button>
+    <button class="nav-tab" onclick="showPanel('revenue')">Revenue Goals</button>
+    <button class="nav-tab" onclick="showPanel('warehouse')">Warehouse Goals</button>
+    <button class="nav-tab" onclick="showPanel('assembler')">Assembler Goals</button>
   </div>
 
   <!-- ===================== OVERVIEW PANEL ===================== -->
@@ -891,6 +892,213 @@
     </div>
   </div>
 
+  <!-- ===================== OVERHEAD REVIEW PANEL ===================== -->
+  <div id="overhead" class="panel">
+    <style>
+      .oh-mode-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+      .oh-mode-btn {
+        padding: 10px 20px; border-radius: 8px; cursor: pointer;
+        font-size: 13px; font-weight: 600; border: 2px solid #e2e4ea;
+        background: #fff; color: #64748b; transition: all 0.2s;
+      }
+      .oh-mode-btn:hover { border-color: #A0171C; color: #1a1a2e; }
+      .oh-mode-btn.active { background: #A0171C; color: #fff; border-color: #A0171C; }
+      .oh-view { display: none; }
+      .oh-view.active { display: block; }
+      .oh-card {
+        background: #fff; border-radius: 12px; padding: 24px;
+        margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      }
+      .oh-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #1a1a2e; }
+      .oh-form-row {
+        display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px;
+      }
+      .oh-upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .oh-upload-zone {
+        border: 2px dashed #d1d5db; border-radius: 12px; padding: 32px 16px;
+        text-align: center; cursor: pointer; transition: all 0.2s; position: relative;
+        min-height: 200px; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; background: #f8f9fb;
+      }
+      .oh-upload-zone:hover { border-color: #A0171C; background: #fef2f2; }
+      .oh-upload-zone.has-file { border-color: #22c55e; background: #f0fdf4; }
+      .oh-upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+      .oh-upload-icon { font-size: 36px; margin-bottom: 8px; color: #9ca3af; }
+      .oh-upload-zone.has-file .oh-upload-icon { color: #22c55e; }
+      .oh-upload-label { font-size: 14px; font-weight: 600; color: #374151; }
+      .oh-upload-hint { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+      .oh-upload-preview { max-width: 100%; max-height: 160px; border-radius: 8px; margin-top: 8px; display: none; }
+      .oh-btn {
+        width: 100%; padding: 14px; background: linear-gradient(135deg, #A0171C, #C8102E);
+        color: #fff; border: none; border-radius: 10px; font-size: 16px;
+        font-weight: 700; cursor: pointer; transition: all 0.2s;
+      }
+      .oh-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(160,23,28,0.4); }
+      .oh-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+      .oh-success {
+        background: #dcfce7; color: #166534; padding: 16px; border-radius: 10px;
+        text-align: center; font-weight: 600; display: none;
+      }
+      .oh-success.visible { display: block; }
+      .oh-tab-bar {
+        display: flex; gap: 4px; margin-bottom: 20px; background: #fff;
+        border: 1px solid #e2e4ea; border-radius: 10px; padding: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      }
+      .oh-tab-btn {
+        padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 13px;
+        font-weight: 600; border: none; color: #64748b; background: transparent;
+        position: relative; transition: all 0.2s;
+      }
+      .oh-tab-btn:hover { color: #1a1a2e; background: rgba(0,0,0,0.04); }
+      .oh-tab-btn.active { background: #A0171C; color: #fff; }
+      .oh-badge {
+        position: absolute; top: 4px; right: 4px; background: #ef4444; color: #fff;
+        font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px;
+        min-width: 18px; text-align: center;
+      }
+      .oh-sub-card {
+        background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 16px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-left: 4px solid #f59e0b;
+      }
+      .oh-sub-card.approved { border-left-color: #22c55e; }
+      .oh-sub-card.denied { border-left-color: #ef4444; }
+      .oh-sub-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+      .oh-sub-rep { font-weight: 700; font-size: 16px; }
+      .oh-sub-date { font-size: 12px; color: #9ca3af; }
+      .oh-sub-customer { font-size: 14px; color: #64748b; margin-bottom: 12px; }
+      .oh-sub-images { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+      .oh-sub-images img {
+        width: 100%; border-radius: 8px; cursor: pointer; transition: transform 0.2s;
+        border: 1px solid #e2e4ea;
+      }
+      .oh-sub-images img:hover { transform: scale(1.02); }
+      .oh-img-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #9ca3af; margin-bottom: 4px; }
+      .oh-sub-actions { display: flex; gap: 10px; align-items: center; }
+      .oh-btn-approve {
+        padding: 10px 24px; background: #22c55e; color: #fff; border: none;
+        border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer;
+      }
+      .oh-btn-approve:hover { background: #16a34a; }
+      .oh-btn-deny {
+        padding: 10px 24px; background: #ef4444; color: #fff; border: none;
+        border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer;
+      }
+      .oh-btn-deny:hover { background: #dc2626; }
+      .oh-notes-input {
+        flex: 1; padding: 10px 12px; border: 1px solid #e2e4ea; border-radius: 8px;
+        font-size: 13px; font-family: inherit;
+      }
+      .oh-status-pill {
+        display: inline-block; padding: 4px 12px; border-radius: 20px;
+        font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      }
+      .oh-status-pill.pending { background: #fef3c7; color: #92400e; }
+      .oh-status-pill.approved { background: #dcfce7; color: #166534; }
+      .oh-status-pill.denied { background: #fee2e2; color: #991b1b; }
+      .oh-manager-notes {
+        margin-top: 12px; padding: 10px 14px; background: #f8f9fb; border-radius: 8px;
+        font-size: 13px; color: #374151;
+      }
+      .oh-manager-notes strong { color: #1a1a2e; }
+      .oh-empty { text-align: center; padding: 40px; color: #9ca3af; font-size: 14px; }
+      .oh-lightbox {
+        display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+        z-index: 1000; cursor: pointer; align-items: center; justify-content: center;
+      }
+      .oh-lightbox.visible { display: flex; }
+      .oh-lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 8px; }
+      @media (max-width: 600px) {
+        .oh-form-row { grid-template-columns: 1fr; }
+        .oh-upload-grid, .oh-sub-images { grid-template-columns: 1fr; }
+      }
+    </style>
+
+    <h2 class="section-title">Overhead Review</h2>
+
+    <div class="oh-mode-bar">
+      <button class="oh-mode-btn active" onclick="ohSwitchMode('submit')">Submit Review</button>
+      <button class="oh-mode-btn" onclick="ohSwitchMode('manager')">Manager Review</button>
+    </div>
+
+    <!-- Submit View -->
+    <div class="oh-view active" id="ohSubmitView">
+      <div class="oh-card">
+        <h3>1. Job Information</h3>
+        <div class="oh-form-row">
+          <div>
+            <label>Sales Rep</label>
+            <select id="ohRepName">
+              <option value="">Select rep...</option>
+              <option>Jon Hutton</option>
+              <option>Ronnie Unger</option>
+              <option>Carel Hernandez</option>
+              <option>Junior Gonzalez</option>
+              <option>Zach Brewster</option>
+            </select>
+          </div>
+          <div>
+            <label>Date</label>
+            <input type="date" id="ohJobDate">
+          </div>
+          <div>
+            <label>Customer Name</label>
+            <input type="text" id="ohCustomerName" placeholder="e.g. Smith Kitchen Remodel">
+          </div>
+        </div>
+      </div>
+
+      <div class="oh-card">
+        <h3>2. Upload Photos</h3>
+        <div class="oh-upload-grid">
+          <div class="oh-upload-zone" id="ohListZone">
+            <input type="file" accept="image/*" id="ohListFile" capture="environment">
+            <div class="oh-upload-icon">&#128196;</div>
+            <div class="oh-upload-label">Order / Cabinet List</div>
+            <div class="oh-upload-hint">Photo of the printed order list</div>
+            <img class="oh-upload-preview" id="ohListPreview">
+          </div>
+          <div class="oh-upload-zone" id="ohOverheadZone">
+            <input type="file" accept="image/*" id="ohOverheadFile" capture="environment">
+            <div class="oh-upload-icon">&#128506;</div>
+            <div class="oh-upload-label">Overhead Drawing</div>
+            <div class="oh-upload-hint">Photo of the overhead / layout drawing</div>
+            <img class="oh-upload-preview" id="ohOverheadPreview">
+          </div>
+        </div>
+      </div>
+
+      <div class="oh-card">
+        <button class="oh-btn" id="ohBtnSubmit" disabled>Submit for Review</button>
+        <div class="oh-success" id="ohSuccessMsg">Submitted! Your manager will review this order.</div>
+      </div>
+
+      <div class="oh-card" id="ohMySubsCard" style="display:none;">
+        <h3>My Submissions</h3>
+        <div id="ohMySubsList"></div>
+      </div>
+    </div>
+
+    <!-- Manager View -->
+    <div class="oh-view" id="ohManagerView">
+      <div class="oh-tab-bar">
+        <button class="oh-tab-btn active" data-ohtab="ohPending" onclick="ohSwitchTab(this)">
+          Pending <span class="oh-badge" id="ohPendingBadge">0</span>
+        </button>
+        <button class="oh-tab-btn" data-ohtab="ohApproved" onclick="ohSwitchTab(this)">Approved</button>
+        <button class="oh-tab-btn" data-ohtab="ohDenied" onclick="ohSwitchTab(this)">Denied</button>
+      </div>
+      <div id="ohPending" class="oh-tab-content"></div>
+      <div id="ohApproved" class="oh-tab-content" style="display:none;"></div>
+      <div id="ohDenied" class="oh-tab-content" style="display:none;"></div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="oh-lightbox" id="ohLightbox" onclick="this.classList.remove('visible')">
+      <img id="ohLightboxImg" src="" alt="Full size">
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -1398,6 +1606,215 @@ new Chart(document.getElementById('cacSpendChart'), {
     }
   }
 });
+
+// ===================== OVERHEAD REVIEW JS =====================
+(function() {
+  document.getElementById('ohJobDate').valueAsDate = new Date();
+
+  function ohSwitchMode(mode) {
+    document.querySelectorAll('.oh-view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.oh-mode-btn').forEach(b => b.classList.remove('active'));
+    if (mode === 'submit') {
+      document.getElementById('ohSubmitView').classList.add('active');
+      document.querySelectorAll('.oh-mode-btn')[0].classList.add('active');
+    } else {
+      document.getElementById('ohManagerView').classList.add('active');
+      document.querySelectorAll('.oh-mode-btn')[1].classList.add('active');
+      ohRenderAll();
+    }
+  }
+  window.ohSwitchMode = ohSwitchMode;
+
+  function ohSwitchTab(btn) {
+    document.querySelectorAll('.oh-tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.oh-tab-content').forEach(c => c.style.display = 'none');
+    document.getElementById(btn.dataset.ohtab).style.display = 'block';
+  }
+  window.ohSwitchTab = ohSwitchTab;
+
+  function ohSetupUpload(fileId, zoneId, previewId) {
+    var input = document.getElementById(fileId);
+    var zone = document.getElementById(zoneId);
+    var preview = document.getElementById(previewId);
+    input.addEventListener('change', function() {
+      var file = input.files[0];
+      if (!file) return;
+      zone.classList.add('has-file');
+      var reader = new FileReader();
+      reader.onload = function(e) { preview.src = e.target.result; preview.style.display = 'block'; };
+      reader.readAsDataURL(file);
+      ohCheckReady();
+    });
+  }
+  ohSetupUpload('ohListFile', 'ohListZone', 'ohListPreview');
+  ohSetupUpload('ohOverheadFile', 'ohOverheadZone', 'ohOverheadPreview');
+
+  function ohCheckReady() {
+    var ready =
+      document.getElementById('ohRepName').value &&
+      document.getElementById('ohJobDate').value &&
+      document.getElementById('ohCustomerName').value &&
+      document.getElementById('ohListFile').files.length &&
+      document.getElementById('ohOverheadFile').files.length;
+    document.getElementById('ohBtnSubmit').disabled = !ready;
+    ohRenderMySubs(document.getElementById('ohRepName').value);
+  }
+
+  document.querySelectorAll('#ohSubmitView select, #ohSubmitView input').forEach(function(el) {
+    el.addEventListener('change', ohCheckReady);
+  });
+  document.getElementById('ohCustomerName').addEventListener('input', ohCheckReady);
+  document.getElementById('ohRepName').addEventListener('change', function() {
+    ohRenderMySubs(this.value);
+  });
+
+  function ohGetSubs() { return JSON.parse(localStorage.getItem('td_oh_submissions') || '[]'); }
+  function ohSaveSubs(s) { localStorage.setItem('td_oh_submissions', JSON.stringify(s)); }
+
+  function ohFileToDataURL(file) {
+    return new Promise(function(resolve) {
+      var reader = new FileReader();
+      reader.onload = function() { resolve(reader.result); };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  document.getElementById('ohBtnSubmit').addEventListener('click', async function() {
+    var btn = document.getElementById('ohBtnSubmit');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    var listDataURL = await ohFileToDataURL(document.getElementById('ohListFile').files[0]);
+    var overheadDataURL = await ohFileToDataURL(document.getElementById('ohOverheadFile').files[0]);
+
+    var submission = {
+      id: Date.now(),
+      rep: document.getElementById('ohRepName').value,
+      date: document.getElementById('ohJobDate').value,
+      customer: document.getElementById('ohCustomerName').value,
+      listImage: listDataURL,
+      overheadImage: overheadDataURL,
+      status: 'pending',
+      submittedAt: new Date().toISOString(),
+      managerNotes: ''
+    };
+
+    var subs = ohGetSubs();
+    subs.unshift(submission);
+    ohSaveSubs(subs);
+
+    btn.textContent = 'Submit for Review';
+    document.getElementById('ohSuccessMsg').classList.add('visible');
+
+    var repForRender = submission.rep;
+    setTimeout(function() {
+      document.getElementById('ohSuccessMsg').classList.remove('visible');
+      document.getElementById('ohRepName').value = repForRender;
+      document.getElementById('ohCustomerName').value = '';
+      document.getElementById('ohJobDate').valueAsDate = new Date();
+      document.getElementById('ohListFile').value = '';
+      document.getElementById('ohOverheadFile').value = '';
+      document.getElementById('ohListZone').classList.remove('has-file');
+      document.getElementById('ohOverheadZone').classList.remove('has-file');
+      document.getElementById('ohListPreview').style.display = 'none';
+      document.getElementById('ohOverheadPreview').style.display = 'none';
+      ohCheckReady();
+      ohRenderMySubs(repForRender);
+    }, 2000);
+  });
+
+  function ohRenderMySubs(repName) {
+    var card = document.getElementById('ohMySubsCard');
+    var list = document.getElementById('ohMySubsList');
+    if (!repName) { card.style.display = 'none'; return; }
+    var subs = ohGetSubs().filter(function(s) { return s.rep === repName; });
+    if (!subs.length) { card.style.display = 'none'; return; }
+    card.style.display = 'block';
+    list.innerHTML = subs.map(function(s) {
+      var submitted = new Date(s.submittedAt).toLocaleString();
+      var notesHTML = s.managerNotes
+        ? '<div class="oh-manager-notes"><strong>Manager Notes:</strong> ' + ohEscape(s.managerNotes) + '</div>' : '';
+      return '<div class="oh-sub-card ' + s.status + '" style="margin-bottom:12px;">' +
+        '<div class="oh-sub-header"><span class="oh-sub-rep">' + ohEscape(s.customer) + '</span>' +
+        '<span class="oh-sub-date">' + s.date + '</span></div>' +
+        '<div style="margin-bottom:8px;"><span class="oh-status-pill ' + s.status + '">' + s.status + '</span>' +
+        '<span style="font-size:12px;color:#9ca3af;margin-left:8px;">Submitted ' + submitted + '</span></div>' +
+        notesHTML + '</div>';
+    }).join('');
+  }
+
+  function ohRenderAll() {
+    var subs = ohGetSubs();
+    var pending = subs.filter(function(s) { return s.status === 'pending'; });
+    var approved = subs.filter(function(s) { return s.status === 'approved'; });
+    var denied = subs.filter(function(s) { return s.status === 'denied'; });
+
+    document.getElementById('ohPendingBadge').textContent = pending.length;
+    document.getElementById('ohPendingBadge').style.display = pending.length ? 'inline' : 'none';
+
+    document.getElementById('ohPending').innerHTML = pending.length
+      ? pending.map(function(s) { return ohRenderCard(s, true); }).join('')
+      : '<div class="oh-empty">No pending reviews</div>';
+    document.getElementById('ohApproved').innerHTML = approved.length
+      ? approved.map(function(s) { return ohRenderCard(s, false); }).join('')
+      : '<div class="oh-empty">No approved reviews yet</div>';
+    document.getElementById('ohDenied').innerHTML = denied.length
+      ? denied.map(function(s) { return ohRenderCard(s, false); }).join('')
+      : '<div class="oh-empty">No denied reviews</div>';
+  }
+
+  function ohRenderCard(sub, showActions) {
+    var submitted = new Date(sub.submittedAt).toLocaleString();
+    var actionsHTML = '';
+    if (showActions) {
+      actionsHTML = '<div class="oh-sub-actions">' +
+        '<input type="text" class="oh-notes-input" id="ohNotes-' + sub.id + '" placeholder="Notes (optional)...">' +
+        '<button class="oh-btn-approve" onclick="ohReviewAction(' + sub.id + ',\'approved\')">Approve</button>' +
+        '<button class="oh-btn-deny" onclick="ohReviewAction(' + sub.id + ',\'denied\')">Deny</button></div>';
+    }
+    var notesHTML = sub.managerNotes
+      ? '<div class="oh-manager-notes"><strong>Manager Notes:</strong> ' + ohEscape(sub.managerNotes) + '</div>' : '';
+    var statusHTML = !showActions
+      ? '<span class="oh-status-pill ' + sub.status + '">' + sub.status + '</span>' : '';
+
+    return '<div class="oh-sub-card ' + sub.status + '">' +
+      '<div class="oh-sub-header"><span class="oh-sub-rep">' + ohEscape(sub.rep) + '</span>' +
+      '<span class="oh-sub-date">Submitted ' + submitted + '</span></div>' +
+      '<div class="oh-sub-customer">Customer: ' + ohEscape(sub.customer) + ' &middot; Date: ' + sub.date + '</div>' +
+      statusHTML +
+      '<div class="oh-sub-images"><div><div class="oh-img-label">Order List</div>' +
+      '<img src="' + sub.listImage + '" onclick="ohShowLightbox(this.src)"></div>' +
+      '<div><div class="oh-img-label">Overhead Drawing</div>' +
+      '<img src="' + sub.overheadImage + '" onclick="ohShowLightbox(this.src)"></div></div>' +
+      actionsHTML + notesHTML + '</div>';
+  }
+
+  function ohReviewAction(id, status) {
+    var subs = ohGetSubs();
+    var sub = subs.find(function(s) { return s.id === id; });
+    if (!sub) return;
+    var notesEl = document.getElementById('ohNotes-' + id);
+    sub.status = status;
+    sub.managerNotes = notesEl ? notesEl.value : '';
+    sub.reviewedAt = new Date().toISOString();
+    ohSaveSubs(subs);
+    ohRenderAll();
+  }
+  window.ohReviewAction = ohReviewAction;
+
+  function ohShowLightbox(src) {
+    document.getElementById('ohLightboxImg').src = src;
+    document.getElementById('ohLightbox').classList.add('visible');
+  }
+  window.ohShowLightbox = ohShowLightbox;
+
+  function ohEscape(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+})();
 </script>
 </body>
 </html>
