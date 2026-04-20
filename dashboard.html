@@ -7,10 +7,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, query, orderBy, onSnapshot }
+  import { getFirestore, collection, addDoc, doc, updateDoc, query, orderBy, onSnapshot }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyD--ATL5qDw8MXbF4asWTBpqfFQzvsXdzI",
@@ -25,9 +23,7 @@
   const app = initializeApp(firebaseConfig);
   window._fb = {
     db: getFirestore(app),
-    storage: getStorage(app),
-    collection, addDoc, getDocs, doc, updateDoc, query, orderBy, onSnapshot,
-    ref, uploadBytes, getDownloadURL
+    collection, addDoc, doc, updateDoc, query, orderBy, onSnapshot
   };
   window.dispatchEvent(new Event('firebase-ready'));
 </script>
@@ -1730,27 +1726,40 @@ new Chart(document.getElementById('cacSpendChart'), {
     });
   }
 
-  async function ohUploadImage(file, path) {
-    var fb = window._fb;
-    var storageRef = fb.ref(fb.storage, path);
-    var metadata = { contentType: file.type || 'image/jpeg' };
-    await fb.uploadBytes(storageRef, file, metadata);
-    return await fb.getDownloadURL(storageRef);
+  // Compress image client-side and return a base64 data URL
+  async function ohCompressImage(file, maxDim, quality) {
+    maxDim = maxDim || 1600;
+    quality = quality || 0.75;
+    var dataURL = await ohFileToDataURL(file);
+    return new Promise(function(resolve) {
+      var img = new Image();
+      img.onload = function() {
+        var scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        var w = Math.round(img.width * scale);
+        var h = Math.round(img.height * scale);
+        var canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = dataURL;
+    });
   }
 
   document.getElementById('ohBtnSubmit').addEventListener('click', async function() {
     var btn = document.getElementById('ohBtnSubmit');
     btn.disabled = true;
-    btn.textContent = 'Uploading photos...';
+    btn.textContent = 'Compressing photos...';
 
     try {
       var fb = window._fb;
-      var ts = Date.now();
       var listFile = document.getElementById('ohListFile').files[0];
       var overheadFile = document.getElementById('ohOverheadFile').files[0];
 
-      var listURL = await ohUploadImage(listFile, 'submissions/' + ts + '-list-' + listFile.name);
-      var overheadURL = await ohUploadImage(overheadFile, 'submissions/' + ts + '-overhead-' + overheadFile.name);
+      var listURL = await ohCompressImage(listFile);
+      var overheadURL = await ohCompressImage(overheadFile);
 
       btn.textContent = 'Saving...';
 
