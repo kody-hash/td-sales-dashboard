@@ -992,6 +992,19 @@
       .oh-sub-rep { font-weight: 700; font-size: 16px; }
       .oh-sub-date { font-size: 12px; color: #9ca3af; }
       .oh-sub-customer { font-size: 14px; color: #64748b; margin-bottom: 12px; }
+      .oh-sub-attachments {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;
+      }
+      .oh-attachment-btn {
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        padding: 14px 20px; background: #f8f9fb; border: 2px solid #e2e4ea;
+        border-radius: 10px; text-decoration: none; color: #1a1a2e;
+        font-size: 14px; font-weight: 600; transition: all 0.2s;
+      }
+      .oh-attachment-btn:hover {
+        background: #fef2f2; border-color: #A0171C; color: #A0171C;
+        transform: translateY(-1px); box-shadow: 0 4px 12px rgba(160,23,28,0.1);
+      }
       .oh-sub-images { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
       .oh-sub-images img {
         width: 100%; border-radius: 8px; cursor: pointer; transition: transform 0.2s;
@@ -1035,7 +1048,7 @@
       .oh-lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 8px; }
       @media (max-width: 600px) {
         .oh-form-row { grid-template-columns: 1fr; }
-        .oh-upload-grid, .oh-sub-images { grid-template-columns: 1fr; }
+        .oh-upload-grid, .oh-sub-images, .oh-sub-attachments { grid-template-columns: 1fr; }
       }
     </style>
 
@@ -1865,10 +1878,10 @@ new Chart(document.getElementById('cacSpendChart'), {
       '<span class="oh-sub-date">Submitted ' + submitted + '</span></div>' +
       '<div class="oh-sub-customer">Customer: ' + ohEscape(sub.customer) + ' &middot; Date: ' + sub.date + '</div>' +
       statusHTML +
-      '<div class="oh-sub-images"><div><div class="oh-img-label">Order List</div>' +
-      '<img src="' + sub.listImage + '" onclick="ohShowLightbox(this.src)"></div>' +
-      '<div><div class="oh-img-label">Overhead Drawing</div>' +
-      '<img src="' + sub.overheadImage + '" onclick="ohShowLightbox(this.src)"></div></div>' +
+      '<div class="oh-sub-attachments">' +
+      '<a href="' + sub.listImage + '" target="_blank" rel="noopener" class="oh-attachment-btn">&#128206; View Order List</a>' +
+      '<a href="' + sub.overheadImage + '" target="_blank" rel="noopener" class="oh-attachment-btn">&#128506; View Overhead Drawing</a>' +
+      '</div>' +
       actionsHTML + notesHTML + '</div>';
   }
 
