@@ -5,6 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Top Drawer Cabinetry - KPI Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, query, orderBy, onSnapshot }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getStorage, ref, uploadString, getDownloadURL }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD--ATL5qDw8MXbF4asWTBpqfFQzvsXdzI",
+    authDomain: "td-sales-reviews-a9e8c.firebaseapp.com",
+    projectId: "td-sales-reviews-a9e8c",
+    storageBucket: "td-sales-reviews-a9e8c.firebasestorage.app",
+    messagingSenderId: "137236545718",
+    appId: "1:137236545718:web:947b810d9f08925bc4a617",
+    measurementId: "G-D7E8TMMWY9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  window._fb = {
+    db: getFirestore(app),
+    storage: getStorage(app),
+    collection, addDoc, getDocs, doc, updateDoc, query, orderBy, onSnapshot,
+    ref, uploadString, getDownloadURL
+  };
+  window.dispatchEvent(new Event('firebase-ready'));
+</script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -1669,8 +1695,29 @@ new Chart(document.getElementById('cacSpendChart'), {
     ohRenderMySubs(this.value);
   });
 
-  function ohGetSubs() { return JSON.parse(localStorage.getItem('td_oh_submissions') || '[]'); }
-  function ohSaveSubs(s) { localStorage.setItem('td_oh_submissions', JSON.stringify(s)); }
+  // --- Firebase-backed storage ---
+  var ohSubs = []; // live cache, populated by real-time listener
+
+  function ohWaitForFirebase(cb) {
+    if (window._fb) { cb(); return; }
+    window.addEventListener('firebase-ready', cb, { once: true });
+  }
+
+  ohWaitForFirebase(function() {
+    var fb = window._fb;
+    var q = fb.query(fb.collection(fb.db, 'overhead_submissions'), fb.orderBy('submittedAt', 'desc'));
+    fb.onSnapshot(q, function(snapshot) {
+      ohSubs = snapshot.docs.map(function(d) {
+        var data = d.data();
+        data.id = d.id;
+        return data;
+      });
+      ohRenderAll();
+      ohRenderMySubs(document.getElementById('ohRepName').value);
+    }, function(err) {
+      console.error('Firebase snapshot error:', err);
+    });
+  });
 
   function ohFileToDataURL(file) {
     return new Promise(function(resolve) {
@@ -1680,55 +1727,73 @@ new Chart(document.getElementById('cacSpendChart'), {
     });
   }
 
+  async function ohUploadImage(file, path) {
+    var fb = window._fb;
+    var dataURL = await ohFileToDataURL(file);
+    var storageRef = fb.ref(fb.storage, path);
+    await fb.uploadString(storageRef, dataURL, 'data_url');
+    return await fb.getDownloadURL(storageRef);
+  }
+
   document.getElementById('ohBtnSubmit').addEventListener('click', async function() {
     var btn = document.getElementById('ohBtnSubmit');
     btn.disabled = true;
-    btn.textContent = 'Submitting...';
+    btn.textContent = 'Uploading photos...';
 
-    var listDataURL = await ohFileToDataURL(document.getElementById('ohListFile').files[0]);
-    var overheadDataURL = await ohFileToDataURL(document.getElementById('ohOverheadFile').files[0]);
+    try {
+      var fb = window._fb;
+      var ts = Date.now();
+      var listFile = document.getElementById('ohListFile').files[0];
+      var overheadFile = document.getElementById('ohOverheadFile').files[0];
 
-    var submission = {
-      id: Date.now(),
-      rep: document.getElementById('ohRepName').value,
-      date: document.getElementById('ohJobDate').value,
-      customer: document.getElementById('ohCustomerName').value,
-      listImage: listDataURL,
-      overheadImage: overheadDataURL,
-      status: 'pending',
-      submittedAt: new Date().toISOString(),
-      managerNotes: ''
-    };
+      var listURL = await ohUploadImage(listFile, 'submissions/' + ts + '-list-' + listFile.name);
+      var overheadURL = await ohUploadImage(overheadFile, 'submissions/' + ts + '-overhead-' + overheadFile.name);
 
-    var subs = ohGetSubs();
-    subs.unshift(submission);
-    ohSaveSubs(subs);
+      btn.textContent = 'Saving...';
 
-    btn.textContent = 'Submit for Review';
-    document.getElementById('ohSuccessMsg').classList.add('visible');
+      var submission = {
+        rep: document.getElementById('ohRepName').value,
+        date: document.getElementById('ohJobDate').value,
+        customer: document.getElementById('ohCustomerName').value,
+        listImage: listURL,
+        overheadImage: overheadURL,
+        status: 'pending',
+        submittedAt: new Date().toISOString(),
+        managerNotes: ''
+      };
 
-    var repForRender = submission.rep;
-    setTimeout(function() {
-      document.getElementById('ohSuccessMsg').classList.remove('visible');
-      document.getElementById('ohRepName').value = repForRender;
-      document.getElementById('ohCustomerName').value = '';
-      document.getElementById('ohJobDate').valueAsDate = new Date();
-      document.getElementById('ohListFile').value = '';
-      document.getElementById('ohOverheadFile').value = '';
-      document.getElementById('ohListZone').classList.remove('has-file');
-      document.getElementById('ohOverheadZone').classList.remove('has-file');
-      document.getElementById('ohListPreview').style.display = 'none';
-      document.getElementById('ohOverheadPreview').style.display = 'none';
-      ohCheckReady();
-      ohRenderMySubs(repForRender);
-    }, 2000);
+      await fb.addDoc(fb.collection(fb.db, 'overhead_submissions'), submission);
+
+      btn.textContent = 'Submit for Review';
+      document.getElementById('ohSuccessMsg').classList.add('visible');
+
+      var repForRender = submission.rep;
+      setTimeout(function() {
+        document.getElementById('ohSuccessMsg').classList.remove('visible');
+        document.getElementById('ohRepName').value = repForRender;
+        document.getElementById('ohCustomerName').value = '';
+        document.getElementById('ohJobDate').valueAsDate = new Date();
+        document.getElementById('ohListFile').value = '';
+        document.getElementById('ohOverheadFile').value = '';
+        document.getElementById('ohListZone').classList.remove('has-file');
+        document.getElementById('ohOverheadZone').classList.remove('has-file');
+        document.getElementById('ohListPreview').style.display = 'none';
+        document.getElementById('ohOverheadPreview').style.display = 'none';
+        ohCheckReady();
+      }, 2000);
+    } catch (err) {
+      console.error(err);
+      btn.textContent = 'Submit for Review';
+      btn.disabled = false;
+      alert('Error submitting: ' + err.message);
+    }
   });
 
   function ohRenderMySubs(repName) {
     var card = document.getElementById('ohMySubsCard');
     var list = document.getElementById('ohMySubsList');
     if (!repName) { card.style.display = 'none'; return; }
-    var subs = ohGetSubs().filter(function(s) { return s.rep === repName; });
+    var subs = ohSubs.filter(function(s) { return s.rep === repName; });
     if (!subs.length) { card.style.display = 'none'; return; }
     card.style.display = 'block';
     list.innerHTML = subs.map(function(s) {
@@ -1745,21 +1810,26 @@ new Chart(document.getElementById('cacSpendChart'), {
   }
 
   function ohRenderAll() {
-    var subs = ohGetSubs();
-    var pending = subs.filter(function(s) { return s.status === 'pending'; });
-    var approved = subs.filter(function(s) { return s.status === 'approved'; });
-    var denied = subs.filter(function(s) { return s.status === 'denied'; });
+    var pending = ohSubs.filter(function(s) { return s.status === 'pending'; });
+    var approved = ohSubs.filter(function(s) { return s.status === 'approved'; });
+    var denied = ohSubs.filter(function(s) { return s.status === 'denied'; });
 
-    document.getElementById('ohPendingBadge').textContent = pending.length;
-    document.getElementById('ohPendingBadge').style.display = pending.length ? 'inline' : 'none';
+    var badge = document.getElementById('ohPendingBadge');
+    if (badge) {
+      badge.textContent = pending.length;
+      badge.style.display = pending.length ? 'inline' : 'none';
+    }
 
-    document.getElementById('ohPending').innerHTML = pending.length
+    var pendingEl = document.getElementById('ohPending');
+    var approvedEl = document.getElementById('ohApproved');
+    var deniedEl = document.getElementById('ohDenied');
+    if (pendingEl) pendingEl.innerHTML = pending.length
       ? pending.map(function(s) { return ohRenderCard(s, true); }).join('')
       : '<div class="oh-empty">No pending reviews</div>';
-    document.getElementById('ohApproved').innerHTML = approved.length
+    if (approvedEl) approvedEl.innerHTML = approved.length
       ? approved.map(function(s) { return ohRenderCard(s, false); }).join('')
       : '<div class="oh-empty">No approved reviews yet</div>';
-    document.getElementById('ohDenied').innerHTML = denied.length
+    if (deniedEl) deniedEl.innerHTML = denied.length
       ? denied.map(function(s) { return ohRenderCard(s, false); }).join('')
       : '<div class="oh-empty">No denied reviews</div>';
   }
@@ -1770,8 +1840,8 @@ new Chart(document.getElementById('cacSpendChart'), {
     if (showActions) {
       actionsHTML = '<div class="oh-sub-actions">' +
         '<input type="text" class="oh-notes-input" id="ohNotes-' + sub.id + '" placeholder="Notes (optional)...">' +
-        '<button class="oh-btn-approve" onclick="ohReviewAction(' + sub.id + ',\'approved\')">Approve</button>' +
-        '<button class="oh-btn-deny" onclick="ohReviewAction(' + sub.id + ',\'denied\')">Deny</button></div>';
+        '<button class="oh-btn-approve" onclick="ohReviewAction(\'' + sub.id + '\',\'approved\')">Approve</button>' +
+        '<button class="oh-btn-deny" onclick="ohReviewAction(\'' + sub.id + '\',\'denied\')">Deny</button></div>';
     }
     var notesHTML = sub.managerNotes
       ? '<div class="oh-manager-notes"><strong>Manager Notes:</strong> ' + ohEscape(sub.managerNotes) + '</div>' : '';
@@ -1790,16 +1860,23 @@ new Chart(document.getElementById('cacSpendChart'), {
       actionsHTML + notesHTML + '</div>';
   }
 
-  function ohReviewAction(id, status) {
-    var subs = ohGetSubs();
-    var sub = subs.find(function(s) { return s.id === id; });
-    if (!sub) return;
-    var notesEl = document.getElementById('ohNotes-' + id);
-    sub.status = status;
-    sub.managerNotes = notesEl ? notesEl.value : '';
-    sub.reviewedAt = new Date().toISOString();
-    ohSaveSubs(subs);
-    ohRenderAll();
+  async function ohReviewAction(id, status) {
+    try {
+      var fb = window._fb;
+      var sub = ohSubs.find(function(s) { return s.id === id; });
+      if (!sub) return;
+      var notesEl = document.getElementById('ohNotes-' + id);
+      var docRef = fb.doc(fb.db, 'overhead_submissions', id);
+      await fb.updateDoc(docRef, {
+        status: status,
+        managerNotes: notesEl ? notesEl.value : '',
+        reviewedAt: new Date().toISOString()
+      });
+      // onSnapshot will re-render automatically
+    } catch (err) {
+      console.error(err);
+      alert('Error updating: ' + err.message);
+    }
   }
   window.ohReviewAction = ohReviewAction;
 
