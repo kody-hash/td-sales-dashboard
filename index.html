@@ -1739,23 +1739,47 @@ new Chart(document.getElementById('cacSpendChart'), {
     });
   }
 
-  // Compress image client-side and return a base64 data URL
+  // Compress image client-side and return a base64 data URL.
+  // Auto-retries with smaller dimensions/quality if the result is too big
+  // for a Firestore doc (~1MB limit for two images combined).
   async function ohCompressImage(file, maxDim, quality) {
-    maxDim = maxDim || 1600;
-    quality = quality || 0.75;
+    maxDim = maxDim || 1400;
+    quality = quality || 0.7;
     var dataURL = await ohFileToDataURL(file);
-    return new Promise(function(resolve) {
+    return new Promise(function(resolve, reject) {
       var img = new Image();
+      img.onerror = function() {
+        reject(new Error('Could not read image. Try a different photo (JPG/PNG).'));
+      };
       img.onload = function() {
-        var scale = Math.min(1, maxDim / Math.max(img.width, img.height));
-        var w = Math.round(img.width * scale);
-        var h = Math.round(img.height * scale);
-        var canvas = document.createElement('canvas');
-        canvas.width = w;
-        canvas.height = h;
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', quality));
+        try {
+          var scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+          var w = Math.round(img.width * scale);
+          var h = Math.round(img.height * scale);
+          var canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          var out = canvas.toDataURL('image/jpeg', quality);
+          // If still > 400KB, shrink further (per image budget)
+          var tries = 0;
+          while (out.length > 400 * 1024 && tries < 4) {
+            tries++;
+            var newDim = Math.round(Math.max(w, h) * 0.75);
+            var newQ = Math.max(0.4, quality - 0.1 * tries);
+            var s2 = Math.min(1, newDim / Math.max(img.width, img.height));
+            w = Math.round(img.width * s2);
+            h = Math.round(img.height * s2);
+            canvas.width = w;
+            canvas.height = h;
+            ctx.drawImage(img, 0, 0, w, h);
+            out = canvas.toDataURL('image/jpeg', newQ);
+          }
+          resolve(out);
+        } catch (e) {
+          reject(e);
+        }
       };
       img.src = dataURL;
     });
@@ -1764,15 +1788,23 @@ new Chart(document.getElementById('cacSpendChart'), {
   document.getElementById('ohBtnSubmit').addEventListener('click', async function() {
     var btn = document.getElementById('ohBtnSubmit');
     btn.disabled = true;
-    btn.textContent = 'Compressing photos...';
+    btn.textContent = 'Compressing order list...';
 
     try {
       var fb = window._fb;
+      if (!fb) throw new Error('Firebase not loaded yet — refresh and try again.');
       var listFile = document.getElementById('ohListFile').files[0];
       var overheadFile = document.getElementById('ohOverheadFile').files[0];
 
       var listURL = await ohCompressImage(listFile);
+      btn.textContent = 'Compressing overhead...';
       var overheadURL = await ohCompressImage(overheadFile);
+
+      // Firestore hard limit is ~1MB per document.
+      var totalSize = listURL.length + overheadURL.length;
+      if (totalSize > 900 * 1024) {
+        throw new Error('Photos are too large after compression. Please take clearer/smaller photos and try again.');
+      }
 
       btn.textContent = 'Saving...';
 
