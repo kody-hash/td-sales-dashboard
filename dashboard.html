@@ -953,6 +953,11 @@
       .oh-upload-label { font-size: 14px; font-weight: 600; color: #374151; }
       .oh-upload-hint { font-size: 12px; color: #9ca3af; margin-top: 4px; }
       .oh-upload-preview { max-width: 100%; max-height: 160px; border-radius: 8px; margin-top: 8px; display: none; }
+      .oh-file-name {
+        margin-top: 10px; font-size: 12px; color: #166534; font-weight: 600;
+        word-break: break-all; max-width: 100%; display: none;
+      }
+      .oh-file-name.visible { display: block; }
       .oh-btn {
         width: 100%; padding: 14px; background: linear-gradient(135deg, #A0171C, #C8102E);
         color: #fff; border: none; border-radius: 10px; font-size: 16px;
@@ -1087,21 +1092,21 @@
       </div>
 
       <div class="oh-card">
-        <h3>2. Upload Photos</h3>
+        <h3>2. Upload Files</h3>
         <div class="oh-upload-grid">
           <div class="oh-upload-zone" id="ohListZone">
-            <input type="file" accept="image/*" id="ohListFile" capture="environment">
+            <input type="file" accept="application/pdf,image/*" id="ohListFile">
             <div class="oh-upload-icon">&#128196;</div>
             <div class="oh-upload-label">Order / Cabinet List</div>
-            <div class="oh-upload-hint">Photo of the printed order list</div>
-            <img class="oh-upload-preview" id="ohListPreview">
+            <div class="oh-upload-hint">PDF or photo of the order list</div>
+            <div class="oh-file-name" id="ohListFileName"></div>
           </div>
           <div class="oh-upload-zone" id="ohOverheadZone">
-            <input type="file" accept="image/*" id="ohOverheadFile" capture="environment">
+            <input type="file" accept="application/pdf,image/*" id="ohOverheadFile">
             <div class="oh-upload-icon">&#128506;</div>
             <div class="oh-upload-label">Overhead Drawing</div>
-            <div class="oh-upload-hint">Photo of the overhead / layout drawing</div>
-            <img class="oh-upload-preview" id="ohOverheadPreview">
+            <div class="oh-upload-hint">PDF or photo of the overhead</div>
+            <div class="oh-file-name" id="ohOverheadFileName"></div>
           </div>
         </div>
       </div>
@@ -1671,22 +1676,23 @@ new Chart(document.getElementById('cacSpendChart'), {
   }
   window.ohSwitchTab = ohSwitchTab;
 
-  function ohSetupUpload(fileId, zoneId, previewId) {
+  function ohSetupUpload(fileId, zoneId, nameId) {
     var input = document.getElementById(fileId);
     var zone = document.getElementById(zoneId);
-    var preview = document.getElementById(previewId);
+    var nameEl = document.getElementById(nameId);
     input.addEventListener('change', function() {
       var file = input.files[0];
       if (!file) return;
       zone.classList.add('has-file');
-      var reader = new FileReader();
-      reader.onload = function(e) { preview.src = e.target.result; preview.style.display = 'block'; };
-      reader.readAsDataURL(file);
+      if (nameEl) {
+        nameEl.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+        nameEl.classList.add('visible');
+      }
       ohCheckReady();
     });
   }
-  ohSetupUpload('ohListFile', 'ohListZone', 'ohListPreview');
-  ohSetupUpload('ohOverheadFile', 'ohOverheadZone', 'ohOverheadPreview');
+  ohSetupUpload('ohListFile', 'ohListZone', 'ohListFileName');
+  ohSetupUpload('ohOverheadFile', 'ohOverheadZone', 'ohOverheadFileName');
 
   function ohCheckReady() {
     var ready =
@@ -1739,9 +1745,24 @@ new Chart(document.getElementById('cacSpendChart'), {
     });
   }
 
-  // Compress image client-side and return a base64 data URL.
-  // Auto-retries with smaller dimensions/quality if the result is too big
-  // for a Firestore doc (~1MB limit for two images combined).
+  // Turn any file (PDF, JPG, PNG) into a base64 data URL.
+  // PDFs are stored as-is (up to ~700KB). Images are compressed to fit.
+  async function ohPrepareFile(file) {
+    var isPDF = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+    if (isPDF) {
+      // PDFs: read as data URL directly. Reject if too big.
+      if (file.size > 700 * 1024) {
+        throw new Error(
+          'PDF "' + file.name + '" is ' + Math.round(file.size / 1024) +
+          ' KB — too large (max ~700 KB). Export as a smaller PDF or take a photo instead.'
+        );
+      }
+      return await ohFileToDataURL(file);
+    }
+    // Images: compress
+    return await ohCompressImage(file);
+  }
+
   async function ohCompressImage(file, maxDim, quality) {
     maxDim = maxDim || 1400;
     quality = quality || 0.7;
@@ -1749,7 +1770,7 @@ new Chart(document.getElementById('cacSpendChart'), {
     return new Promise(function(resolve, reject) {
       var img = new Image();
       img.onerror = function() {
-        reject(new Error('Could not read image. Try a different photo (JPG/PNG).'));
+        reject(new Error('Could not read "' + file.name + '". Try a JPG or PNG.'));
       };
       img.onload = function() {
         try {
@@ -1762,7 +1783,6 @@ new Chart(document.getElementById('cacSpendChart'), {
           var ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, w, h);
           var out = canvas.toDataURL('image/jpeg', quality);
-          // If still > 400KB, shrink further (per image budget)
           var tries = 0;
           while (out.length > 400 * 1024 && tries < 4) {
             tries++;
@@ -1788,7 +1808,7 @@ new Chart(document.getElementById('cacSpendChart'), {
   document.getElementById('ohBtnSubmit').addEventListener('click', async function() {
     var btn = document.getElementById('ohBtnSubmit');
     btn.disabled = true;
-    btn.textContent = 'Compressing order list...';
+    btn.textContent = 'Preparing order list...';
 
     try {
       var fb = window._fb;
@@ -1796,14 +1816,14 @@ new Chart(document.getElementById('cacSpendChart'), {
       var listFile = document.getElementById('ohListFile').files[0];
       var overheadFile = document.getElementById('ohOverheadFile').files[0];
 
-      var listURL = await ohCompressImage(listFile);
-      btn.textContent = 'Compressing overhead...';
-      var overheadURL = await ohCompressImage(overheadFile);
+      var listURL = await ohPrepareFile(listFile);
+      btn.textContent = 'Preparing overhead...';
+      var overheadURL = await ohPrepareFile(overheadFile);
 
       // Firestore hard limit is ~1MB per document.
       var totalSize = listURL.length + overheadURL.length;
       if (totalSize > 900 * 1024) {
-        throw new Error('Photos are too large after compression. Please take clearer/smaller photos and try again.');
+        throw new Error('Files are too large combined. Try smaller PDFs or clearer photos.');
       }
 
       btn.textContent = 'Saving...';
