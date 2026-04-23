@@ -500,22 +500,6 @@
       </div>
 
       <div class="table-block">
-        <h2 class="section-title">Days Since Last Sale Over $1K</h2>
-        <table class="rep-table">
-          <thead>
-            <tr><th>Sales Rep</th><th>Days Since Last $1K+ Sale</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Jon Hutton</td><td>3</td></tr>
-            <tr><td>Ronnie U</td><td>2</td></tr>
-            <tr><td>Junior G</td><td>7</td></tr>
-            <tr><td>Carel H</td><td>2</td></tr>
-            <tr><td>Zach B</td><td>3</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="table-block">
         <h2 class="section-title">Returns by Rep</h2>
         <table class="rep-table">
           <thead>
@@ -562,6 +546,10 @@
       <div class="chart-card">
         <h3>MTD Quotes vs Sales by Rep</h3>
         <canvas id="repQuotesSalesChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Days Since Last Sale Over $1K</h3>
+        <canvas id="daysSinceLastSaleChart"></canvas>
       </div>
     </div>
   </div>
@@ -1285,6 +1273,25 @@ new Chart(document.getElementById('repQuotesSalesChart'), {
     ]
   },
   options: { responsive: true, scales: { y: { beginAtZero: true } } }
+});
+
+// Days Since Last $1K+ Sale
+new Chart(document.getElementById('daysSinceLastSaleChart'), {
+  type: 'bar',
+  data: {
+    labels: repNames.slice(0, 5),
+    datasets: [{
+      label: 'Days Since Last $1K+ Sale',
+      data: [3, 2, 7, 2, 3],
+      backgroundColor: '#C8102E',
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+  }
 });
 
 // Follow Ups
