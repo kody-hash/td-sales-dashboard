@@ -753,14 +753,13 @@
     const partial = !pulled && /partial/i.test(o.pullStatus);
 
     let cardCls = '', dateLabel = '', dateCls = '';
-    let pillCls = 'notstarted', pillText = 'Not pulled';
+    let pillCls = 'notstarted', pillText = 'Not pulled', showPill = true;
 
     if (pulled && urgency === 'today') {
       cardCls = 'done';
       dateLabel = 'DONE';
       dateCls = 'good';
-      pillCls = 'good';
-      pillText = 'Pulled';
+      showPill = false; // DONE badge already conveys it; skip redundant pill
     } else if (urgency === 'overdue') {
       cardCls = 'urgent';
       const d = -dayDiff(o.pullDateObj);
@@ -790,7 +789,7 @@
       '</div>' +
       '<div class="order-row2">' +
         '<span class="progress-text">#' + escapeHtml(o.orderNum) + ' • ' + o.total + ' cabs' + typeBit + '</span>' +
-        '<span class="status-pill ' + pillCls + '">' + escapeHtml(pillText) + '</span>' +
+        (showPill ? '<span class="status-pill ' + pillCls + '">' + escapeHtml(pillText) + '</span>' : '') +
       '</div>' +
       (missing ? '<div class="missing"><span class="missing-label">Missing:</span> ' + escapeHtml(missing) + '</div>' : '') +
     '</div>';
