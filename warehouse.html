@@ -432,7 +432,7 @@
 
     <section class="panel" id="panel-pickup">
       <div class="panel-head">
-        <h2>Pickup Work In Progress</h2>
+        <h2>Pickups Today</h2>
         <span class="count" id="count-pickup"></span>
       </div>
       <div id="list-pickup"></div>
@@ -810,13 +810,13 @@
     }
 
     let html = '';
-    if (overdue.length) {
-      html += '<div class="section-label overdue">Overdue <span class="lbl-count">' + overdue.length + '</span></div>';
-      html += overdue.map(o => pullCard(o, 'overdue')).join('');
-    }
     if (today.length) {
       html += '<div class="section-label today">Pull today <span class="lbl-count">' + today.length + '</span></div>';
       html += today.map(o => pullCard(o, 'today')).join('');
+    }
+    if (overdue.length) {
+      html += '<div class="section-label overdue">Overdue <span class="lbl-count">' + overdue.length + '</span></div>';
+      html += overdue.map(o => pullCard(o, 'overdue')).join('');
     }
     if (upcoming.length) {
       html += '<div class="section-label upcoming">Coming up (next 3 days) <span class="lbl-count">' + upcoming.length + '</span></div>';
@@ -825,46 +825,52 @@
     document.getElementById('list-pull').innerHTML = html;
   }
 
-  function renderPickup(orders, pullMap, pickupMap) {
-    const list = orders.filter(o => {
-      const pull = pullMap.get(o.orderNum);
-      const pickup = pickupMap.get(o.orderNum);
-      const isPulled = pull && /100\s*%/.test(pull.status);
-      const isPickedUp = pickup && /100\s*%/.test(pickup.status);
-      return isPulled && !isPickedUp;
-    });
-    list.sort((a, b) => {
-      const ap = pullMap.get(a.orderNum);
-      const bp = pullMap.get(b.orderNum);
-      const at = ap && ap.ts ? ap.ts.getTime() : (a.dateObj ? a.dateObj.getTime() : Infinity);
-      const bt = bp && bp.ts ? bp.ts.getTime() : (b.dateObj ? b.dateObj.getTime() : Infinity);
-      return at - bt;
-    });
+  // Pickup tab is a log of what's been picked up TODAY. Source: Pickup_Responses
+  // filtered to today's submissions, joined to ORDER_PROGRESS for customer name.
+  function renderPickup(pickupRows, orderProgressByOrder) {
+    const list = [];
+    for (let i = 1; i < pickupRows.length; i++) {
+      const r = pickupRows[i];
+      const ts = parseTimestamp(r[0]);
+      if (!isToday(ts)) continue;
+      const orderNum = (r[2] || '').trim();
+      if (!orderNum) continue;
+      const op = orderProgressByOrder.get(orderNum);
+      list.push({
+        ts: ts,
+        orderNum: orderNum,
+        status: (r[3] || '').trim(),
+        missing: (r[4] || '').trim(),
+        customer: (op && op.customer) || 'Unknown'
+      });
+    }
+    list.sort((a, b) => (b.ts ? b.ts.getTime() : 0) - (a.ts ? a.ts.getTime() : 0));
+
     setBadge('pickup', list.length);
-    document.getElementById('count-pickup').textContent = list.length + ' awaiting';
+    document.getElementById('count-pickup').textContent = list.length + (list.length === 1 ? ' pickup' : ' pickups');
+
     if (!list.length) {
-      document.getElementById('list-pickup').innerHTML = emptyState('🚛', 'No pickups pending', 'Pulled orders that are awaiting pickup will appear here.');
+      document.getElementById('list-pickup').innerHTML = emptyState('🚛', 'No pickups yet today', 'Picked-up orders will appear here as they\'re logged.');
       return;
     }
-    document.getElementById('list-pickup').innerHTML = list.map(o => {
-      const pickup = pickupMap.get(o.orderNum);
-      const pull = pullMap.get(o.orderNum);
-      let pillCls = 'partial', pillText = 'Awaiting pickup', cardCls = '';
-      if (pickup) {
-        if (/partial/i.test(pickup.status)) { pillCls = 'partial'; pillText = 'Partial pickup'; cardCls = 'partial'; }
-        else if (pickup.status) { pillText = pickup.status; }
+
+    document.getElementById('list-pickup').innerHTML = list.map(p => {
+      let pillCls = 'good', pillText = 'Picked up', cardCls = 'done';
+      if (/partial/i.test(p.status)) {
+        pillCls = 'partial'; pillText = 'Partial pickup'; cardCls = 'partial';
+      } else if (p.status && !/100\s*%/i.test(p.status)) {
+        pillCls = 'partial'; pillText = p.status; cardCls = 'partial';
       }
-      const pulledAt = pull && pull.ts ? pull.ts : null;
-      const waiting = pulledAt ? daysSince(pulledAt) : null;
-      const waitLabel = waiting == null ? '' : waiting === 0 ? 'pulled today' : waiting === 1 ? 'pulled 1 day ago' : 'pulled ' + waiting + ' days ago';
-      const missing = pickup && pickup.missing && !/^none\s*\.?$/i.test(pickup.missing.trim()) ? pickup.missing : '';
+      const missing = p.missing && !/^none\s*\.?$/i.test(p.missing) ? p.missing : '';
+      const timeLabel = p.ts ? fmtTime(p.ts) : '';
+
       return '<div class="order-card ' + cardCls + '">' +
         '<div class="order-row1">' +
-          '<span class="order-customer">' + escapeHtml(o.customer || 'Unknown') + '</span>' +
-          (waiting != null && waiting >= 3 ? '<span class="order-age ' + (waiting >= 7 ? 'bad' : 'warn') + '">' + waiting + 'd wait</span>' : '') +
+          '<span class="order-customer">' + escapeHtml(p.customer) + '</span>' +
+          (timeLabel ? '<span class="order-age">' + escapeHtml(timeLabel) + '</span>' : '') +
         '</div>' +
         '<div class="order-row2">' +
-          '<span class="progress-text">#' + escapeHtml(o.orderNum) + (waitLabel ? ' • ' + waitLabel : '') + '</span>' +
+          '<span class="progress-text">#' + escapeHtml(p.orderNum) + '</span>' +
           '<span class="status-pill ' + pillCls + '">' + escapeHtml(pillText) + '</span>' +
         '</div>' +
         (missing ? '<div class="missing"><span class="missing-label">Missing:</span> ' + escapeHtml(missing) + '</div>' : '') +
@@ -923,8 +929,7 @@
 
       const orders = extractActiveOrders(dashRows);
       const orderProgress = extractOrderProgress(opRows);
-      const pullMap = latestByOrder(pullRows, { tsCol: 0, orderCol: 2, statusCol: 3, missingCol: 4, photoCol: 6 });
-      const pickupMap = latestByOrder(pickupRows, { tsCol: 0, orderCol: 2, statusCol: 3, missingCol: 4, photoCol: 5 });
+      const orderProgressByOrder = new Map(orderProgress.map(o => [o.orderNum, o]));
 
       const builtVal = todaysBoxesBuilt(formRows);
       document.getElementById('kpi-boxes').textContent = Number.isInteger(builtVal) ? builtVal : builtVal.toFixed(1);
@@ -936,7 +941,7 @@
 
       renderAssembly(orders);
       renderPull(orderProgress);
-      renderPickup(orders, pullMap, pickupMap);
+      renderPickup(pickupRows, orderProgressByOrder);
 
       lastGoodLoad = new Date();
       setStatus('ok', 'Updated ' + fmtTime(lastGoodLoad));
