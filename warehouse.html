@@ -113,6 +113,8 @@
     flex: 1;
     padding: 12px 12px calc(80px + env(safe-area-inset-bottom)) 12px;
     overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .panel { display: none; }
   .panel.active { display: block; }
@@ -187,6 +189,8 @@
     border-radius: 999px;
     background: var(--rule);
     color: var(--ink-soft);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .status-pill.good { background: #dcfce7; color: #166534; }
   .status-pill.partial { background: #fef3c7; color: #92400e; }
@@ -217,6 +221,34 @@
     font-weight: 500;
   }
   .missing-label { font-weight: 700; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
+
+  /* Section label inside a panel (e.g. Overdue / Pull today / Coming up) */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--ink-soft);
+    padding: 14px 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label:first-child { padding-top: 2px; }
+  .section-label .lbl-count {
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--rule);
+    color: var(--ink-soft);
+    padding: 2px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.4px;
+  }
+  .section-label.overdue { color: var(--bad); }
+  .section-label.overdue .lbl-count { background: #fee2e2; color: #991b1b; }
+  .section-label.today { color: var(--red-dark); }
+  .section-label.today .lbl-count { background: #fef3c7; color: #92400e; }
+  .section-label.upcoming { color: var(--muted); }
 
   /* Empty state */
   .empty {
@@ -392,7 +424,7 @@
 
     <section class="panel" id="panel-pull">
       <div class="panel-head">
-        <h2>Pull Work In Progress</h2>
+        <h2>Pull Schedule</h2>
         <span class="count" id="count-pull"></span>
       </div>
       <div id="list-pull"></div>
@@ -489,10 +521,26 @@
   function parseTimestamp(s) {
     if (!s) return null;
     const t = String(s).trim();
-    const m = t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
-    if (!m) return null;
-    const d = new Date(+m[3], +m[1] - 1, +m[2], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0));
-    return isNaN(d.getTime()) ? null : d;
+    // M/D/YYYY [HH:MM[:SS]] — Form_Responses, Pull/Pickup_Responses
+    let m = t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+    if (m) {
+      let yr = +m[3];
+      if (yr < 100) yr += 2000;
+      const d = new Date(yr, +m[1] - 1, +m[2], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0));
+      return isNaN(d.getTime()) ? null : d;
+    }
+    // M/D (no year) — ORDER_PROGRESS Pull Date / Build Date columns. Assume
+    // current year; if that puts it more than 6 months in the past, bump to
+    // next year (handles e.g. a "1/15" entered late in the year for next Jan).
+    m = t.match(/^(\d{1,2})\/(\d{1,2})$/);
+    if (m) {
+      const now = new Date();
+      let yr = now.getFullYear();
+      let d = new Date(yr, +m[1] - 1, +m[2]);
+      if ((now - d) / 86400000 > 180) d = new Date(yr + 1, +m[1] - 1, +m[2]);
+      return isNaN(d.getTime()) ? null : d;
+    }
+    return null;
   }
 
   function isToday(d) {
@@ -505,6 +553,20 @@
     if (!d) return null;
     const ms = Date.now() - d.getTime();
     return Math.max(0, Math.floor(ms / 86400000));
+  }
+
+  function startOfDay(d) {
+    const x = new Date(d);
+    x.setHours(0, 0, 0, 0);
+    return x;
+  }
+
+  // Days from today: negative = past, 0 = today, positive = future
+  function dayDiff(d) {
+    if (!d) return null;
+    const today = startOfDay(new Date());
+    const target = startOfDay(d);
+    return Math.round((target - today) / 86400000);
   }
 
   function toInt(v) {
@@ -552,6 +614,38 @@
       out.push({ orderNum, customer, total, done, remaining, dateStr, dateObj });
     }
     return out;
+  }
+
+  // ORDER_PROGRESS tab columns:
+  // A=Customer, B=Order#, C=Total, D=Completed, E=Remaining, F=Complete %,
+  // G=Pull Date, H=Build Date, I=Pulled?, J=Pull Status, K=What's Missing,
+  // L=Type, N=Production Date
+  function extractOrderProgress(rows) {
+    const out = [];
+    for (let i = 1; i < rows.length; i++) {
+      const r = rows[i];
+      const orderNum = (r[1] || '').trim();
+      if (!/^\d{3,}$/.test(orderNum)) continue;
+      out.push({
+        customer: (r[0] || '').trim(),
+        orderNum: orderNum,
+        total: toInt(r[2]),
+        completed: toInt(r[3]),
+        remaining: toInt(r[4]),
+        pullDate: (r[6] || '').trim(),
+        pullDateObj: parseTimestamp(r[6]),
+        buildDate: (r[7] || '').trim(),
+        pulled: (r[8] || '').trim().toUpperCase() === 'TRUE',
+        pullStatus: (r[9] || '').trim(),
+        missing: (r[10] || '').trim(),
+        type: (r[11] || '').trim()
+      });
+    }
+    return out;
+  }
+
+  function isPulled(o) {
+    return o.pulled || /100\s*%\s*pulled/i.test(o.pullStatus);
   }
 
   // Latest entry per order, keyed by order number.
@@ -652,43 +746,83 @@
     }).join('');
   }
 
-  function renderPull(orders, pullMap) {
-    const list = orders.filter(o => {
-      const e = pullMap.get(o.orderNum);
-      return !e || !/100\s*%/.test(e.status);
-    });
-    list.sort((a, b) => {
-      const ad = a.dateObj ? a.dateObj.getTime() : Infinity;
-      const bd = b.dateObj ? b.dateObj.getTime() : Infinity;
-      return ad - bd;
-    });
-    setBadge('pull', list.length);
-    document.getElementById('count-pull').textContent = list.length + ' open';
-    if (!list.length) {
-      document.getElementById('list-pull').innerHTML = emptyState('📦', 'All pulled', 'Every active order has been pulled.');
+  function pullCard(o, urgency) {
+    let cardCls = '', dateLabel = '', dateCls = '';
+    if (urgency === 'overdue') {
+      cardCls = 'urgent';
+      const d = -dayDiff(o.pullDateObj);
+      dateLabel = d === 1 ? '1 DAY LATE' : d + ' DAYS LATE';
+      dateCls = 'bad';
+    } else if (urgency === 'today') {
+      cardCls = '';
+      dateLabel = 'TODAY';
+      dateCls = 'warn';
+    } else {
+      cardCls = 'notstarted';
+      const d = dayDiff(o.pullDateObj);
+      dateLabel = d === 1 ? 'tomorrow' : 'in ' + d + ' days';
+      dateCls = '';
+    }
+
+    let pillCls = 'notstarted', pillText = 'Not pulled';
+    if (/partial/i.test(o.pullStatus)) { pillCls = 'partial'; pillText = 'Partially pulled'; }
+
+    const missing = o.missing && !/^none\s*\.?$/i.test(o.missing) ? o.missing : '';
+    const typeBit = o.type ? ' • ' + escapeHtml(o.type) : '';
+
+    return '<div class="order-card ' + cardCls + '">' +
+      '<div class="order-row1">' +
+        '<span class="order-customer">' + escapeHtml(o.customer || 'Unknown') + '</span>' +
+        '<span class="order-age ' + dateCls + '">' + escapeHtml(dateLabel) + '</span>' +
+      '</div>' +
+      '<div class="order-row2">' +
+        '<span class="progress-text">#' + escapeHtml(o.orderNum) + ' • ' + o.total + ' cabs' + typeBit + '</span>' +
+        '<span class="status-pill ' + pillCls + '">' + escapeHtml(pillText) + '</span>' +
+      '</div>' +
+      (missing ? '<div class="missing"><span class="missing-label">Missing:</span> ' + escapeHtml(missing) + '</div>' : '') +
+    '</div>';
+  }
+
+  // Pull tab driven by ORDER_PROGRESS — uses the Pull Date column to group
+  // orders into Overdue / Pull Today / Coming Up. Stale data older than 30
+  // days is hidden so the floor team isn't buried in ancient unpulled rows.
+  function renderPull(orderProgress) {
+    const overdue = [], today = [], upcoming = [];
+    for (const o of orderProgress) {
+      if (isPulled(o)) continue;
+      const diff = dayDiff(o.pullDateObj);
+      if (diff == null) continue;
+      if (diff < 0 && diff >= -30) overdue.push(o);
+      else if (diff === 0) today.push(o);
+      else if (diff > 0 && diff <= 3) upcoming.push(o);
+    }
+    overdue.sort((a, b) => a.pullDateObj - b.pullDateObj);
+    today.sort((a, b) => a.orderNum.localeCompare(b.orderNum));
+    upcoming.sort((a, b) => a.pullDateObj - b.pullDateObj);
+
+    const actionable = overdue.length + today.length;
+    setBadge('pull', actionable);
+    document.getElementById('count-pull').textContent = actionable + ' to pull';
+
+    if (!overdue.length && !today.length && !upcoming.length) {
+      document.getElementById('list-pull').innerHTML = emptyState('📦', 'Nothing scheduled', 'No orders are scheduled for pull today, overdue, or in the next 3 days.');
       return;
     }
-    document.getElementById('list-pull').innerHTML = list.map(o => {
-      const e = pullMap.get(o.orderNum);
-      let pillCls = 'notstarted', pillText = 'Not started', cardCls = 'notstarted';
-      if (e) {
-        if (/partial/i.test(e.status)) { pillCls = 'partial'; pillText = 'Partially pulled'; cardCls = 'partial'; }
-        else if (/100\s*%/.test(e.status)) { pillCls = 'good'; pillText = 'Pulled'; cardCls = 'done'; }
-        else if (e.status) { pillText = e.status; }
-      }
-      const missing = e && e.missing && !/^none$/i.test(e.missing.trim()) ? e.missing : '';
-      return '<div class="order-card ' + cardCls + '">' +
-        '<div class="order-row1">' +
-          '<span class="order-customer">' + escapeHtml(o.customer || 'Unknown') + '</span>' +
-          ageBadge(o) +
-        '</div>' +
-        '<div class="order-row2">' +
-          '<span class="progress-text">#' + escapeHtml(o.orderNum) + ' • ' + o.total + ' cabinets</span>' +
-          '<span class="status-pill ' + pillCls + '">' + escapeHtml(pillText) + '</span>' +
-        '</div>' +
-        (missing ? '<div class="missing"><span class="missing-label">Missing:</span> ' + escapeHtml(missing) + '</div>' : '') +
-      '</div>';
-    }).join('');
+
+    let html = '';
+    if (overdue.length) {
+      html += '<div class="section-label overdue">Overdue <span class="lbl-count">' + overdue.length + '</span></div>';
+      html += overdue.map(o => pullCard(o, 'overdue')).join('');
+    }
+    if (today.length) {
+      html += '<div class="section-label today">Pull today <span class="lbl-count">' + today.length + '</span></div>';
+      html += today.map(o => pullCard(o, 'today')).join('');
+    }
+    if (upcoming.length) {
+      html += '<div class="section-label upcoming">Coming up (next 3 days) <span class="lbl-count">' + upcoming.length + '</span></div>';
+      html += upcoming.map(o => pullCard(o, 'upcoming')).join('');
+    }
+    document.getElementById('list-pull').innerHTML = html;
   }
 
   function renderPickup(orders, pullMap, pickupMap) {
@@ -779,14 +913,16 @@
     if (triggerSpinner) btn.classList.add('spinning');
 
     try {
-      const [dashRows, formRows, pullRows, pickupRows] = await Promise.all([
+      const [dashRows, formRows, pullRows, pickupRows, opRows] = await Promise.all([
         fetchSheet('Dashboard', 'A1:AZ80'),
         fetchSheet('Form_Responses'),
         fetchSheet('Pull_Responses'),
-        fetchSheet('Pickup_Responses')
+        fetchSheet('Pickup_Responses'),
+        fetchSheet('ORDER_PROGRESS')
       ]);
 
       const orders = extractActiveOrders(dashRows);
+      const orderProgress = extractOrderProgress(opRows);
       const pullMap = latestByOrder(pullRows, { tsCol: 0, orderCol: 2, statusCol: 3, missingCol: 4, photoCol: 6 });
       const pickupMap = latestByOrder(pickupRows, { tsCol: 0, orderCol: 2, statusCol: 3, missingCol: 4, photoCol: 5 });
 
@@ -799,7 +935,7 @@
       document.getElementById('kpi-remaining').textContent = remaining;
 
       renderAssembly(orders);
-      renderPull(orders, pullMap);
+      renderPull(orderProgress);
       renderPickup(orders, pullMap, pickupMap);
 
       lastGoodLoad = new Date();
