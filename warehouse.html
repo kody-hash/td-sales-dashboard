@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#A0171C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>TDC Warehouse Ops</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23A0171C'/%3E%3Ctext x='16' y='22' font-family='Segoe UI,Tahoma,sans-serif' font-size='18' font-weight='700' fill='white' text-anchor='middle'%3ETDC%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --red-dark: #A0171C;
+    --red: #C8102E;
+    --ink: #1a1a2e;
+    --ink-soft: #334155;
+    --muted: #64748b;
+    --bg: #cfd4dc;
+    --card: #ffffff;
+    --border: #e2e4ea;
+    --rule: #eceef3;
+    --good: #16a34a;
+    --warn: #d97706;
+    --bad: #dc2626;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overscroll-behavior-y: none; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--red-dark), var(--red));
+    color: #fff;
+    padding: 12px 16px calc(12px) 16px;
+    padding-top: calc(12px + env(safe-area-inset-top));
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  .header img { height: 32px; filter: brightness(0) invert(1); flex-shrink: 0; }
+  .header-text { flex: 1; min-width: 0; }
+  .header h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.2px; }
+  .header .sub { font-size: 11px; opacity: 0.85; margin-top: 2px; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 6px rgba(74,222,128,0.8); }
+  .dot.stale { background: #facc15; box-shadow: 0 0 6px rgba(250,204,21,0.8); }
+  .dot.error { background: #f87171; box-shadow: 0 0 6px rgba(248,113,113,0.8); }
+  .refresh-btn {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  .refresh-btn:active { background: rgba(255,255,255,0.32); }
+  .refresh-btn svg { width: 18px; height: 18px; }
+  .refresh-btn.spinning svg { animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* KPI strip */
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 12px;
+    background: var(--bg);
+    position: sticky;
+    top: calc(56px + env(safe-area-inset-top));
+    z-index: 20;
+    border-bottom: 1px solid var(--border);
+  }
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 6px;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .kpi.accent {
+    background: linear-gradient(135deg, var(--red-dark), var(--red));
+    border-color: transparent;
+    color: #fff;
+  }
+  .kpi.dark {
+    background: linear-gradient(135deg, var(--ink), #2d2d44);
+    border-color: transparent;
+    color: #fff;
+  }
+  .kpi .label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.6px; opacity: 0.85; line-height: 1.2; }
+  .kpi .value { font-size: 22px; font-weight: 700; margin-top: 2px; line-height: 1; }
+  .kpi .sub { font-size: 9px; opacity: 0.7; margin-top: 1px; }
+
+  /* Main content */
+  main {
+    flex: 1;
+    padding: 12px 12px calc(80px + env(safe-area-inset-bottom)) 12px;
+    overflow-x: hidden;
+  }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .panel-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 0 4px;
+  }
+  .panel-head h2 { font-size: 14px; font-weight: 700; color: var(--red-dark); text-transform: uppercase; letter-spacing: 0.8px; }
+  .panel-head .count { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+  /* Order cards */
+  .order-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--red);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .order-card.done { border-left-color: var(--good); opacity: 0.65; }
+  .order-card.partial { border-left-color: var(--warn); }
+  .order-card.notstarted { border-left-color: var(--muted); }
+  .order-card.urgent { border-left-color: var(--bad); }
+
+  .order-row1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .order-num { font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; }
+  .order-customer { font-size: 16px; font-weight: 700; color: var(--ink); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .order-age {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 7px;
+    border-radius: 999px;
+    background: var(--rule);
+    color: var(--ink-soft);
+    flex-shrink: 0;
+  }
+  .order-age.warn { background: #fef3c7; color: #92400e; }
+  .order-age.bad { background: #fee2e2; color: #991b1b; }
+
+  .order-row2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .progress-text {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .progress-text strong { color: var(--ink); font-weight: 700; }
+  .status-pill {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--rule);
+    color: var(--ink-soft);
+  }
+  .status-pill.good { background: #dcfce7; color: #166534; }
+  .status-pill.partial { background: #fef3c7; color: #92400e; }
+  .status-pill.notstarted { background: #f1f5f9; color: var(--muted); }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--rule);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--red), var(--red-dark));
+    transition: width 0.4s ease;
+  }
+  .progress-fill.good { background: linear-gradient(90deg, var(--good), #15803d); }
+
+  .missing {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #991b1b;
+    font-weight: 500;
+  }
+  .missing-label { font-weight: 700; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--muted);
+  }
+  .empty .ico { font-size: 40px; margin-bottom: 8px; }
+  .empty h3 { font-size: 16px; color: var(--ink-soft); margin-bottom: 4px; }
+  .empty p { font-size: 13px; }
+
+  /* Loading skeleton */
+  .skeleton-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--rule);
+    border-radius: 10px;
+    height: 88px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .skeleton-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.04), transparent);
+    animation: shimmer 1.4s infinite;
+  }
+  @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+  /* Bottom tab bar */
+  .tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    z-index: 40;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+  }
+  .tab {
+    background: none;
+    border: none;
+    padding: 10px 4px 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--muted);
+    font-family: inherit;
+    transition: color 0.15s;
+    position: relative;
+  }
+  .tab svg { width: 22px; height: 22px; }
+  .tab .tab-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+  .tab .tab-badge {
+    position: absolute;
+    top: 6px;
+    right: calc(50% - 26px);
+    background: var(--red);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .tab.active { color: var(--red); }
+  .tab.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 3px;
+    background: var(--red);
+    border-radius: 0 0 3px 3px;
+  }
+
+  /* Banner for fetch errors */
+  .banner {
+    background: #fef3c7;
+    border: 1px solid #fcd34d;
+    color: #92400e;
+    padding: 8px 12px;
+    margin: 0 12px 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    display: none;
+  }
+  .banner.show { display: block; }
+
+  /* Tablet/desktop tweaks */
+  @media (min-width: 720px) {
+    .header { padding: 16px 24px; padding-top: calc(16px + env(safe-area-inset-top)); }
+    .header img { height: 40px; }
+    .header h1 { font-size: 20px; }
+    .header .sub { font-size: 13px; }
+    .kpis { padding: 16px 24px; gap: 12px; top: calc(72px + env(safe-area-inset-top)); }
+    .kpi { padding: 14px 8px; }
+    .kpi .label { font-size: 10px; }
+    .kpi .value { font-size: 28px; }
+    main { padding: 16px 24px calc(96px + env(safe-area-inset-bottom)); max-width: 900px; margin: 0 auto; width: 100%; }
+    .order-customer { font-size: 18px; }
+    .tabbar { max-width: 900px; left: 50%; transform: translateX(-50%); border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+  <header class="header">
+    <img src="https://tdcabinetry.com/wp-content/uploads/2025/05/logo-alt.png" alt="TDC">
+    <div class="header-text">
+      <h1>Warehouse Ops</h1>
+      <div class="sub">
+        <span class="dot" id="status-dot"></span>
+        <span id="status-text">Loading…</span>
+      </div>
+    </div>
+    <button class="refresh-btn" id="refresh-btn" aria-label="Refresh now">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"></polyline>
+        <polyline points="1 20 1 14 7 14"></polyline>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+      </svg>
+    </button>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi accent">
+      <div class="label">Built Today</div>
+      <div class="value" id="kpi-boxes">–</div>
+      <div class="sub">boxes</div>
+    </div>
+    <div class="kpi accent">
+      <div class="label">Pulled Today</div>
+      <div class="value" id="kpi-pulled">–</div>
+      <div class="sub">orders</div>
+    </div>
+    <div class="kpi accent">
+      <div class="label">Picked Up</div>
+      <div class="value" id="kpi-pickup">–</div>
+      <div class="sub">today</div>
+    </div>
+    <div class="kpi dark">
+      <div class="label">Remaining</div>
+      <div class="value" id="kpi-remaining">–</div>
+      <div class="sub">cabinets</div>
+    </div>
+  </div>
+
+  <div class="banner" id="banner"></div>
+
+  <main>
+    <section class="panel active" id="panel-assembly">
+      <div class="panel-head">
+        <h2>Assembly Work In Progress</h2>
+        <span class="count" id="count-assembly"></span>
+      </div>
+      <div id="list-assembly"></div>
+    </section>
+
+    <section class="panel" id="panel-pull">
+      <div class="panel-head">
+        <h2>Pull Work In Progress</h2>
+        <span class="count" id="count-pull"></span>
+      </div>
+      <div id="list-pull"></div>
+    </section>
+
+    <section class="panel" id="panel-pickup">
+      <div class="panel-head">
+        <h2>Pickup Work In Progress</h2>
+        <span class="count" id="count-pickup"></span>
+      </div>
+      <div id="list-pickup"></div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab active" data-panel="assembly">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+      </svg>
+      <span class="tab-label">Assembly</span>
+      <span class="tab-badge" id="badge-assembly" style="display:none">0</span>
+    </button>
+    <button class="tab" data-panel="pull">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 3h5v5"></path>
+        <path d="M21 3l-7 7"></path>
+        <path d="M8 21H3v-5"></path>
+        <path d="M3 21l7-7"></path>
+        <rect x="9" y="9" width="6" height="6" rx="1"></rect>
+      </svg>
+      <span class="tab-label">Pull</span>
+      <span class="tab-badge" id="badge-pull" style="display:none">0</span>
+    </button>
+    <button class="tab" data-panel="pickup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="3" width="15" height="13"></rect>
+        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+      </svg>
+      <span class="tab-label">Pickup</span>
+      <span class="tab-badge" id="badge-pickup" style="display:none">0</span>
+    </button>
+  </nav>
+
+<script>
+(function () {
+  'use strict';
+
+  const SHEET_ID = '1AYKuEaR7ZY3ZQaKae8galh6eAXywdC6GiuAHHjbW4Eg';
+  const REFRESH_MS = 30000;
+
+  // ---------- CSV parser ----------
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], cell = '', inQuote = false, i = 0;
+    while (i < text.length) {
+      const c = text[i];
+      if (inQuote) {
+        if (c === '"' && text[i + 1] === '"') { cell += '"'; i += 2; continue; }
+        if (c === '"') { inQuote = false; i++; continue; }
+        cell += c; i++;
+      } else {
+        if (c === '"') { inQuote = true; i++; continue; }
+        if (c === ',') { row.push(cell); cell = ''; i++; continue; }
+        if (c === '\n' || c === '\r') {
+          if (c === '\r' && text[i + 1] === '\n') i++;
+          row.push(cell); rows.push(row); row = []; cell = ''; i++; continue;
+        }
+        cell += c; i++;
+      }
+    }
+    if (cell.length || row.length) { row.push(cell); rows.push(row); }
+    return rows;
+  }
+
+  // gviz CSV often wraps in a "google.visualization.Query.setResponse(...)" style
+  // when the endpoint thinks JSONP is wanted; our requested format is csv so it
+  // returns plain CSV. Strip BOM if present.
+  function stripBom(s) { return s.charCodeAt(0) === 0xFEFF ? s.slice(1) : s; }
+
+  async function fetchSheet(sheetName, range) {
+    const params = new URLSearchParams({ tqx: 'out:csv', sheet: sheetName, t: Date.now().toString() });
+    if (range) params.set('range', range);
+    const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?' + params.toString();
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(sheetName + ': HTTP ' + res.status);
+    return parseCSV(stripBom(await res.text()));
+  }
+
+  // ---------- helpers ----------
+  function parseTimestamp(s) {
+    if (!s) return null;
+    const t = String(s).trim();
+    const m = t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+    if (!m) return null;
+    const d = new Date(+m[3], +m[1] - 1, +m[2], +(m[4] || 0), +(m[5] || 0), +(m[6] || 0));
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function isToday(d) {
+    if (!d) return false;
+    const n = new Date();
+    return d.getFullYear() === n.getFullYear() && d.getMonth() === n.getMonth() && d.getDate() === n.getDate();
+  }
+
+  function daysSince(d) {
+    if (!d) return null;
+    const ms = Date.now() - d.getTime();
+    return Math.max(0, Math.floor(ms / 86400000));
+  }
+
+  function toInt(v) {
+    if (v == null) return 0;
+    const n = parseInt(String(v).replace(/[^\d.-]/g, ''), 10);
+    return isNaN(n) ? 0 : n;
+  }
+  function toNum(v) {
+    if (v == null) return 0;
+    const n = parseFloat(String(v).replace(/[^\d.-]/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
+
+  function fmtTime(d) {
+    const h = d.getHours();
+    const m = d.getMinutes();
+    const ap = h >= 12 ? 'PM' : 'AM';
+    const h12 = ((h + 11) % 12) + 1;
+    return h12 + ':' + String(m).padStart(2, '0') + ' ' + ap;
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // ---------- data extraction ----------
+  // Customer table on Dashboard tab is at cols F-K (indexes 5-10):
+  // F=Order#, G=Customer, H=Total, I=Done, J=Remaining, K=Date
+  function extractActiveOrders(dashboardRows) {
+    const out = [];
+    const seen = new Set();
+    for (let i = 0; i < dashboardRows.length; i++) {
+      const r = dashboardRows[i];
+      const orderNum = (r[5] || '').trim();
+      if (!/^\d{3,}$/.test(orderNum)) continue;
+      if (seen.has(orderNum)) continue;
+      seen.add(orderNum);
+      const customer = (r[6] || '').trim();
+      const total = toInt(r[7]);
+      const done = toInt(r[8]);
+      const remaining = toInt(r[9]);
+      const dateStr = (r[10] || '').trim();
+      const dateObj = parseTimestamp(dateStr);
+      out.push({ orderNum, customer, total, done, remaining, dateStr, dateObj });
+    }
+    return out;
+  }
+
+  // Latest entry per order, keyed by order number.
+  function latestByOrder(rows, cfg) {
+    const map = new Map();
+    for (let i = 1; i < rows.length; i++) {
+      const r = rows[i];
+      const order = (r[cfg.orderCol] || '').trim();
+      if (!/^\d{3,}$/.test(order)) continue;
+      const ts = parseTimestamp(r[cfg.tsCol]);
+      const entry = {
+        ts: ts,
+        status: (r[cfg.statusCol] || '').trim(),
+        missing: cfg.missingCol != null ? (r[cfg.missingCol] || '').trim() : '',
+        photo: cfg.photoCol != null ? (r[cfg.photoCol] || '').trim() : ''
+      };
+      const cur = map.get(order);
+      if (!cur || (ts && (!cur.ts || ts > cur.ts))) map.set(order, entry);
+    }
+    return map;
+  }
+
+  // Sum today's box count from Form_Responses (handles fractional builds
+  // when a cabinet is split across assemblers, e.g. 0.5 each).
+  function todaysBoxesBuilt(formRows) {
+    let total = 0;
+    for (let i = 1; i < formRows.length; i++) {
+      const r = formRows[i];
+      const ts = parseTimestamp(r[0]);
+      if (!isToday(ts)) continue;
+      const completed = (r[5] || '').trim().toUpperCase();
+      if (completed !== 'YES') continue;
+      const boxes = toNum(r[7]);
+      total += boxes > 0 ? boxes : 1;
+    }
+    return total;
+  }
+
+  function todaysCompleteOrders(rows, statusCol, tsCol) {
+    const set = new Set();
+    for (let i = 1; i < rows.length; i++) {
+      const r = rows[i];
+      if (!isToday(parseTimestamp(r[tsCol]))) continue;
+      if (!/100\s*%/.test(r[statusCol] || '')) continue;
+      const order = (r[2] || '').trim();
+      if (order) set.add(order);
+    }
+    return set.size;
+  }
+
+  // ---------- rendering ----------
+  function ageBadge(o) {
+    const d = daysSince(o.dateObj);
+    if (d == null) return '';
+    let cls = '';
+    if (d >= 7) cls = 'bad';
+    else if (d >= 4) cls = 'warn';
+    const label = d === 0 ? 'today' : d === 1 ? '1 day' : d + ' days';
+    return '<span class="order-age ' + cls + '">' + label + '</span>';
+  }
+
+  function progressFill(done, total) {
+    const pct = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
+    const cls = pct >= 100 ? ' good' : '';
+    return '<div class="progress-bar"><div class="progress-fill' + cls + '" style="width:' + pct + '%"></div></div>';
+  }
+
+  function emptyState(ico, title, subtitle) {
+    return '<div class="empty"><div class="ico">' + ico + '</div><h3>' + title + '</h3><p>' + subtitle + '</p></div>';
+  }
+
+  function renderAssembly(orders) {
+    const list = orders.filter(o => o.remaining > 0);
+    list.sort((a, b) => {
+      const ad = a.dateObj ? a.dateObj.getTime() : Infinity;
+      const bd = b.dateObj ? b.dateObj.getTime() : Infinity;
+      return ad - bd;
+    });
+    setBadge('assembly', list.length);
+    document.getElementById('count-assembly').textContent = list.length + ' open';
+    if (!list.length) {
+      document.getElementById('list-assembly').innerHTML = emptyState('✅', 'All caught up', 'No assemblies in progress.');
+      return;
+    }
+    document.getElementById('list-assembly').innerHTML = list.map(o => {
+      const cls = o.done === 0 ? 'notstarted' : (o.remaining <= 2 ? 'partial' : '');
+      return '<div class="order-card ' + cls + '">' +
+        '<div class="order-row1">' +
+          '<span class="order-customer">' + escapeHtml(o.customer || 'Unknown') + '</span>' +
+          ageBadge(o) +
+        '</div>' +
+        '<div class="order-row2">' +
+          '<span class="progress-text">#' + escapeHtml(o.orderNum) + ' • <strong>' + o.done + '</strong> of <strong>' + o.total + '</strong> cabinets' +
+            (o.remaining > 0 ? ' • <strong>' + o.remaining + '</strong> left' : '') + '</span>' +
+        '</div>' +
+        progressFill(o.done, o.total) +
+      '</div>';
+    }).join('');
+  }
+
+  function renderPull(orders, pullMap) {
+    const list = orders.filter(o => {
+      const e = pullMap.get(o.orderNum);
+      return !e || !/100\s*%/.test(e.status);
+    });
+    list.sort((a, b) => {
+      const ad = a.dateObj ? a.dateObj.getTime() : Infinity;
+      const bd = b.dateObj ? b.dateObj.getTime() : Infinity;
+      return ad - bd;
+    });
+    setBadge('pull', list.length);
+    document.getElementById('count-pull').textContent = list.length + ' open';
+    if (!list.length) {
+      document.getElementById('list-pull').innerHTML = emptyState('📦', 'All pulled', 'Every active order has been pulled.');
+      return;
+    }
+    document.getElementById('list-pull').innerHTML = list.map(o => {
+      const e = pullMap.get(o.orderNum);
+      let pillCls = 'notstarted', pillText = 'Not started', cardCls = 'notstarted';
+      if (e) {
+        if (/partial/i.test(e.status)) { pillCls = 'partial'; pillText = 'Partially pulled'; cardCls = 'partial'; }
+        else if (/100\s*%/.test(e.status)) { pillCls = 'good'; pillText = 'Pulled'; cardCls = 'done'; }
+        else if (e.status) { pillText = e.status; }
+      }
+      const missing = e && e.missing && !/^none$/i.test(e.missing.trim()) ? e.missing : '';
+      return '<div class="order-card ' + cardCls + '">' +
+        '<div class="order-row1">' +
+          '<span class="order-customer">' + escapeHtml(o.customer || 'Unknown') + '</span>' +
+          ageBadge(o) +
+        '</div>' +
+        '<div class="order-row2">' +
+          '<span class="progress-text">#' + escapeHtml(o.orderNum) + ' • ' + o.total + ' cabinets</span>' +
+          '<span class="status-pill ' + pillCls + '">' + escapeHtml(pillText) + '</span>' +
+        '</div>' +
+        (missing ? '<div class="missing"><span class="missing-label">Missing:</span> ' + escapeHtml(missing) + '</div>' : '') +
+      '</div>';
+    }).join('');
+  }
+
+  function renderPickup(orders, pullMap, pickupMap) {
+    const list = orders.filter(o => {
+      const pull = pullMap.get(o.orderNum);
+      const pickup = pickupMap.get(o.orderNum);
+      const isPulled = pull && /100\s*%/.test(pull.status);
+      const isPickedUp = pickup && /100\s*%/.test(pickup.status);
+      return isPulled && !isPickedUp;
+    });
+    list.sort((a, b) => {
+      const ap = pullMap.get(a.orderNum);
+      const bp = pullMap.get(b.orderNum);
+      const at = ap && ap.ts ? ap.ts.getTime() : (a.dateObj ? a.dateObj.getTime() : Infinity);
+      const bt = bp && bp.ts ? bp.ts.getTime() : (b.dateObj ? b.dateObj.getTime() : Infinity);
+      return at - bt;
+    });
+    setBadge('pickup', list.length);
+    document.getElementById('count-pickup').textContent = list.length + ' awaiting';
+    if (!list.length) {
+      document.getElementById('list-pickup').innerHTML = emptyState('🚛', 'No pickups pending', 'Pulled orders that are awaiting pickup will appear here.');
+      return;
+    }
+    document.getElementById('list-pickup').innerHTML = list.map(o => {
+      const pickup = pickupMap.get(o.orderNum);
+      const pull = pullMap.get(o.orderNum);
+      let pillCls = 'partial', pillText = 'Awaiting pickup', cardCls = '';
+      if (pickup) {
+        if (/partial/i.test(pickup.status)) { pillCls = 'partial'; pillText = 'Partial pickup'; cardCls = 'partial'; }
+        else if (pickup.status) { pillText = pickup.status; }
+      }
+      const pulledAt = pull && pull.ts ? pull.ts : null;
+      const waiting = pulledAt ? daysSince(pulledAt) : null;
+      const waitLabel = waiting == null ? '' : waiting === 0 ? 'pulled today' : waiting === 1 ? 'pulled 1 day ago' : 'pulled ' + waiting + ' days ago';
+      const missing = pickup && pickup.missing && !/^none\s*\.?$/i.test(pickup.missing.trim()) ? pickup.missing : '';
+      return '<div class="order-card ' + cardCls + '">' +
+        '<div class="order-row1">' +
+          '<span class="order-customer">' + escapeHtml(o.customer || 'Unknown') + '</span>' +
+          (waiting != null && waiting >= 3 ? '<span class="order-age ' + (waiting >= 7 ? 'bad' : 'warn') + '">' + waiting + 'd wait</span>' : '') +
+        '</div>' +
+        '<div class="order-row2">' +
+          '<span class="progress-text">#' + escapeHtml(o.orderNum) + (waitLabel ? ' • ' + waitLabel : '') + '</span>' +
+          '<span class="status-pill ' + pillCls + '">' + escapeHtml(pillText) + '</span>' +
+        '</div>' +
+        (missing ? '<div class="missing"><span class="missing-label">Missing:</span> ' + escapeHtml(missing) + '</div>' : '') +
+      '</div>';
+    }).join('');
+  }
+
+  function setBadge(id, n) {
+    const el = document.getElementById('badge-' + id);
+    if (!el) return;
+    if (n > 0) { el.textContent = n; el.style.display = ''; }
+    else el.style.display = 'none';
+  }
+
+  function setStatus(state, message) {
+    const dot = document.getElementById('status-dot');
+    const txt = document.getElementById('status-text');
+    dot.classList.remove('stale', 'error');
+    if (state === 'stale') dot.classList.add('stale');
+    if (state === 'error') dot.classList.add('error');
+    txt.textContent = message;
+  }
+
+  function showBanner(msg) {
+    const b = document.getElementById('banner');
+    if (!msg) { b.classList.remove('show'); return; }
+    b.textContent = msg;
+    b.classList.add('show');
+  }
+
+  function showSkeletons() {
+    const sk = '<div class="skeleton-card"></div>'.repeat(4);
+    document.getElementById('list-assembly').innerHTML = sk;
+    document.getElementById('list-pull').innerHTML = sk;
+    document.getElementById('list-pickup').innerHTML = sk;
+  }
+
+  // ---------- main load ----------
+  let lastGoodLoad = null;
+  let isLoading = false;
+
+  async function load(triggerSpinner) {
+    if (isLoading) return;
+    isLoading = true;
+    const btn = document.getElementById('refresh-btn');
+    if (triggerSpinner) btn.classList.add('spinning');
+
+    try {
+      const [dashRows, formRows, pullRows, pickupRows] = await Promise.all([
+        fetchSheet('Dashboard', 'A1:AZ80'),
+        fetchSheet('Form_Responses'),
+        fetchSheet('Pull_Responses'),
+        fetchSheet('Pickup_Responses')
+      ]);
+
+      const orders = extractActiveOrders(dashRows);
+      const pullMap = latestByOrder(pullRows, { tsCol: 0, orderCol: 2, statusCol: 3, missingCol: 4, photoCol: 6 });
+      const pickupMap = latestByOrder(pickupRows, { tsCol: 0, orderCol: 2, statusCol: 3, missingCol: 4, photoCol: 5 });
+
+      const builtVal = todaysBoxesBuilt(formRows);
+      document.getElementById('kpi-boxes').textContent = Number.isInteger(builtVal) ? builtVal : builtVal.toFixed(1);
+      document.getElementById('kpi-pulled').textContent = todaysCompleteOrders(pullRows, 3, 0);
+      document.getElementById('kpi-pickup').textContent = todaysCompleteOrders(pickupRows, 3, 0);
+      // Remaining cabinets across all active orders
+      const remaining = orders.reduce((s, o) => s + (o.remaining > 0 ? o.remaining : 0), 0);
+      document.getElementById('kpi-remaining').textContent = remaining;
+
+      renderAssembly(orders);
+      renderPull(orders, pullMap);
+      renderPickup(orders, pullMap, pickupMap);
+
+      lastGoodLoad = new Date();
+      setStatus('ok', 'Updated ' + fmtTime(lastGoodLoad));
+      showBanner(null);
+    } catch (err) {
+      console.error('Load failed:', err);
+      if (lastGoodLoad) {
+        setStatus('stale', 'Last update ' + fmtTime(lastGoodLoad) + ' (offline?)');
+        showBanner('Could not refresh — showing last loaded data.');
+      } else {
+        setStatus('error', 'Connection error');
+        showBanner('Could not load data. Check sharing settings on the sheet.');
+        document.getElementById('list-assembly').innerHTML = emptyState('⚠️', 'No data', String(err.message || err));
+        document.getElementById('list-pull').innerHTML = '';
+        document.getElementById('list-pickup').innerHTML = '';
+      }
+    } finally {
+      isLoading = false;
+      btn.classList.remove('spinning');
+    }
+  }
+
+  // ---------- tabs ----------
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-panel');
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === btn));
+      document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + target));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  document.getElementById('refresh-btn').addEventListener('click', () => load(true));
+
+  // Refresh when tab returns to foreground (phones lock screens often)
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) load(false);
+  });
+
+  // Init
+  showSkeletons();
+  load(true);
+  setInterval(() => load(false), REFRESH_MS);
+})();
+</script>
+</body>
+</html>
