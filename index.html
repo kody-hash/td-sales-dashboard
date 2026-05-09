@@ -855,14 +855,14 @@
     <h2 class="section-title">Customer Acquisition Cost (CAC)</h2>
     <table class="rep-table">
       <thead>
-        <tr><th>Month</th><th>Meta Spend</th><th>Total Closed</th><th>CAC</th></tr>
+        <tr><th>Month</th><th>Meta Spend</th><th>Total Closed</th><th>CAC</th><th>Total Amount Closed</th><th>ROAS</th></tr>
       </thead>
       <tbody>
-        <tr><td>January</td><td>$6,146.63</td><td>18</td><td>$341.48</td></tr>
-        <tr><td>February</td><td>$5,171.37</td><td>26</td><td>$198.90</td></tr>
-        <tr><td>March</td><td>$6,784.02</td><td>25</td><td>$271.36</td></tr>
-        <tr><td>April</td><td>$6,812.37</td><td>17</td><td>$400.73</td></tr>
-        <tr><td>May</td><td>$470.72</td><td>1</td><td>$470.72</td></tr>
+        <tr><td>January</td><td>$6,146.63</td><td>18</td><td>$341.48</td><td>$103,456.32</td><td>16.8x</td></tr>
+        <tr><td>February</td><td>$5,171.37</td><td>26</td><td>$198.90</td><td>$153,014.08</td><td>29.6x</td></tr>
+        <tr><td>March</td><td>$6,784.02</td><td>25</td><td>$271.36</td><td>$153,403.42</td><td>22.6x</td></tr>
+        <tr><td>April</td><td>$6,812.37</td><td>17</td><td>$400.73</td><td>$103,368.30</td><td>15.2x</td></tr>
+        <tr><td>May</td><td>$1,712.62</td><td>1</td><td>$1,712.62</td><td>$7,030.09</td><td>4.1x</td></tr>
       </tbody>
     </table>
 
@@ -914,6 +914,13 @@
       <div class="chart-card">
         <h3>Meta Spend &amp; Closed Sales by Month</h3>
         <canvas id="cacSpendChart"></canvas>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>Total Amount Closed &amp; ROAS by Month</h3>
+        <canvas id="cacRevenueChart"></canvas>
       </div>
     </div>
   </div>
@@ -1627,7 +1634,7 @@ new Chart(document.getElementById('cacChart'), {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
     datasets: [{
       label: 'CAC',
-      data: [341.48, 198.90, 271.36, 400.73, 470.72],
+      data: [341.48, 198.90, 271.36, 400.73, 1712.62],
       backgroundColor: ['#C8102E', '#C8102E', '#C8102E', '#555', '#C8102E'],
       borderRadius: 6
     }]
@@ -1647,7 +1654,7 @@ new Chart(document.getElementById('cacSpendChart'), {
     datasets: [
       {
         label: 'Meta Spend',
-        data: [6146.63, 5171.37, 6784.02, 6812.37, 470.72],
+        data: [6146.63, 5171.37, 6784.02, 6812.37, 1712.62],
         backgroundColor: '#475569',
         borderRadius: 4,
         yAxisID: 'y'
@@ -1666,6 +1673,41 @@ new Chart(document.getElementById('cacSpendChart'), {
     scales: {
       y: { beginAtZero: true, ticks: { callback: v => '$' + v } },
       y1: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Closed Sales' } }
+    }
+  }
+});
+
+// CAC Total Amount Closed & ROAS
+new Chart(document.getElementById('cacRevenueChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+    datasets: [
+      {
+        label: 'Total Amount Closed',
+        data: [103456.32, 153014.08, 153403.42, 103368.30, 7030.09],
+        backgroundColor: '#C8102E',
+        borderRadius: 4,
+        yAxisID: 'y'
+      },
+      {
+        label: 'ROAS',
+        type: 'line',
+        data: [16.8, 29.6, 22.6, 15.2, 4.1],
+        borderColor: '#1a1a2e',
+        backgroundColor: 'rgba(26,26,46,0.1)',
+        tension: 0.3,
+        pointRadius: 5,
+        pointBackgroundColor: '#1a1a2e',
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' } },
+      y1: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'ROAS (x)' }, ticks: { callback: v => v + 'x' } }
     }
   }
 });
