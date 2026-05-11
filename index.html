@@ -937,9 +937,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>Colton S</td><td>94</td><td>38</td><td>371.5</td><td>995</td></tr>
-        <tr><td>Gustavo L</td><td>149</td><td>88.5</td><td>452.5</td><td>1,026.5</td></tr>
-        <tr><td>Jesse B</td><td>68</td><td>29</td><td>237</td><td>695.5</td></tr>
+        <tr><td>Colton S</td><td>1</td><td>38</td><td>371.5</td><td>995</td></tr>
+        <tr><td>Gustavo L</td><td>0</td><td>88.5</td><td>452.5</td><td>1,026.5</td></tr>
+        <tr><td>Jesse B</td><td>0</td><td>29</td><td>237</td><td>695.5</td></tr>
+        <tr><td>Adrian</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
       </tbody>
     </table>
 
@@ -1647,11 +1648,11 @@ new Chart(document.getElementById('warehouseDelPickChart'), {
 new Chart(document.getElementById('assemblerMTDChart'), {
   type: 'bar',
   data: {
-    labels: ['Colton S', 'Gustavo L', 'Jesse B'],
+    labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'MTD Boxes',
-      data: [38, 88.5, 29],
-      backgroundColor: ['#C8102E', '#475569', '#2d6a9f'],
+      data: [38, 88.5, 29, 0],
+      backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
   },
@@ -1666,11 +1667,11 @@ new Chart(document.getElementById('assemblerMTDChart'), {
 new Chart(document.getElementById('assemblerYTDChart'), {
   type: 'bar',
   data: {
-    labels: ['Colton S', 'Gustavo L', 'Jesse B'],
+    labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'YTD Boxes',
-      data: [995, 1026.5, 695.5],
-      backgroundColor: ['#C8102E', '#475569', '#2d6a9f'],
+      data: [995, 1026.5, 695.5, 0],
+      backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
   },
@@ -1685,11 +1686,11 @@ new Chart(document.getElementById('assemblerYTDChart'), {
 new Chart(document.getElementById('assemblerPayPeriodChart'), {
   type: 'bar',
   data: {
-    labels: ['Colton S', 'Gustavo L', 'Jesse B'],
+    labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'This Pay Period',
-      data: [94, 149, 68],
-      backgroundColor: ['#C8102E', '#475569', '#2d6a9f'],
+      data: [1, 0, 0, 0],
+      backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
   },
