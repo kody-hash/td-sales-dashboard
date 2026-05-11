@@ -905,12 +905,12 @@
     <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
       <div class="kpi-card">
         <div class="label">Total MTD Boxes</div>
-        <div class="value">155.5</div>
+        <div class="value">239</div>
         <div class="sub">May 2026</div>
       </div>
       <div class="kpi-card dark">
         <div class="label">Total YTD Boxes</div>
-        <div class="value">2,717</div>
+        <div class="value">2,800.5</div>
         <div class="sub">2026</div>
       </div>
       <div class="kpi-card">
@@ -940,7 +940,7 @@
         <tr><td>Colton S</td><td>1</td><td>38</td><td>371.5</td><td>995</td></tr>
         <tr><td>Gustavo L</td><td>0</td><td>88.5</td><td>452.5</td><td>1,026.5</td></tr>
         <tr><td>Jesse B</td><td>0</td><td>29</td><td>237</td><td>695.5</td></tr>
-        <tr><td>Adrian</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>Adrian</td><td>1</td><td>83.5</td><td>83.5</td><td>83.5</td></tr>
       </tbody>
     </table>
 
@@ -1651,7 +1651,7 @@ new Chart(document.getElementById('assemblerMTDChart'), {
     labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'MTD Boxes',
-      data: [38, 88.5, 29, 0],
+      data: [38, 88.5, 29, 83.5],
       backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
@@ -1670,7 +1670,7 @@ new Chart(document.getElementById('assemblerYTDChart'), {
     labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'YTD Boxes',
-      data: [995, 1026.5, 695.5, 0],
+      data: [995, 1026.5, 695.5, 83.5],
       backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
@@ -1689,7 +1689,7 @@ new Chart(document.getElementById('assemblerPayPeriodChart'), {
     labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'This Pay Period',
-      data: [1, 0, 0, 0],
+      data: [1, 0, 0, 1],
       backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
