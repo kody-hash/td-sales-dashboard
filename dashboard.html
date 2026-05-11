@@ -597,34 +597,140 @@
   <div id="revenue" class="panel">
     <h2 class="section-title">Team Revenue Tracking</h2>
 
-    <div class="kpi-grid" style="margin-bottom:25px;">
+    <!-- Current revenue snapshots (totals incl. 9% tax) -->
+    <div class="kpi-grid" style="margin-bottom:18px;">
       <div class="kpi-card">
         <div class="label">WTD Revenue</div>
         <div class="value">$151,916.54</div>
+        <div class="sub">incl. 9% tax</div>
       </div>
       <div class="kpi-card">
         <div class="label">MTD Revenue</div>
         <div class="value">$166,726.68</div>
+        <div class="sub">incl. 9% tax</div>
       </div>
       <div class="kpi-card">
-        <div class="label">QTD Revenue</div>
+        <div class="label">QTD Revenue (Q2)</div>
         <div class="value">$567,713.66</div>
+        <div class="sub">Apr + May to date</div>
       </div>
       <div class="kpi-card">
         <div class="label">YTD Revenue</div>
         <div class="value">$1,699,412.77</div>
+        <div class="sub">incl. 9% tax</div>
       </div>
+    </div>
+
+    <!-- Quarter comparison -->
+    <div class="kpi-grid" style="margin-bottom:25px;">
+      <div class="kpi-card dark">
+        <div class="label">Last QTD Revenue (Q1 Total)</div>
+        <div class="value">$1,131,699.11</div>
+        <div class="sub">Jan + Feb + Mar &middot; final</div>
+      </div>
+      <div class="kpi-card dark">
+        <div class="label">Q2 Pace vs Q1 at Day 40</div>
+        <div class="value">+12.87%</div>
+        <div class="sub">$567,714 actual vs $502,977 pace</div>
+      </div>
+      <div class="kpi-card dark">
+        <div class="label">Q2 Daily Avg</div>
+        <div class="value">$14,193</div>
+        <div class="sub">40 days into Q2</div>
+      </div>
+    </div>
+
+    <!-- ============ 2026 YEAR REVENUE GOAL PACER ============ -->
+    <h2 class="section-title">2026 Revenue Goal Pacer</h2>
+
+    <!-- Goal header: pre-tax + tax = total -->
+    <div style="background:#ffffff; border:1px solid #e2e4ea; border-radius:12px; padding:24px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:20px; margin-bottom:20px;">
+        <div style="text-align:center; padding:14px; background:#f8f9fb; border-radius:10px; border-left:4px solid #475569;">
+          <div style="font-size:11px; color:#64748b; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Pre-tax Goal</div>
+          <div style="font-size:24px; font-weight:700; color:#1a1a2e;">$5,200,000</div>
+        </div>
+        <div style="text-align:center; padding:14px; background:#fef2f2; border-radius:10px; border-left:4px solid #C8102E;">
+          <div style="font-size:11px; color:#64748b; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">+ 9% Tax</div>
+          <div style="font-size:24px; font-weight:700; color:#C8102E;">$468,000</div>
+        </div>
+        <div style="text-align:center; padding:14px; background:linear-gradient(135deg,#1a1a2e,#2d2d44); border-radius:10px; color:#fff;">
+          <div style="font-size:11px; opacity:0.85; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Total Goal w/ Tax</div>
+          <div style="font-size:24px; font-weight:700;">$5,668,000</div>
+        </div>
+      </div>
+
+      <!-- Pre-tax progress bar with pacer marker -->
+      <div style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:baseline;">
+        <span style="font-size:13px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:1px;">Pre-tax Progress</span>
+        <span style="font-size:22px; font-weight:700; color:#1a1a2e;">29.98%</span>
+      </div>
+      <div style="position:relative; height:42px; background:#eceef3; border-radius:21px; overflow:hidden; margin-bottom:8px;">
+        <div style="position:absolute; left:0; top:0; height:100%; width:29.98%; background:linear-gradient(90deg,#A0171C,#C8102E); border-radius:21px 0 0 21px; display:flex; align-items:center; padding-left:14px; color:#fff; font-weight:700; font-size:13px;">$1,559,094</div>
+        <div style="position:absolute; left:35.62%; top:-6px; bottom:-6px; width:3px; background:#1a1a2e; z-index:2;"></div>
+        <div style="position:absolute; left:35.62%; top:-22px; transform:translateX(-50%); font-size:10px; font-weight:700; color:#1a1a2e; white-space:nowrap;">PACE &darr;</div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:12px; color:#64748b; margin-bottom:18px;">
+        <span>$0</span>
+        <span>Target by today: <strong style="color:#1a1a2e;">$1,852,055</strong> (35.62% of year)</span>
+        <span>$5.2M</span>
+      </div>
+
+      <!-- Pre-tax / Tax composition of YTD actual -->
+      <div style="font-size:13px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">YTD Revenue Composition</div>
+      <div style="display:flex; height:48px; border-radius:10px; overflow:hidden; box-shadow:inset 0 0 0 1px #e2e4ea; margin-bottom:10px;">
+        <div style="background:linear-gradient(135deg,#2d2d44,#475569); flex: 1559094.28 1 0; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:14px;">
+          Pre-tax $1,559,094.28
+        </div>
+        <div style="background:linear-gradient(135deg,#A0171C,#C8102E); flex: 140318.49 1 0; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:13px; min-width:140px;">
+          Tax $140,318.49
+        </div>
+      </div>
+      <div style="text-align:center; font-size:13px; color:#64748b;">
+        Total YTD: <strong style="color:#1a1a2e; font-size:16px;">$1,699,412.77</strong>
+      </div>
+
+      <!-- Status bar -->
+      <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-top:20px; padding-top:20px; border-top:1px solid #eceef3;">
+        <div>
+          <div style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px;">Gap to Pace</div>
+          <div style="font-size:18px; font-weight:700; color:#ef4444;">-$292,961</div>
+          <div style="font-size:11px; color:#64748b;">pre-tax behind</div>
+        </div>
+        <div>
+          <div style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px;">Remaining Pre-tax</div>
+          <div style="font-size:18px; font-weight:700; color:#1a1a2e;">$3,640,906</div>
+          <div style="font-size:11px; color:#64748b;">to hit $5.2M</div>
+        </div>
+        <div>
+          <div style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px;">Days Remaining</div>
+          <div style="font-size:18px; font-weight:700; color:#1a1a2e;">235</div>
+          <div style="font-size:11px; color:#64748b;">May 11 &rarr; Dec 31</div>
+        </div>
+        <div>
+          <div style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px;">Daily Pre-tax Needed</div>
+          <div style="font-size:18px; font-weight:700; color:#C8102E;">$15,493</div>
+          <div style="font-size:11px; color:#64748b;">$16,888/day incl. tax</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Revenue Trend -->
+    <h2 class="section-title">Weekly Revenue Trend</h2>
+    <div class="chart-card" style="margin-bottom:25px;">
+      <h3>Weekly Revenue (last 8 weeks)</h3>
+      <canvas id="weeklyRevenueChart"></canvas>
     </div>
 
     <h2 class="section-title">Monthly Revenue Breakdown</h2>
     <table class="monthly-table">
-      <thead><tr><th>Month</th><th>Revenue</th><th>Total Sales</th></tr></thead>
+      <thead><tr><th>Month</th><th>Revenue (incl. tax)</th><th>Pre-tax</th><th>Total Sales</th></tr></thead>
       <tbody>
-        <tr><td>January</td><td>$298,948.16</td><td>58</td></tr>
-        <tr><td>February</td><td>$390,444.70</td><td>76</td></tr>
-        <tr><td>March</td><td>$442,306.25</td><td>80</td></tr>
-        <tr><td>April</td><td>$400,986.98</td><td>80</td></tr>
-        <tr><td>May</td><td>$166,726.68</td><td>29</td></tr>
+        <tr><td>January</td><td>$298,948.16</td><td>$274,264.37</td><td>58</td></tr>
+        <tr><td>February</td><td>$390,444.70</td><td>$358,206.15</td><td>76</td></tr>
+        <tr><td>March</td><td>$442,306.25</td><td>$405,785.55</td><td>80</td></tr>
+        <tr><td>April</td><td>$400,986.98</td><td>$367,878.88</td><td>80</td></tr>
+        <tr><td>May</td><td>$166,726.68</td><td>$152,959.34</td><td>29</td></tr>
       </tbody>
     </table>
 
@@ -1336,6 +1442,56 @@ new Chart(document.getElementById('monthlyRevenueChart'), {
   options: {
     responsive: true,
     plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' } } }
+  }
+});
+
+// Weekly Revenue Chart (last 8 weeks)
+new Chart(document.getElementById('weeklyRevenueChart'), {
+  type: 'line',
+  data: {
+    labels: ['Wk 3/15', 'Wk 3/22', 'Wk 3/29', 'Wk 4/5', 'Wk 4/12', 'Wk 4/19', 'Wk 4/26', 'Wk 5/3'],
+    datasets: [
+      {
+        label: 'Weekly Revenue',
+        data: [122059.76, 73186.06, 158503.88, 61145.83, 133408.67, 66064.70, 72594.87, 151916.54],
+        borderColor: '#C8102E',
+        backgroundColor: 'rgba(200,16,46,0.12)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 6,
+        pointBackgroundColor: '#C8102E',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        borderWidth: 3
+      },
+      {
+        label: 'Weekly Goal ($109K)',
+        data: [109000, 109000, 109000, 109000, 109000, 109000, 109000, 109000],
+        borderColor: '#1a1a2e',
+        backgroundColor: 'transparent',
+        borderDash: [6, 6],
+        fill: false,
+        tension: 0,
+        pointRadius: 0,
+        borderWidth: 2
+      },
+      {
+        label: '8-Wk Average ($104,860)',
+        data: [104860, 104860, 104860, 104860, 104860, 104860, 104860, 104860],
+        borderColor: '#475569',
+        backgroundColor: 'transparent',
+        borderDash: [3, 3],
+        fill: false,
+        tension: 0,
+        pointRadius: 0,
+        borderWidth: 1.5
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { position: 'bottom' } },
     scales: { y: { beginAtZero: true, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' } } }
   }
 });
