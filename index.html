@@ -518,17 +518,18 @@
       </div>
 
       <div class="table-block">
-        <h2 class="section-title">Leads Received Per Rep</h2>
+        <h2 class="section-title">Leads Received &amp; Repeat Sales Per Rep</h2>
         <table class="rep-table">
           <thead>
-            <tr><th>Sales Rep</th><th>MTD Leads</th><th>YTD Leads</th></tr>
+            <tr><th>Sales Rep</th><th>MTD Leads</th><th>MTD Repeat</th><th>YTD Leads</th><th>YTD Repeat</th></tr>
           </thead>
           <tbody id="leadsReceivedTableBody">
-            <tr><td>Jon Hutton</td><td>1</td><td>41</td></tr>
-            <tr><td>Ronnie U</td><td>3</td><td>89</td></tr>
-            <tr><td>Junior G</td><td>10</td><td>110</td></tr>
-            <tr><td>Carel H</td><td>5</td><td>88</td></tr>
-            <tr><td>Zach B</td><td>9</td><td>89</td></tr>
+            <tr><td>Jon Hutton</td><td>1</td><td>10</td><td>41</td><td>74</td></tr>
+            <tr><td>Ronnie U</td><td>3</td><td>8</td><td>89</td><td>3</td></tr>
+            <tr><td>Junior G</td><td>10</td><td>-4</td><td>110</td><td>-75</td></tr>
+            <tr><td>Carel H</td><td>5</td><td>-1</td><td>88</td><td>-14</td></tr>
+            <tr><td>Zach B</td><td>9</td><td>-6</td><td>89</td><td>-76</td></tr>
+            <!-- Repeat = Total Sales - Leads Received (MTD Sales from Calc Q, YTD Sales from Calc J) -->
           </tbody>
         </table>
       </div>
