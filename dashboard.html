@@ -1034,28 +1034,28 @@
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="label">MTD Meta Spend</div>
-        <div class="value">$3,310.12</div>
+        <div class="value">$3,756.57</div>
       </div>
       <div class="kpi-card">
         <div class="label">MTD Meta Leads</div>
-        <div class="value">77</div>
+        <div class="value">84</div>
       </div>
       <div class="kpi-card">
         <div class="label">Avg Meta CPL</div>
-        <div class="value">$42.98</div>
+        <div class="value">$44.72</div>
         <div class="sub">Meta Spend / Meta Leads</div>
       </div>
       <div class="kpi-card">
         <div class="label">Walk-In/Call-In Leads (MTD)</div>
-        <div class="value">14</div>
+        <div class="value">13</div>
       </div>
       <div class="kpi-card">
         <div class="label">Total Leads (MTD)</div>
-        <div class="value">91</div>
+        <div class="value">97</div>
       </div>
       <div class="kpi-card">
         <div class="label">Avg Daily CPL (All)</div>
-        <div class="value">$36.37</div>
+        <div class="value">$38.72</div>
         <div class="sub">Meta Spend / Total Leads</div>
       </div>
     </div>
@@ -1095,6 +1095,8 @@
         <tr><td>5/13</td><td>$211.40</td><td>6</td><td>$35.23</td><td>4</td><td>$21.14</td></tr>
         <tr><td>5/14</td><td>$204.10</td><td>8</td><td>$25.51</td><td>0</td><td>$25.51</td></tr>
         <tr><td>5/15</td><td>$181.14</td><td>4</td><td>$45.29</td><td>-1</td><td>$60.38</td></tr>
+        <tr><td>5/16</td><td>$198.77</td><td>4</td><td>$49.69</td><td>-1</td><td>$66.26</td></tr>
+        <tr><td>5/17</td><td>$247.68</td><td>3</td><td>$82.56</td><td>0</td><td>$82.56</td></tr>
       </tbody>
     </table>
 
@@ -1798,12 +1800,12 @@ new Chart(document.getElementById('setterChart'), {
 // Setter doughnut MTD values refreshed 2026-05-15 (29 passed of 53 = 54.72%).
 
 // ===================== MARKETING CHARTS =====================
-const mktDates = ['5/1', '5/2', '5/3', '5/4', '5/5', '5/6', '5/7', '5/8', '5/9', '5/10', '5/11', '5/12', '5/13', '5/14', '5/15'];
-const mktSpend = [229.67, 240.31, 291.85, 279.49, 215.11, 221.48, 229.65, 181.70, 154.16, 214.73, 221.90, 233.43, 211.40, 204.10, 181.14];
-const mktMetaLeads = [4, 7, 2, 2, 2, 5, 5, 8, 5, 6, 6, 7, 6, 8, 4];
-const mktWICILeads = [1, 0, 0, 2, 3, 0, 3, 1, 0, 0, 1, 0, 4, 0, -1];
-const mktMetaCPL = [57.42, 34.33, 145.93, 139.75, 107.56, 44.30, 45.93, 22.71, 30.83, 35.79, 36.98, 33.35, 35.23, 25.51, 45.29];
-const mktTotalCPL = [45.93, 34.33, 145.93, 69.87, 43.02, 44.30, 28.71, 20.19, 30.83, 35.79, 31.70, 33.35, 21.14, 25.51, 60.38];
+const mktDates = ['5/1', '5/2', '5/3', '5/4', '5/5', '5/6', '5/7', '5/8', '5/9', '5/10', '5/11', '5/12', '5/13', '5/14', '5/15', '5/16', '5/17'];
+const mktSpend = [229.67, 240.31, 291.85, 279.49, 215.11, 221.48, 229.65, 181.70, 154.16, 214.73, 221.90, 233.43, 211.40, 204.10, 181.14, 198.77, 247.68];
+const mktMetaLeads = [4, 7, 2, 2, 2, 5, 5, 8, 5, 6, 6, 7, 6, 8, 4, 4, 3];
+const mktWICILeads = [1, 0, 0, 2, 3, 0, 3, 1, 0, 0, 1, 0, 4, 0, -1, -1, 0];
+const mktMetaCPL = [57.42, 34.33, 145.93, 139.75, 107.56, 44.30, 45.93, 22.71, 30.83, 35.79, 36.98, 33.35, 35.23, 25.51, 45.29, 49.69, 82.56];
+const mktTotalCPL = [45.93, 34.33, 145.93, 69.87, 43.02, 44.30, 28.71, 20.19, 30.83, 35.79, 31.70, 33.35, 21.14, 25.51, 60.38, 66.26, 82.56];
 
 // Daily Meta Spend
 new Chart(document.getElementById('metaSpendChart'), {
