@@ -6,30 +6,41 @@
 <title>Top Drawer Cabinetry - KPI Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, doc, updateDoc, query, orderBy, onSnapshot }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, doc, updateDoc, query, orderBy, onSnapshot }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+import { getAuth, signInAnonymously }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyD--ATL5qDw8MXbF4asWTBpqfFQzvsXdzI",
-    authDomain: "td-sales-reviews-a9e8c.firebaseapp.com",
-    projectId: "td-sales-reviews-a9e8c",
-    storageBucket: "td-sales-reviews-a9e8c.firebasestorage.app",
-    messagingSenderId: "137236545718",
-    appId: "1:137236545718:web:947b810d9f08925bc4a617",
-    measurementId: "G-D7E8TMMWY9"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyD--ATL5qDw8MXbF4asWTBpqfFQzvsXdzI",
+  authDomain: "td-sales-reviews-a9e8c.firebaseapp.com",
+  projectId: "td-sales-reviews-a9e8c",
+  storageBucket: "td-sales-reviews-a9e8c.firebasestorage.app",
+  messagingSenderId: "137236545718",
+  appId: "1:137236545718:web:947b810d9f08925bc4a617",
+  measurementId: "G-D7E8TMMWY9"
+};
 
-  const app = initializeApp(firebaseConfig);
-  window._fb = {
-    db: getFirestore(app),
-    storage: getStorage(app),
-    collection, addDoc, doc, updateDoc, query, orderBy, onSnapshot,
-    ref, uploadBytes, getDownloadURL
-  };
-  window.dispatchEvent(new Event('firebase-ready'));
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window._fb = {
+  db: getFirestore(app),
+  storage: getStorage(app),
+  auth,
+  collection, addDoc, doc, updateDoc, query, orderBy, onSnapshot,
+  ref, uploadBytes, getDownloadURL
+};
+
+signInAnonymously(auth)
+  .then(() => window.dispatchEvent(new Event('firebase-ready')))
+  .catch((err) => {
+    console.error('Anonymous sign-in failed:', err);
+    window.dispatchEvent(new Event('firebase-ready'));
+  });
 </script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
