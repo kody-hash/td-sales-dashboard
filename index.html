@@ -362,27 +362,27 @@ signInAnonymously(auth)
     <div class="setter-grid">
       <div class="setter-card">
         <div class="label">WTD Setter Contacts</div>
-        <div class="value">0</div>
+        <div class="value">14</div>
       </div>
       <div class="setter-card">
         <div class="label">WTD Setter Passed Leads</div>
-        <div class="value">0</div>
+        <div class="value">7</div>
       </div>
       <div class="setter-card">
         <div class="label">WTD Setter % Passed</div>
-        <div class="value">N/A</div>
+        <div class="value">50.00%</div>
       </div>
       <div class="setter-card">
         <div class="label">MTD Setter Contacts</div>
-        <div class="value">53</div>
+        <div class="value">67</div>
       </div>
       <div class="setter-card">
         <div class="label">MTD Setter Passed Leads</div>
-        <div class="value">29</div>
+        <div class="value">36</div>
       </div>
       <div class="setter-card">
         <div class="label">MTD Setter % Passed</div>
-        <div class="value">54.72%</div>
+        <div class="value">53.73%</div>
       </div>
     </div>
 
@@ -863,30 +863,30 @@ signInAnonymously(auth)
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="label">WTD Setter Contacts</div>
-        <div class="value">0</div>
+        <div class="value">14</div>
       </div>
       <div class="kpi-card">
         <div class="label">WTD Setter Passed Leads</div>
-        <div class="value">0</div>
+        <div class="value">7</div>
       </div>
       <div class="kpi-card">
         <div class="label">WTD Setter % Passed</div>
-        <div class="value">N/A</div>
+        <div class="value">50.00%</div>
       </div>
     </div>
 
     <div class="kpi-grid" style="margin-top:15px;">
       <div class="kpi-card dark">
         <div class="label">MTD Setter Contacts</div>
-        <div class="value">53</div>
+        <div class="value">67</div>
       </div>
       <div class="kpi-card dark">
         <div class="label">MTD Setter Passed Leads</div>
-        <div class="value">29</div>
+        <div class="value">36</div>
       </div>
       <div class="kpi-card dark">
         <div class="label">MTD Setter % Passed</div>
-        <div class="value">54.72%</div>
+        <div class="value">53.73%</div>
       </div>
     </div>
 
@@ -897,9 +897,9 @@ signInAnonymously(auth)
           <tr><th>Period</th><th>Contacts</th><th>Total Leads</th><th>Contact Rate</th><th>Unique Leads Attempted to Contact</th><th>Avg / Business Day</th></tr>
         </thead>
         <tbody>
-          <tr><td>Last 7 Days</td><td>10</td><td>38</td><td>26.32%</td><td>65</td><td>13.0</td></tr>
-          <tr><td>Last 14 Days</td><td>36</td><td>90</td><td>40.00%</td><td>136</td><td>13.6</td></tr>
-          <tr><td>Last 30 Days</td><td>95</td><td>194</td><td>48.97%</td><td>240</td><td>10.9</td></tr>
+          <tr><td>Last 7 Days</td><td>24</td><td>38</td><td>63.16%</td><td>65</td><td>13.0</td></tr>
+          <tr><td>Last 14 Days</td><td>50</td><td>90</td><td>55.56%</td><td>136</td><td>13.6</td></tr>
+          <tr><td>Last 30 Days</td><td>109</td><td>194</td><td>56.19%</td><td>240</td><td>10.9</td></tr>
         </tbody>
       </table>
       <div style="margin-top:8px; font-size:12px; color:#64748b;">
@@ -1799,7 +1799,7 @@ new Chart(document.getElementById('setterChart'), {
   data: {
     labels: ['Passed', 'Not Passed'],
     datasets: [{
-      data: [29, 24],
+      data: [36, 31],
       backgroundColor: ['#C8102E', '#2d2d44'],
       borderWidth: 0
     }]
@@ -1809,11 +1809,11 @@ new Chart(document.getElementById('setterChart'), {
     maintainAspectRatio: false,
     plugins: {
       legend: { position: 'bottom' },
-      title: { display: true, text: 'MTD: 29 of 53 Contacts Passed (54.72%)', color: '#334155' }
+      title: { display: true, text: 'MTD: 36 of 67 Contacts Passed (53.73%)', color: '#334155' }
     }
   }
 });
-// Setter doughnut MTD values refreshed 2026-05-15 (29 passed of 53 = 54.72%).
+// Setter doughnut MTD values refreshed 2026-05-20 (36 passed of 67 = 53.73%, includes 5/18+5/19 from Slack corrective).
 
 // ===================== MARKETING CHARTS =====================
 const mktDates = ['5/1', '5/2', '5/3', '5/4', '5/5', '5/6', '5/7', '5/8', '5/9', '5/10', '5/11', '5/12', '5/13', '5/14', '5/15', '5/16', '5/17', '5/18', '5/19'];
