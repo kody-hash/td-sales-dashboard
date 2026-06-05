@@ -672,15 +672,24 @@
 
   // Sum today's box count from Form_Responses (handles fractional builds
   // when a cabinet is split across assemblers, e.g. 0.5 each).
+  // Column positions are read from the header row so the count survives
+  // edits to the Google Form (the layout drifted once: Completed? sits at
+  // col E / "boxes" at col G, with a Photo URL column wedged between them).
   function todaysBoxesBuilt(formRows) {
+    if (!formRows.length) return 0;
+    const header = formRows[0].map(h => String(h || '').toLowerCase());
+    let completedCol = header.findIndex(h => h.includes('completed?'));
+    let boxesCol = header.findIndex(h => h.includes('boxes'));
+    if (completedCol < 0) completedCol = 4;
+    if (boxesCol < 0) boxesCol = 6;
     let total = 0;
     for (let i = 1; i < formRows.length; i++) {
       const r = formRows[i];
       const ts = parseTimestamp(r[0]);
       if (!isToday(ts)) continue;
-      const completed = (r[5] || '').trim().toUpperCase();
+      const completed = (r[completedCol] || '').trim().toUpperCase();
       if (completed !== 'YES') continue;
-      const boxes = toNum(r[7]);
+      const boxes = toNum(r[boxesCol]);
       total += boxes > 0 ? boxes : 1;
     }
     return total;
