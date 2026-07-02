@@ -311,7 +311,7 @@ signInAnonymously(auth)
     <h1>KPI Dashboard</h1>
   </div>
   <div class="week-info">Week of 6/28/2026 &bull; Updated: <span id="updateTime"></span></div>
-  <!-- Refresh: 2026-06-29 Mon — WEEK ROLLOVER. Scoreboard Week Start advanced to 6/28/2026; new week just begun, nothing logged yet → all WTD measures = $0/0 (daily rev & quotes charts zeroed, weekly goals reset to 0% of goal). MTD/QTD/YTD unchanged from 6/28 close: MTD $501,162.20 (86 sales); QTD $1,386,020.91, YTD $2,517,720.02. Per-rep MTD/QTD/YTD revenue, close %, avg sale all unchanged. Setter MTD 198/69 (34.85%) unchanged. Assembler unchanged (MTD 1,048.5, YTD 4,447.5; pay period 6/6–6/19: Colton 119, Gustavo 117, Jesse 64, Adrian 139). Warehouse June 1050/870 (120.69%) unchanged (no weekend production). Returns / New Leads & Repeat Quotes / Setter Daily Passes tables unchanged. Weekly Revenue chart unchanged (latest complete week still 6/21). UPDATED THIS RUN: (1) CAC June Meta Spend $10,706.53→$11,143.49, CAC $509.83→$530.64, ROAS 7.6x→7.3x (21 closed, $81,661.43 closed — both unchanged). (2) Marketing extended through 6/28: MTD spend $11,107.63 / 240 meta leads (Avg Meta CPL $46.28), WICI 15, Total Leads 255, Avg Daily CPL All $43.55. (3) Days-since-$1K-sale [Jon4,Ron3,Jun3,Car3,Zach5]. (4) Pacer advanced to Day 90 / 60 days into M5-8 tier. FLAGS: Number_Input setter contact/call entries LAG (missing 6/8, 6/23–6/26 Alaina rows; June contacts 140 vs scoreboard 198) — Setter Contact-Rate & Unique-Outreach table left unchanged to avoid publishing a misleading sparse-window drop. Slack setter DM (D0AN13KBZNG) stopped daily replies after 6/15; 6/16–6/26 daily-pass cells were captured on prior refreshes and remain. Sources via CSV export / gviz. -->
+  <!-- Refresh: 2026-07-01 Wed — MONTH + QUARTER ROLLOVER. July begins; Q2 (Apr+May+Jun) complete, Q3 (Jul) starts. MTD Revenue $0 (July, nothing logged yet); QTD $0 (Q3=Jul). YTD $2,553,373.31 (up from $2,517,720.02 by the two new June days 6/29-30). June FINALIZED $536,815.49 / 93 sales (was mid-month $501,162.20/86). WTD (week of 6/28, in progress Mon-Tue) = $35,653.29 / 7 sales / 63.64% close / $5,093.33 avg — daily rev [Mon 19804.32, Tue 15848.97, Wed 0, 0, 0], quotes [8,3,0,0,0]. Per-rep MTD/QTD reset to $0/0/N-A; YTD revenue updated (Jon $777,810, Ronnie $769,920, Junior $311,318, Carel $590,534, Zach $103,791). Following June-1 rollover precedent: New Leads MTD reset to 0 (Calc col M holds stale June values → would produce negative Repeat Quotes); YTD New Leads/Repeat updated. Setter Passes daily switched to July 2026 (only 7/1 logged: Junior 1, Ronnie 1). Assembler MTD/QTD reset to 0 (July); YTD Colton 1374, Gustavo 1568.5, Jesse 907.5, Adrian 672 (team 4522); pay period 6/20-7/3: Colton 85, Gustavo 91, Jesse 13, Adrian 109. CAC board trued up (fresh Calc gviz): Jan 22/$279.39, Feb 29/$178.32, Mar 29/$233.93, Apr 23/$296.19, May 10/$698.22, Jun $11,989.01/20 closed/$599.45/6.8x. Days-since-$1K [Jon1,Ron1,Jun1,Car2,Zach7]. Pacer: 61 days into M5-8 tier; pre-tax YTD $2,342,544 (45.05%) vs tiered target $2,157,143 (41.48%) = +$185,401 AHEAD. Warehouse still shows June (source not rolled): finalized 1085/870 (124.71%), 51 del, 136 pickups. Marketing daily KEPT as June reference (July sheet empty). FLAGS: (1) Calc setter col M/scoreboard lag July — MTD setter cards use Slack-derived 7/1 (21 contacts, 2 passes). (2) Number_Input setter rows (col I/K) stale after ~6/22-6/23 → Setter Contact-Rate & Unique-Outreach table left at prior values (sparse-window). (3) Number_Input week 6/28 = $37,251.45 vs Calc WTD $35,653.29 (persistent Ronnie +$1,598.16 gap, also in Ronnie's col-G YTD) — used Calc scoreboard for WTD+weekly-chart consistency. Sources via CSV export / gviz. -->
 </div>
 
 <div class="container">
@@ -333,30 +333,30 @@ signInAnonymously(auth)
     <div class="kpi-grid">
       <div class="kpi-card" onclick="showPanel('revenue')">
         <div class="label">WTD Revenue</div>
-        <div class="value">$0.00</div>
+        <div class="value">$35,653.29</div>
         <div class="sub">week of 6/28</div>
       </div>
       <div class="kpi-card" onclick="showPanel('reps')">
         <div class="label">WTD Avg Sale</div>
-        <div class="value">N/A</div>
-        <div class="sub">0 sales this week</div>
+        <div class="value">$5,093.33</div>
+        <div class="sub">7 sales this week</div>
       </div>
       <div class="kpi-card" onclick="showPanel('reps')">
         <div class="label">WTD Close %</div>
-        <div class="value">0.00%</div>
+        <div class="value">63.64%</div>
       </div>
       <div class="kpi-card" onclick="showPanel('revenue')">
         <div class="label">MTD Revenue</div>
-        <div class="value">$501,162.20</div>
-        <div class="sub">June to date</div>
+        <div class="value">$0.00</div>
+        <div class="sub">July to date</div>
       </div>
       <div class="kpi-card" onclick="showPanel('revenue')">
         <div class="label">QTD Revenue</div>
-        <div class="value">$1,386,020.91</div>
+        <div class="value">$0.00</div>
       </div>
       <div class="kpi-card" onclick="showPanel('revenue')">
         <div class="label">YTD Revenue</div>
-        <div class="value">$2,517,720.02</div>
+        <div class="value">$2,553,373.31</div>
       </div>
     </div>
 
@@ -364,41 +364,41 @@ signInAnonymously(auth)
     <div class="setter-grid">
       <div class="setter-card">
         <div class="label">WTD Setter Contacts</div>
-        <div class="value">0</div>
+        <div class="value">16</div>
       </div>
       <div class="setter-card">
         <div class="label">WTD Setter Passed Leads</div>
-        <div class="value">0</div>
+        <div class="value">9</div>
       </div>
       <div class="setter-card">
         <div class="label">WTD Setter % Passed</div>
-        <div class="value">0.00%</div>
+        <div class="value">56.25%</div>
       </div>
       <div class="setter-card">
         <div class="label">MTD Setter Contacts</div>
-        <div class="value">198</div>
+        <div class="value">21</div>
       </div>
       <div class="setter-card">
         <div class="label">MTD Setter Passed Leads</div>
-        <div class="value">69</div>
+        <div class="value">2</div>
       </div>
       <div class="setter-card">
         <div class="label">MTD Setter % Passed</div>
-        <div class="value">34.85%</div>
+        <div class="value">9.52%</div>
       </div>
     </div>
 
     <!-- Leader Cards -->
     <div class="leader-grid">
       <div class="leader-card">
-        <div class="label">Total Rev Leader MTD</div>
-        <div class="name">Jon Hutton</div>
-        <div style="color:#1a1a2e; font-size:18px; font-weight:700; margin-top:6px;">$146,142</div>
+        <div class="label">Total Rev Leader WTD</div>
+        <div class="name">Carel H</div>
+        <div style="color:#1a1a2e; font-size:18px; font-weight:700; margin-top:6px;">$12,508</div>
       </div>
       <div class="leader-card">
-        <div class="label">Highest Avg Sale Leader MTD</div>
+        <div class="label">Highest Avg Sale Leader WTD</div>
         <div class="name">Carel H</div>
-        <div style="color:#1a1a2e; font-size:18px; font-weight:700; margin-top:6px;">$8,438</div>
+        <div style="color:#1a1a2e; font-size:18px; font-weight:700; margin-top:6px;">$12,508</div>
       </div>
     </div>
 
@@ -409,24 +409,24 @@ signInAnonymously(auth)
         <thead><tr><th>Metric</th><th>Target</th><th>Actual</th><th>Progress</th><th></th></tr></thead>
         <tbody>
           <tr>
-            <td>Total Quotes</td><td>55</td><td>0</td><td>0.00%</td>
-            <td><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:0%"></div></div></td>
+            <td>Total Quotes</td><td>55</td><td>11</td><td>20.00%</td>
+            <td><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:20%"></div></div></td>
           </tr>
           <tr>
-            <td>Follow Ups</td><td>75</td><td>0</td><td>0.00%</td>
-            <td><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:0%"></div></div></td>
+            <td>Follow Ups</td><td>75</td><td>50</td><td>66.67%</td>
+            <td><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:66.67%"></div></div></td>
           </tr>
           <tr>
-            <td>Revenue</td><td>$109,000.00</td><td>$0.00</td><td>0.00%</td>
-            <td><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:0%"></div></div></td>
+            <td>Revenue</td><td>$109,000.00</td><td>$35,653.29</td><td>32.71%</td>
+            <td><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:32.71%"></div></div></td>
           </tr>
           <tr>
-            <td>Avg Sale</td><td>$6,300.00</td><td>$0.00</td><td>0.00%</td>
-            <td><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:0%"></div></div></td>
+            <td>Avg Sale</td><td>$6,300.00</td><td>$5,093.33</td><td>80.85%</td>
+            <td><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:80.85%"></div></div></td>
           </tr>
           <tr>
-            <td>Same Day Quote %</td><td>90.00%</td><td>0.00%</td><td>0.00%</td>
-            <td><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:0%"></div></div></td>
+            <td>Same Day Quote %</td><td>90.00%</td><td>44.44%</td><td>49.38%</td>
+            <td><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:49.38%"></div></div></td>
           </tr>
         </tbody>
       </table>
@@ -456,11 +456,11 @@ signInAnonymously(auth)
             <tr><th>Sales Rep</th><th>WTD Quotes</th><th>WTD Sales</th><th>WTD Follow Ups</th></tr>
           </thead>
           <tbody>
-            <tr><td>Jon Hutton</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>Ronnie U</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>Junior G</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>Carel H</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>Zach B</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>Jon Hutton</td><td>3</td><td>3</td><td>1</td></tr>
+            <tr><td>Ronnie U</td><td>0</td><td>2</td><td>0</td></tr>
+            <tr><td>Junior G</td><td>4</td><td>1</td><td>32</td></tr>
+            <tr><td>Carel H</td><td>2</td><td>1</td><td>2</td></tr>
+            <tr><td>Zach B</td><td>2</td><td>0</td><td>15</td></tr>
           </tbody>
         </table>
       </div>
@@ -472,11 +472,11 @@ signInAnonymously(auth)
             <tr><th>Sales Rep</th><th>MTD Quotes</th><th>MTD Sales</th><th>MTD Follow Ups</th></tr>
           </thead>
           <tbody>
-            <tr><td>Jon Hutton</td><td>71</td><td>27</td><td>82</td></tr>
-            <tr><td>Ronnie U</td><td>52</td><td>22</td><td>96</td></tr>
-            <tr><td>Junior G</td><td>45</td><td>10</td><td>196</td></tr>
-            <tr><td>Carel H</td><td>35</td><td>14</td><td>50</td></tr>
-            <tr><td>Zach B</td><td>43</td><td>13</td><td>157</td></tr>
+            <tr><td>Jon Hutton</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>Ronnie U</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>Junior G</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>Carel H</td><td>0</td><td>0</td><td>0</td></tr>
+            <tr><td>Zach B</td><td>0</td><td>0</td><td>0</td></tr>
           </tbody>
         </table>
       </div>
@@ -488,11 +488,11 @@ signInAnonymously(auth)
             <tr><th>Sales Rep</th><th>WTD Rev</th><th>MTD Rev</th><th>QTD Rev</th><th>YTD Rev</th></tr>
           </thead>
           <tbody>
-            <tr><td>Jon Hutton</td><td>$0</td><td>$146,142</td><td>$398,973</td><td>$768,139</td></tr>
-            <tr><td>Ronnie U</td><td>$0</td><td>$136,356</td><td>$407,606</td><td>$761,736</td></tr>
-            <tr><td>Junior G</td><td>$0</td><td>$56,970</td><td>$213,482</td><td>$306,285</td></tr>
-            <tr><td>Carel H</td><td>$0</td><td>$118,130</td><td>$286,720</td><td>$578,026</td></tr>
-            <tr><td>Zach B</td><td>$0</td><td>$43,564</td><td>$79,240</td><td>$103,534</td></tr>
+            <tr><td>Jon Hutton</td><td>$9,671</td><td>$0</td><td>$0</td><td>$777,810</td></tr>
+            <tr><td>Ronnie U</td><td>$8,184</td><td>$0</td><td>$0</td><td>$769,920</td></tr>
+            <tr><td>Junior G</td><td>$5,034</td><td>$0</td><td>$0</td><td>$311,318</td></tr>
+            <tr><td>Carel H</td><td>$12,508</td><td>$0</td><td>$0</td><td>$590,534</td></tr>
+            <tr><td>Zach B</td><td>$257</td><td>$0</td><td>$0</td><td>$103,791</td></tr>
           </tbody>
         </table>
       </div>
@@ -504,11 +504,11 @@ signInAnonymously(auth)
             <tr><th>Sales Rep</th><th>WTD</th><th>MTD</th><th>QTD</th><th>YTD</th></tr>
           </thead>
           <tbody>
-            <tr><td>Jon Hutton</td><td>0.00%</td><td>38.03%</td><td>41.33%</td><td>37.35%</td></tr>
-            <tr><td>Ronnie U</td><td>0.00%</td><td>42.31%</td><td>43.54%</td><td>37.65%</td></tr>
-            <tr><td>Junior G</td><td>0.00%</td><td>22.22%</td><td>32.74%</td><td>27.89%</td></tr>
-            <tr><td>Carel H</td><td>0.00%</td><td>40.00%</td><td>45.54%</td><td>38.80%</td></tr>
-            <tr><td>Zach B</td><td>0.00%</td><td>30.23%</td><td>20.34%</td><td>15.15%</td></tr>
+            <tr><td>Jon Hutton</td><td>100.00%</td><td>0.00%</td><td>0.00%</td><td>37.79%</td></tr>
+            <tr><td>Ronnie U</td><td>0.00%</td><td>0.00%</td><td>0.00%</td><td>38.24%</td></tr>
+            <tr><td>Junior G</td><td>25.00%</td><td>0.00%</td><td>0.00%</td><td>27.84%</td></tr>
+            <tr><td>Carel H</td><td>50.00%</td><td>0.00%</td><td>0.00%</td><td>38.89%</td></tr>
+            <tr><td>Zach B</td><td>0.00%</td><td>0.00%</td><td>0.00%</td><td>15.00%</td></tr>
           </tbody>
         </table>
       </div>
@@ -520,11 +520,11 @@ signInAnonymously(auth)
             <tr><th>Sales Rep</th><th>WTD</th><th>MTD</th><th>QTD</th><th>YTD</th></tr>
           </thead>
           <tbody>
-            <tr><td>Jon Hutton</td><td>N/A</td><td>$5,413</td><td>$4,926</td><td>$4,862</td></tr>
-            <tr><td>Ronnie U</td><td>N/A</td><td>$6,198</td><td>$6,369</td><td>$5,951</td></tr>
-            <tr><td>Junior G</td><td>N/A</td><td>$5,697</td><td>$5,770</td><td>$5,779</td></tr>
-            <tr><td>Carel H</td><td>N/A</td><td>$8,438</td><td>$6,233</td><td>$5,959</td></tr>
-            <tr><td>Zach B</td><td>N/A</td><td>$3,351</td><td>$3,302</td><td>$3,451</td></tr>
+            <tr><td>Jon Hutton</td><td>$3,224</td><td>N/A</td><td>N/A</td><td>$4,831</td></tr>
+            <tr><td>Ronnie U</td><td>$4,092</td><td>N/A</td><td>N/A</td><td>$5,845</td></tr>
+            <tr><td>Junior G</td><td>$5,034</td><td>N/A</td><td>N/A</td><td>$5,765</td></tr>
+            <tr><td>Carel H</td><td>$12,508</td><td>N/A</td><td>N/A</td><td>$6,026</td></tr>
+            <tr><td>Zach B</td><td>N/A</td><td>N/A</td><td>N/A</td><td>$3,460</td></tr>
           </tbody>
         </table>
       </div>
@@ -533,15 +533,15 @@ signInAnonymously(auth)
         <h2 class="section-title">Returns by Rep</h2>
         <table class="rep-table">
           <thead>
-            <tr><th>Sales Rep</th><th>Apr</th><th>May</th><th>Jun</th><th>YTD</th></tr>
+            <tr><th>Sales Rep</th><th>May</th><th>Jun</th><th>Jul</th><th>YTD</th></tr>
           </thead>
           <tbody id="returnsTableBody">
-            <tr><td>Jon Hutton</td><td>7</td><td>10</td><td>0</td><td>26</td></tr>
+            <tr><td>Jon Hutton</td><td>10</td><td>0</td><td>0</td><td>26</td></tr>
             <tr><td>Ronnie U</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-            <tr><td>Junior G</td><td>1</td><td>5</td><td>0</td><td>9</td></tr>
-            <tr><td>Carel H</td><td>15</td><td>1</td><td>0</td><td>33</td></tr>
+            <tr><td>Junior G</td><td>5</td><td>0</td><td>0</td><td>9</td></tr>
+            <tr><td>Carel H</td><td>1</td><td>0</td><td>0</td><td>33</td></tr>
             <tr><td>Zach B</td><td>0</td><td>0</td><td>0</td><td>2</td></tr>
-            <!-- Returns: cabinet counts (column H), skip accessories (H=0 or blank); 3-month window Apr/May/Jun (June still 0 as of 6/26, no June return rows). Tracking began March 2026. YTD = Mar+Apr+May+Jun. Mar by rep: Jon9 Junior3 Carel17 Zach2; Ronnie none all year. Source via CSV export (gviz endpoint was stale-cached). 2026-06-26 CORRECTION: Junior May 8→5, YTD 12→9 — the 5/12 row has H="3 accessories" (accessory-only, counts 0 per skill rule); the 6/25 refresh over-counted it as 3 cabinets. -->
+            <!-- Returns: cabinet counts (column H), skip accessories (H=0 or blank); 3-month rolling window shifted to May/Jun/Jul on 2026-07-01 rollover (Jun AND Jul both 0 for all reps — no June or July return rows exist). Tracking began March 2026. YTD = Mar+Apr+May+Jun+Jul. Mar by rep: Jon9 Junior3 Carel17 Zach2; Apr: Jon7 Junior1 Carel15; Ronnie none all year. Source via CSV export (gviz endpoint was stale-cached). -->
         </table>
       </div>
 
@@ -552,47 +552,48 @@ signInAnonymously(auth)
             <tr><th>Sales Rep</th><th>MTD New Leads</th><th>MTD Repeat Quotes</th><th>YTD New Leads</th><th>YTD Repeat Quotes</th></tr>
           </thead>
           <tbody id="leadsReceivedTableBody">
-            <tr><td>Jon Hutton</td><td>4</td><td>67</td><td>54</td><td>369</td></tr>
-            <tr><td>Ronnie U</td><td>19</td><td>33</td><td>110</td><td>230</td></tr>
-            <tr><td>Junior G</td><td>26</td><td>19</td><td>153</td><td>37</td></tr>
-            <tr><td>Carel H</td><td>15</td><td>20</td><td>108</td><td>142</td></tr>
-            <tr><td>Zach B</td><td>32</td><td>11</td><td>129</td><td>69</td></tr>
-            <!-- New Leads = Setter Passed + Walk-Ins + Call-Ins (manual rollup from Calc L11:N15, col M=MTD, col N=YTD). Repeat Quotes = Total Quotes − New Leads (MTD Quotes from O-block col P; YTD Quotes from left col H). NOTE (2026-06-28): MTD New Leads sum = 96 (Jon4+Ron19+Jun26+Car15+Zach32); exceeds scoreboard Setter Passed MTD = 69 by 27 WI/CI leads (col M rolls up all intake channels). All Repeat Quotes ≥ 0. -->
+            <tr><td>Jon Hutton</td><td>0</td><td>0</td><td>55</td><td>371</td></tr>
+            <tr><td>Ronnie U</td><td>0</td><td>0</td><td>116</td><td>224</td></tr>
+            <tr><td>Junior G</td><td>0</td><td>0</td><td>158</td><td>36</td></tr>
+            <tr><td>Carel H</td><td>0</td><td>0</td><td>112</td><td>140</td></tr>
+            <tr><td>Zach B</td><td>0</td><td>0</td><td>135</td><td>65</td></tr>
+            <!-- New Leads = Setter Passed + Walk-Ins + Call-Ins (manual rollup from Calc L11:N15, col M=MTD, col N=YTD). Repeat Quotes = Total Quotes − New Leads (MTD Quotes from O-block col P; YTD Quotes from left col H). 2026-07-01 MONTH ROLLOVER: MTD New Leads reset to 0 for all reps — Calc col M still holds stale June values (Jon5 Ron24 Jun31 Car18 Zach37) while MTD Total Quotes = 0 (July not yet logged), so using them would produce negative Repeat Quotes. Follows the June-1 rollover precedent; recompute once July quotes post to Calc. YTD: New Leads (col N) Jon55 Ron116 Jun158 Car112 Zach135; YTD Total Quotes (left col H) Jon426 Ron340 Jun194 Car252 Zach200; Repeat = Quotes − New, all ≥ 0. -->
           </tbody>
         </table>
       </div>
 
       <div class="table-block">
-        <h2 class="section-title">Setter Passes by Rep &mdash; Daily (June 2026)</h2>
+        <h2 class="section-title">Setter Passes by Rep &mdash; Daily (July 2026)</h2>
         <table class="rep-table daily-grid">
           <thead>
             <tr><th>Day</th><th>Jon</th><th>Ronnie</th><th>Junior</th><th>Carel</th><th>Zach</th></tr>
           </thead>
           <tbody id="setterPassesDailyBody">
-            <tr><td>Mon 1</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Tue 2</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Wed 3</td><td></td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
-            <tr><td>Thu 4</td><td></td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
-            <tr><td>Fri 5</td><td>1</td><td></td><td>2</td><td>3</td><td>2</td></tr>
-            <tr><td>Mon 8</td><td></td><td>1</td><td>2</td><td>1</td><td>3</td></tr>
-            <tr><td>Tue 9</td><td>1</td><td>2</td><td>1</td><td></td><td>1</td></tr>
-            <tr><td>Wed 10</td><td></td><td>2</td><td>1</td><td></td><td>1</td></tr>
-            <tr><td>Thu 11</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Fri 12</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Mon 15</td><td></td><td>3</td><td>2</td><td>3</td><td>2</td></tr>
-            <tr><td>Tue 16</td><td>1</td><td></td><td>1</td><td>2</td><td>1</td></tr>
-            <tr><td>Wed 17</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Thu 18</td><td>1</td><td>1</td><td>1</td><td>2</td><td>1</td></tr>
-            <tr><td>Fri 19</td><td>1</td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Mon 22</td><td></td><td></td><td>2</td><td>2</td><td>2</td></tr>
-            <tr><td>Tue 23</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Wed 24</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Thu 25</td><td></td><td></td><td></td><td>2</td><td>1</td></tr>
-            <tr><td>Fri 26</td><td>1</td><td>1</td><td>2</td><td></td><td>1</td></tr>
-            <tr><td>Mon 29</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr><td>Tue 30</td><td></td><td></td><td></td><td></td><td></td></tr>
-            <tr class="daily-total"><td>Total</td><td>6</td><td>12</td><td>18</td><td>19</td><td>19</td></tr>
-            <!-- Source: setter's daily Slack messages in DM with Kody (channel D0AN13KBZNG; setter is now Derek Gilroy, same user U0AMR49U82X). Weekdays only (Sat/Sun omitted). 6/1 & 6/2: no reply (0 passes). 6/3: Ronnie1 Junior2 Carel2 Zach2. 6/4: Ronnie1 Junior2 Carel2 Zach2. 6/5: Jon1 Junior2 Carel3 Zach2. 6/8: Ronnie1 Junior2 Carel1 Zach3. 6/9: Jon1 Ronnie2 Junior1 Zach1 (6/10 msg "For 6/9: Ronnie 2" restates Ronnie=2 to reconcile Passed:5). 6/10: Ronnie2 Junior1 Zach1. 6/11 & 6/12: no reply. 6/15: Ronnie3 Junior2 Carel3 Zach2 (contacts corrected 20→23). 6/16: Jon1 Junior1 Carel2 Zach1. 6/17: no reply. 6/18: Jon1 Ronnie1 Junior1 Carel2 Zach1. 6/19: Jon1. 6/22: Junior2 Carel2 Zach2 (Passed:6). 6/23 & 6/24: no reply. 6/25: Carel2 Zach1 (Passes:3). 6/26: Jon1 Ronnie1 Junior2 Zach1 (Passes:5). (5/28 correction in the 6/3 message belongs to May, excluded.) DISCREPANCY: Slack-derived MTD passes total = 74 (incl 6/26), but scoreboard Setter Passed MTD = 69 — Calc manual entry lags 6/26's 5 passes (flagged in refresh output). Setter KPI cards use the authoritative scoreboard value (69). -->
+            <tr><td>Wed 1</td><td></td><td>1</td><td>1</td><td></td><td></td></tr>
+            <tr><td>Thu 2</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fri 3</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Mon 6</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Tue 7</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Wed 8</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Thu 9</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fri 10</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Mon 13</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Tue 14</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Wed 15</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Thu 16</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fri 17</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Mon 20</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Tue 21</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Wed 22</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Thu 23</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fri 24</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Mon 27</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Tue 28</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Wed 29</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Thu 30</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Fri 31</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="daily-total"><td>Total</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+            <!-- Source: setter's daily Slack messages in DM with Kody (channel D0AN13KBZNG; setter is Derek Gilroy, user U0AMR49U82X). Weekdays only (Sat/Sun omitted). July 2026 to date: 7/1 Wed — Contacts 21, Passes 2 (Ronnie 1, Junior 1). 7/2 & 7/3 not yet occurred. Total passes 2 (Ronnie1 Junior1). This matches July MTD Setter Passed = 2 (Slack-derived) shown on the Setter cards. NOTE: Calc scoreboard setter (col M) still holds stale June MTD values — flagged; setter KPI cards use the Slack July figures. For reference, June daily passes (rolled off): 6/29 (Ron3 Zach2 Car2 Jun2=9), 6/30 (Ron3 Zach3 Jun3 Car3=12). -->
           </tbody>
         </table>
       </div>
@@ -643,28 +644,28 @@ signInAnonymously(auth)
     <div class="kpi-grid" style="margin-bottom:25px;">
       <div class="kpi-card">
         <div class="label">Total Quotes</div>
-        <div class="value">0 / 55</div>
-        <div class="sub">0.00% of goal</div>
+        <div class="value">11 / 55</div>
+        <div class="sub">20.00% of goal</div>
       </div>
       <div class="kpi-card">
         <div class="label">Follow Ups</div>
-        <div class="value">0 / 75</div>
-        <div class="sub">0.00% of goal</div>
+        <div class="value">50 / 75</div>
+        <div class="sub">66.67% of goal</div>
       </div>
       <div class="kpi-card">
         <div class="label">Revenue</div>
-        <div class="value">$0 / $109K</div>
-        <div class="sub">0.00% of goal</div>
+        <div class="value">$35,653 / $109K</div>
+        <div class="sub">32.71% of goal</div>
       </div>
       <div class="kpi-card">
         <div class="label">Avg Sale</div>
-        <div class="value">$0 / $6,300</div>
-        <div class="sub">0.00% of goal</div>
+        <div class="value">$5,093 / $6,300</div>
+        <div class="sub">80.85% of goal</div>
       </div>
       <div class="kpi-card">
         <div class="label">Same Day Quote %</div>
-        <div class="value">0.00% / 90%</div>
-        <div class="sub">0.00% of goal</div>
+        <div class="value">44.44% / 90%</div>
+        <div class="sub">49.38% of goal</div>
       </div>
     </div>
 
@@ -682,22 +683,22 @@ signInAnonymously(auth)
     <div class="kpi-grid" style="margin-bottom:18px;">
       <div class="kpi-card">
         <div class="label">WTD Revenue</div>
-        <div class="value">$0.00</div>
+        <div class="value">$35,653.29</div>
         <div class="sub">incl. 9% tax · week of 6/28</div>
       </div>
       <div class="kpi-card">
         <div class="label">MTD Revenue</div>
-        <div class="value">$501,162.20</div>
-        <div class="sub">incl. 9% tax</div>
+        <div class="value">$0.00</div>
+        <div class="sub">incl. 9% tax · July to date</div>
       </div>
       <div class="kpi-card">
-        <div class="label">QTD Revenue (Q2)</div>
-        <div class="value">$1,386,020.91</div>
-        <div class="sub">Apr + May + Jun to date</div>
+        <div class="label">QTD Revenue (Q3)</div>
+        <div class="value">$0.00</div>
+        <div class="sub">Jul to date</div>
       </div>
       <div class="kpi-card">
         <div class="label">YTD Revenue</div>
-        <div class="value">$2,517,720.02</div>
+        <div class="value">$2,553,373.31</div>
         <div class="sub">incl. 9% tax</div>
       </div>
     </div>
@@ -705,19 +706,19 @@ signInAnonymously(auth)
     <!-- Quarter comparison -->
     <div class="kpi-grid" style="margin-bottom:25px;">
       <div class="kpi-card dark">
-        <div class="label">Last QTD Revenue (Q1 Total)</div>
-        <div class="value">$1,131,699.11</div>
-        <div class="sub">Jan + Feb + Mar &middot; final</div>
+        <div class="label">Last QTD Revenue (Q2 Total)</div>
+        <div class="value">$1,421,674.20</div>
+        <div class="sub">Apr + May + Jun &middot; final</div>
       </div>
       <div class="kpi-card dark">
-        <div class="label">Q2 Pace vs Q1 at Day 90</div>
-        <div class="value">+22.47%</div>
-        <div class="sub">$1,386,021 actual vs $1,131,699 pace</div>
+        <div class="label">Q2 Total vs Q1 Total</div>
+        <div class="value">+25.62%</div>
+        <div class="sub">$1,421,674 vs $1,131,699 &middot; Q3 just started</div>
       </div>
       <div class="kpi-card dark">
-        <div class="label">Q2 Daily Avg</div>
-        <div class="value">$15,400</div>
-        <div class="sub">90 days into Q2</div>
+        <div class="label">Q3 QTD Daily Avg</div>
+        <div class="value">$0</div>
+        <div class="sub">1 day into Q3 (Jul)</div>
       </div>
     </div>
 
@@ -750,9 +751,9 @@ signInAnonymously(auth)
             <div style="font-size:10px; font-weight:700; color:#fff; background:#22c55e; padding:3px 8px; border-radius:10px;">COMPLETE</div>
           </div>
           <div style="font-size:22px; font-weight:700; color:#1a1a2e;">$75K<span style="font-size:13px; font-weight:500; color:#64748b;">/wk</span></div>
-          <div style="font-size:11px; color:#64748b; margin-top:6px;">Target: $1,285,714 &middot; Actual: <strong style="color:#16a34a;">$1,406,134</strong></div>
-          <div style="font-size:11px; font-weight:700; color:#16a34a; margin-top:2px;">+$120,420 (+9.37%) ahead</div>
-          <!-- COMPLETE: Jan-Apr (120 days/7 x $75K = $1,285,714); actual pre-tax $1,406,134 -->
+          <div style="font-size:11px; color:#64748b; margin-top:6px;">Target: $1,285,714 &middot; Actual: <strong style="color:#16a34a;">$1,406,133</strong></div>
+          <div style="font-size:11px; font-weight:700; color:#16a34a; margin-top:2px;">+$120,419 (+9.37%) ahead</div>
+          <!-- COMPLETE: Jan-Apr (120 days/7 x $75K = $1,285,714); actual pre-tax $1,406,133 -->
         </div>
         <div style="padding:16px; background:#fef2f2; border:2px solid #C8102E; border-radius:10px;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
@@ -760,8 +761,8 @@ signInAnonymously(auth)
             <div style="font-size:10px; font-weight:700; color:#fff; background:#C8102E; padding:3px 8px; border-radius:10px;">CURRENT</div>
           </div>
           <div style="font-size:22px; font-weight:700; color:#1a1a2e;">$100K<span style="font-size:13px; font-weight:500; color:#64748b;">/wk</span></div>
-          <div style="font-size:11px; color:#64748b; margin-top:6px;">May complete + Jun to-date target: $857,143 &middot; Actual: <strong style="color:#16a34a;">$903,702</strong></div>
-          <div style="font-size:11px; font-weight:700; color:#16a34a; margin-top:2px;">+$46,559 (+5.43%) ahead (60 days in)</div>
+          <div style="font-size:11px; color:#64748b; margin-top:6px;">May + Jun complete target: $871,429 &middot; Actual: <strong style="color:#16a34a;">$936,410</strong></div>
+          <div style="font-size:11px; font-weight:700; color:#16a34a; margin-top:2px;">+$64,982 (+7.46%) ahead (61 days in)</div>
         </div>
         <div style="padding:16px; background:#f8f9fb; border:2px solid #cbd5e1; border-radius:10px;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
@@ -777,38 +778,38 @@ signInAnonymously(auth)
       <!-- Pre-tax progress bar with TIERED pacer marker -->
       <div style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:baseline;">
         <span style="font-size:13px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:1px;">Pre-tax Progress vs Tiered Pace</span>
-        <span style="font-size:22px; font-weight:700; color:#16a34a;">44.42% &middot; AHEAD</span>
+        <span style="font-size:22px; font-weight:700; color:#16a34a;">45.05% &middot; AHEAD</span>
       </div>
       <div style="position:relative; height:42px; background:#eceef3; border-radius:21px; overflow:hidden; margin-bottom:8px;">
-        <div style="position:absolute; left:0; top:0; height:100%; width:44.42%; background:linear-gradient(90deg,#16a34a,#22c55e); border-radius:21px 0 0 21px; display:flex; align-items:center; padding-left:14px; color:#fff; font-weight:700; font-size:13px;">$2,309,835</div>
-        <div style="position:absolute; left:41.21%; top:-6px; bottom:-6px; width:3px; background:#1a1a2e; z-index:2;"></div>
-        <div style="position:absolute; left:41.21%; top:-22px; transform:translateX(-50%); font-size:10px; font-weight:700; color:#1a1a2e; white-space:nowrap;">TIERED PACE &darr;</div>
+        <div style="position:absolute; left:0; top:0; height:100%; width:45.05%; background:linear-gradient(90deg,#16a34a,#22c55e); border-radius:21px 0 0 21px; display:flex; align-items:center; padding-left:14px; color:#fff; font-weight:700; font-size:13px;">$2,342,544</div>
+        <div style="position:absolute; left:41.48%; top:-6px; bottom:-6px; width:3px; background:#1a1a2e; z-index:2;"></div>
+        <div style="position:absolute; left:41.48%; top:-22px; transform:translateX(-50%); font-size:10px; font-weight:700; color:#1a1a2e; white-space:nowrap;">TIERED PACE &darr;</div>
       </div>
       <div style="display:flex; justify-content:space-between; font-size:12px; color:#64748b; margin-bottom:18px;">
         <span>$0</span>
-        <span>Tiered target by today: <strong style="color:#1a1a2e;">$2,142,857</strong> (M1-4 done + 60 days of M5-8)</span>
+        <span>Tiered target by today: <strong style="color:#1a1a2e;">$2,157,143</strong> (M1-4 done + 61 days of M5-8)</span>
         <span>$5.2M</span>
       </div>
 
       <!-- Pre-tax / Tax composition of YTD actual -->
       <div style="font-size:13px; color:#64748b; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">YTD Revenue Composition</div>
       <div style="display:flex; height:48px; border-radius:10px; overflow:hidden; box-shadow:inset 0 0 0 1px #e2e4ea; margin-bottom:10px;">
-        <div style="background:linear-gradient(135deg,#2d2d44,#475569); flex: 2309834.88 1 0; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:14px;">
-          Pre-tax $2,309,834.88
+        <div style="background:linear-gradient(135deg,#2d2d44,#475569); flex: 2342544.32 1 0; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:14px;">
+          Pre-tax $2,342,544.32
         </div>
-        <div style="background:linear-gradient(135deg,#A0171C,#C8102E); flex: 207885.14 1 0; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:13px; min-width:140px;">
-          Tax $207,885.14
+        <div style="background:linear-gradient(135deg,#A0171C,#C8102E); flex: 210828.99 1 0; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:13px; min-width:140px;">
+          Tax $210,828.99
         </div>
       </div>
       <div style="text-align:center; font-size:13px; color:#64748b;">
-        Total YTD: <strong style="color:#1a1a2e; font-size:16px;">$2,517,720.02</strong>
+        Total YTD: <strong style="color:#1a1a2e; font-size:16px;">$2,553,373.31</strong>
       </div>
 
       <!-- Status bar -->
       <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-top:20px; padding-top:20px; border-top:1px solid #eceef3;">
         <div>
           <div style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px;">Variance to Tiered Pace</div>
-          <div style="font-size:18px; font-weight:700; color:#16a34a;">+$166,978</div>
+          <div style="font-size:18px; font-weight:700; color:#16a34a;">+$185,401</div>
           <div style="font-size:11px; color:#64748b;">pre-tax ahead</div>
         </div>
         <div>
@@ -818,12 +819,12 @@ signInAnonymously(auth)
         </div>
         <div>
           <div style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px;">Remaining Pre-tax</div>
-          <div style="font-size:18px; font-weight:700; color:#1a1a2e;">$2,890,165</div>
-          <div style="font-size:11px; color:#64748b;">to hit $5.2M (185 days)</div>
+          <div style="font-size:18px; font-weight:700; color:#1a1a2e;">$2,857,456</div>
+          <div style="font-size:11px; color:#64748b;">to hit $5.2M (183 days)</div>
         </div>
         <div>
           <div style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px;">If Tiered Pace Holds</div>
-          <div style="font-size:18px; font-weight:700; color:#16a34a;">$5,388,406</div>
+          <div style="font-size:18px; font-weight:700; color:#16a34a;">$5,406,830</div>
           <div style="font-size:11px; color:#64748b;">projected EOY pre-tax</div>
         </div>
       </div>
@@ -845,7 +846,7 @@ signInAnonymously(auth)
         <tr><td>March</td><td>$442,306.25</td><td>$405,785.55</td><td>80</td></tr>
         <tr><td>April</td><td>$400,986.98</td><td>$367,877.96</td><td>80</td></tr>
         <tr><td>May</td><td>$483,871.73</td><td>$443,919.02</td><td>86</td></tr>
-        <tr><td>June</td><td>$501,162.20</td><td>$459,781.83</td><td>86</td></tr>
+        <tr><td>June</td><td>$536,815.49</td><td>$492,491.28</td><td>93</td></tr>
       </tbody>
     </table>
 
@@ -868,30 +869,33 @@ signInAnonymously(auth)
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="label">WTD Setter Contacts</div>
-        <div class="value">0</div>
+        <div class="value">16</div>
       </div>
       <div class="kpi-card">
         <div class="label">WTD Setter Passed Leads</div>
-        <div class="value">0</div>
+        <div class="value">9</div>
       </div>
       <div class="kpi-card">
         <div class="label">WTD Setter % Passed</div>
-        <div class="value">0.00%</div>
+        <div class="value">56.25%</div>
       </div>
     </div>
 
     <div class="kpi-grid" style="margin-top:15px;">
       <div class="kpi-card dark">
         <div class="label">MTD Setter Contacts</div>
-        <div class="value">198</div>
+        <div class="value">21</div>
+        <div class="sub">July to date (7/1)</div>
       </div>
       <div class="kpi-card dark">
         <div class="label">MTD Setter Passed Leads</div>
-        <div class="value">69</div>
+        <div class="value">2</div>
+        <div class="sub">July to date (7/1)</div>
       </div>
       <div class="kpi-card dark">
         <div class="label">MTD Setter % Passed</div>
-        <div class="value">34.85%</div>
+        <div class="value">9.52%</div>
+        <div class="sub">2 of 21 · Slack-derived</div>
       </div>
     </div>
 
@@ -902,7 +906,7 @@ signInAnonymously(auth)
           <tr><th>Period</th><th>Contacts</th><th>Total Leads</th><th>Contact Rate</th><th>Unique Leads Attempted to Contact</th><th>Avg / Business Day</th></tr>
         </thead>
         <tbody>
-          <!-- 2026-06-29 NOT RECOMPUTED: Number_Input setter rows (col I/K) lag — Alaina rows for 6/8 and 6/23–6/26 are missing and June contacts there sum to 140 vs scoreboard MTD 198. A fresh last-7-day window (6/22–6/28) would capture only 6/22, producing a misleading 13 contacts / 17 unique / 24% rate. Values below are from the 2026-06-28 refresh (fuller data); recompute once the sheet's setter entries catch up. -->
+          <!-- 2026-07-01 NOT RECOMPUTED: Number_Input setter rows (col I/K) are stale after ~6/22–6/23 (no rows for 6/24 onward; placeholder 7/10 rows are empty). A fresh last-7-day window (6/25–7/1) captures 0 rows → 0 contacts/0 unique; the 14- and 30-day windows are also sparse (3–4 and 12–15 populated days). Recomputing would publish a misleading collapse. Values below are held from the 2026-06-28 refresh (fuller data); recompute once the sheet's setter entries catch up. -->
           <tr><td>Last 7 Days</td><td>50</td><td>52</td><td>96.15%</td><td>146</td><td>29.2</td></tr>
           <tr><td>Last 14 Days</td><td>97</td><td>106</td><td>91.51%</td><td>257</td><td>25.7</td></tr>
           <tr><td>Last 30 Days</td><td>198</td><td>264</td><td>75.00%</td><td>478</td><td>21.7</td></tr>
@@ -930,21 +934,21 @@ signInAnonymously(auth)
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="label">Boxes Built (MTD)</div>
-        <div class="value">1050</div>
+        <div class="value">1085</div>
         <div class="sub">Goal: 870</div>
       </div>
       <div class="kpi-card">
         <div class="label">Monthly Progress</div>
-        <div class="value">120.69%</div>
-        <div class="sub">+180 over goal</div>
+        <div class="value">124.71%</div>
+        <div class="sub">+215 over goal</div>
       </div>
       <div class="kpi-card">
         <div class="label">Deliveries (MTD)</div>
-        <div class="value">45</div>
+        <div class="value">51</div>
       </div>
       <div class="kpi-card">
         <div class="label">Pickups (MTD)</div>
-        <div class="value">129</div>
+        <div class="value">136</div>
       </div>
     </div>
 
@@ -959,7 +963,7 @@ signInAnonymously(auth)
         <tr><td>March</td><td>688</td><td>824</td><td>33</td><td>84</td></tr>
         <tr><td>April</td><td>861.5</td><td>879</td><td>43</td><td>85</td></tr>
         <tr><td>May</td><td>849.5</td><td>870</td><td>44</td><td>97</td></tr>
-        <tr><td>June</td><td>1050</td><td>870</td><td>45</td><td>129</td></tr>
+        <tr><td>June</td><td>1085</td><td>870</td><td>51</td><td>136</td></tr>
       </tbody>
     </table>
 
@@ -992,23 +996,23 @@ signInAnonymously(auth)
     <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
       <div class="kpi-card">
         <div class="label">Total MTD Boxes</div>
-        <div class="value">1,048.5</div>
-        <div class="sub">June 2026</div>
+        <div class="value">0</div>
+        <div class="sub">July 2026 (just started)</div>
       </div>
       <div class="kpi-card dark">
         <div class="label">Total YTD Boxes</div>
-        <div class="value">4,447.5</div>
+        <div class="value">4,522</div>
         <div class="sub">2026</div>
       </div>
       <div class="kpi-card">
         <div class="label">Top MTD Producer</div>
-        <div class="value">Adrian</div>
-        <div class="sub">366.5 boxes</div>
+        <div class="value">&mdash;</div>
+        <div class="sub">July MTD all 0</div>
       </div>
       <div class="kpi-card dark">
         <div class="label">Top YTD Producer</div>
         <div class="value">Gustavo L</div>
-        <div class="sub">1,541.5 boxes</div>
+        <div class="sub">1,568.5 boxes</div>
       </div>
     </div>
 
@@ -1024,10 +1028,10 @@ signInAnonymously(auth)
         </tr>
       </thead>
       <tbody>
-        <tr><td>Colton S</td><td>119</td><td>254</td><td>741.5</td><td>1,361</td></tr>
-        <tr><td>Gustavo L</td><td>117</td><td>306.5</td><td>968.5</td><td>1,541.5</td></tr>
-        <tr><td>Jesse B</td><td>64</td><td>121.5</td><td>454</td><td>907.5</td></tr>
-        <tr><td>Adrian</td><td>139</td><td>366.5</td><td>637.5</td><td>637.5</td></tr>
+        <tr><td>Colton S</td><td>85</td><td>0</td><td>0</td><td>1,374</td></tr>
+        <tr><td>Gustavo L</td><td>91</td><td>0</td><td>0</td><td>1,568.5</td></tr>
+        <tr><td>Jesse B</td><td>13</td><td>0</td><td>0</td><td>907.5</td></tr>
+        <tr><td>Adrian</td><td>109</td><td>0</td><td>0</td><td>672</td></tr>
       </tbody>
     </table>
 
@@ -1050,34 +1054,35 @@ signInAnonymously(auth)
 
   <!-- ===================== MARKETING PANEL ===================== -->
   <div id="marketing" class="panel">
-    <h2 class="section-title">Marketing - Meta Ad Spend (June 2026)</h2>
+    <h2 class="section-title">Marketing - Meta Ad Spend (June 2026 · final)</h2>
+    <div style="font-size:12px; color:#64748b; margin:-6px 0 14px;">July sheet not yet populated — showing finalized June 2026 as the latest complete month.</div>
 
     <div class="kpi-grid">
       <div class="kpi-card">
-        <div class="label">MTD Meta Spend</div>
-        <div class="value">$11,107.63</div>
-        <div class="sub">June to date</div>
+        <div class="label">Meta Spend</div>
+        <div class="value">$11,949.07</div>
+        <div class="sub">June 2026 · final</div>
       </div>
       <div class="kpi-card">
-        <div class="label">MTD Meta Leads</div>
-        <div class="value">240</div>
+        <div class="label">Meta Leads</div>
+        <div class="value">266</div>
       </div>
       <div class="kpi-card">
         <div class="label">Avg Meta CPL</div>
-        <div class="value">$46.28</div>
+        <div class="value">$44.92</div>
         <div class="sub">Meta Spend / Meta Leads</div>
       </div>
       <div class="kpi-card">
-        <div class="label">Walk-In/Call-In Leads (MTD)</div>
+        <div class="label">Walk-In/Call-In Leads</div>
         <div class="value">15</div>
       </div>
       <div class="kpi-card">
-        <div class="label">Total Leads (MTD)</div>
-        <div class="value">255</div>
+        <div class="label">Total Leads</div>
+        <div class="value">281</div>
       </div>
       <div class="kpi-card">
         <div class="label">Avg Daily CPL (All)</div>
-        <div class="value">$43.55</div>
+        <div class="value">$42.52</div>
         <div class="sub">Meta Spend / Total Leads</div>
       </div>
     </div>
@@ -1089,15 +1094,15 @@ signInAnonymously(auth)
       </thead>
       <tbody>
         <tr><td>January</td><td>$6,146.63</td><td>22</td><td>$279.39</td><td>$114,620.91</td><td>18.6x</td></tr>
-        <tr><td>February</td><td>$5,171.37</td><td>30</td><td>$172.38</td><td>$165,669.23</td><td>32x</td></tr>
-        <tr><td>March</td><td>$6,784.02</td><td>31</td><td>$218.84</td><td>$188,378.99</td><td>27.8x</td></tr>
-        <tr><td>April</td><td>$6,812.37</td><td>24</td><td>$283.85</td><td>$107,506.51</td><td>15.8x</td></tr>
-        <tr><td>May</td><td>$6,982.23</td><td>13</td><td>$537.09</td><td>$69,557.00</td><td>10x</td></tr>
-        <tr><td>June</td><td>$11,143.49</td><td>21</td><td>$530.64</td><td>$81,661.43</td><td>7.3x</td></tr>
+        <tr><td>February</td><td>$5,171.37</td><td>29</td><td>$178.32</td><td>$165,669.23</td><td>32x</td></tr>
+        <tr><td>March</td><td>$6,784.02</td><td>29</td><td>$233.93</td><td>$188,378.99</td><td>27.8x</td></tr>
+        <tr><td>April</td><td>$6,812.37</td><td>23</td><td>$296.19</td><td>$107,506.51</td><td>15.8x</td></tr>
+        <tr><td>May</td><td>$6,982.23</td><td>10</td><td>$698.22</td><td>$69,557.00</td><td>10x</td></tr>
+        <tr><td>June</td><td>$11,989.01</td><td>20</td><td>$599.45</td><td>$81,661.43</td><td>6.8x</td></tr>
       </tbody>
     </table>
 
-    <h2 class="section-title">Meta Spend Detail &mdash; June 2026 (Month to Date)</h2>
+    <h2 class="section-title">Meta Spend Detail &mdash; June 2026 (Full Month)</h2>
     <table class="rep-table">
       <thead>
         <tr><th>Date</th><th>Amount Spent</th><th>Meta Leads</th><th>Meta CPL</th><th>W.I./C.I. Leads</th><th>Total CPL</th></tr>
@@ -1131,6 +1136,8 @@ signInAnonymously(auth)
         <tr><td>6/26</td><td>$378.97</td><td>12</td><td>$31.58</td><td>0</td><td>$31.58</td></tr>
         <tr><td>6/27</td><td>$368.35</td><td>4</td><td>$92.09</td><td>0</td><td>$92.09</td></tr>
         <tr><td>6/28</td><td>$436.16</td><td>2</td><td>$218.08</td><td>0</td><td>$218.08</td></tr>
+        <tr><td>6/29</td><td>$428.03</td><td>13</td><td>$32.93</td><td>0</td><td>$32.93</td></tr>
+        <tr><td>6/30</td><td>$413.41</td><td>13</td><td>$31.80</td><td>0</td><td>$31.80</td></tr>
       </tbody>
     </table>
 
@@ -1446,7 +1453,7 @@ new Chart(document.getElementById('revenueByDayChart'), {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
     datasets: [{
       label: 'Revenue',
-      data: [0, 0, 0, 0, 0],
+      data: [19804.32, 15848.97, 0, 0, 0],
       backgroundColor: '#C8102E',
       borderRadius: 6
     }]
@@ -1465,7 +1472,7 @@ new Chart(document.getElementById('quotesByDayChart'), {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
     datasets: [{
       label: 'Total Quotes',
-      data: [0, 0, 0, 0, 0],
+      data: [8, 3, 0, 0, 0],
       backgroundColor: '#475569',
       borderRadius: 6
     }]
@@ -1484,9 +1491,9 @@ new Chart(document.getElementById('repRevenueChart'), {
   data: {
     labels: repNames,
     datasets: [
-      { label: 'WTD', data: [0, 0, 0, 0, 0], backgroundColor: '#475569' },
-      { label: 'MTD', data: [146142.42, 136355.93, 56969.72, 118129.88, 43564.25], backgroundColor: '#C8102E' },
-      { label: 'YTD', data: [768139.08, 761735.98, 306284.82, 578026.25, 103533.89], backgroundColor: '#EAE5E0' }
+      { label: 'WTD', data: [9670.76, 8183.74, 5033.53, 12507.78, 257.48], backgroundColor: '#475569' },
+      { label: 'MTD', data: [0, 0, 0, 0, 0], backgroundColor: '#C8102E' },
+      { label: 'YTD', data: [777809.84, 769919.72, 311318.35, 590534.03, 103791.37], backgroundColor: '#EAE5E0' }
     ]
   },
   options: {
@@ -1501,8 +1508,8 @@ new Chart(document.getElementById('repCloseChart'), {
   data: {
     labels: repNames,
     datasets: [
-      { label: 'MTD Close %', data: [38.03, 42.31, 22.22, 40.00, 30.23], backgroundColor: '#C8102E' },
-      { label: 'YTD Close %', data: [37.35, 37.65, 27.89, 38.80, 15.15], backgroundColor: '#475569' }
+      { label: 'MTD Close %', data: [0, 0, 0, 0, 0], backgroundColor: '#C8102E' },
+      { label: 'YTD Close %', data: [37.79, 38.24, 27.84, 38.89, 15.00], backgroundColor: '#475569' }
     ]
   },
   options: {
@@ -1517,8 +1524,8 @@ new Chart(document.getElementById('repQuotesSalesChart'), {
   data: {
     labels: repNames.slice(0, 5),
     datasets: [
-      { label: 'MTD Quotes', data: [71, 52, 45, 35, 43], backgroundColor: '#475569' },
-      { label: 'MTD Sales', data: [27, 22, 10, 14, 13], backgroundColor: '#EAE5E0' }
+      { label: 'MTD Quotes', data: [0, 0, 0, 0, 0], backgroundColor: '#475569' },
+      { label: 'MTD Sales', data: [0, 0, 0, 0, 0], backgroundColor: '#EAE5E0' }
     ]
   },
   options: { responsive: true, scales: { y: { beginAtZero: true } } }
@@ -1531,7 +1538,7 @@ new Chart(document.getElementById('daysSinceLastSaleChart'), {
     labels: repNames.slice(0, 5),
     datasets: [{
       label: 'Days Since Last $1K+ Sale',
-      data: [4, 3, 3, 3, 5],
+      data: [1, 1, 1, 2, 7],
       backgroundColor: '#C8102E',
       borderRadius: 6
     }]
@@ -1549,7 +1556,7 @@ new Chart(document.getElementById('repFollowUpsChart'), {
   data: {
     labels: repNames.slice(0, 5),
     datasets: [
-      { label: 'MTD Follow Ups', data: [82, 96, 196, 50, 157], backgroundColor: '#C8102E', borderRadius: 6 }
+      { label: 'MTD Follow Ups', data: [0, 0, 0, 0, 0], backgroundColor: '#C8102E', borderRadius: 6 }
     ]
   },
   options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
@@ -1561,7 +1568,7 @@ new Chart(document.getElementById('goalProgressChart'), {
   data: {
     labels: ['Total Quotes', 'Follow Ups', 'Revenue', 'Avg Sale', 'Same Day Quote %'],
     datasets: [
-      { label: 'Progress %', data: [0, 0, 0, 0, 0], backgroundColor: '#C8102E', borderRadius: 6 }
+      { label: 'Progress %', data: [20, 66.67, 32.71, 80.85, 49.38], backgroundColor: '#C8102E', borderRadius: 6 }
     ]
   },
   options: {
@@ -1579,7 +1586,7 @@ new Chart(document.getElementById('monthlyRevenueChart'), {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [{
       label: 'Revenue',
-      data: [298948.16, 390444.70, 442306.25, 400986.98, 483871.73, 501162.20],
+      data: [298948.16, 390444.70, 442306.25, 400986.98, 483871.73, 536815.49],
       backgroundColor: ['#C8102E', '#A0171C', '#C8102E', '#A0171C', '#C8102E', '#A0171C'],
       borderRadius: 6
     }]
@@ -1597,11 +1604,11 @@ new Chart(document.getElementById('monthlyRevenueChart'), {
 new Chart(document.getElementById('weeklyRevenueChart'), {
   type: 'line',
   data: {
-    labels: ['Wk 5/3', 'Wk 5/10', 'Wk 5/17', 'Wk 5/24', 'Wk 5/31', 'Wk 6/7', 'Wk 6/14', 'Wk 6/21'],
+    labels: ['Wk 5/10', 'Wk 5/17', 'Wk 5/24', 'Wk 5/31', 'Wk 6/7', 'Wk 6/14', 'Wk 6/21', 'Wk 6/28'],
     datasets: [
       {
         label: 'Weekly Revenue (incl. tax)',
-        data: [151916.54, 65400.97, 140151.37, 111592.71, 120515.50, 124543.37, 111290.00, 144813.33],
+        data: [65400.97, 140151.37, 111592.71, 120515.50, 124543.37, 111290.00, 144813.33, 35653.29],
         borderColor: '#C8102E',
         backgroundColor: 'rgba(200,16,46,0.12)',
         fill: true,
@@ -1625,8 +1632,8 @@ new Chart(document.getElementById('weeklyRevenueChart'), {
         stepped: 'after'
       },
       {
-        label: '8-Wk Average ($121,278)',
-        data: [121278, 121278, 121278, 121278, 121278, 121278, 121278, 121278],
+        label: '8-Wk Average ($106,745)',
+        data: [106745, 106745, 106745, 106745, 106745, 106745, 106745, 106745],
         borderColor: '#475569',
         backgroundColor: 'transparent',
         borderDash: [3, 3],
@@ -1651,7 +1658,7 @@ new Chart(document.getElementById('monthlySalesChart'), {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [{
       label: 'Total Sales',
-      data: [58, 76, 80, 80, 86, 86],
+      data: [58, 76, 80, 80, 86, 93],
       borderColor: '#C8102E',
       backgroundColor: 'rgba(231,76,60,0.1)',
       fill: true,
@@ -1673,8 +1680,8 @@ new Chart(document.getElementById('repAvgSaleChart'), {
   data: {
     labels: repNames.slice(0, 5),
     datasets: [
-      { label: 'MTD Avg Sale', data: [5413, 6198, 5697, 8438, 3351], backgroundColor: '#C8102E', borderRadius: 4 },
-      { label: 'YTD Avg Sale', data: [4862, 5951, 5779, 5959, 3451], backgroundColor: '#475569', borderRadius: 4 }
+      { label: 'MTD Avg Sale', data: [0, 0, 0, 0, 0], backgroundColor: '#C8102E', borderRadius: 4 },
+      { label: 'YTD Avg Sale', data: [4831, 5845, 5765, 6026, 3460], backgroundColor: '#475569', borderRadius: 4 }
     ]
   },
   options: {
@@ -1689,7 +1696,7 @@ new Chart(document.getElementById('warehouseGoalDonut'), {
   data: {
     labels: ['Built', 'Remaining'],
     datasets: [{
-      data: [1050, 0],
+      data: [1085, 0],
       backgroundColor: ['#C8102E', '#2d2d44'],
       borderWidth: 0
     }]
@@ -1698,7 +1705,7 @@ new Chart(document.getElementById('warehouseGoalDonut'), {
     responsive: true,
     plugins: {
       legend: { position: 'bottom' },
-      title: { display: true, text: 'June: 1050 of 870 (120.69%)', color: '#334155' }
+      title: { display: true, text: 'June: 1085 of 870 (124.71%)', color: '#334155' }
     }
   }
 });
@@ -1710,7 +1717,7 @@ new Chart(document.getElementById('warehouseDailyChart'), {
     labels: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'],
     datasets: [{
       label: 'Boxes',
-      data: [50,58.5,53.5,66,46.5,0,13,63,37.5,59,75.5,56.5,0,0,33,62.5,50.5,49,38,0,0,44,58,47,49,40,0,0,0,0,0],
+      data: [50,58.5,53.5,66,46.5,0,13,63,37.5,59,75.5,56.5,0,0,33,62.5,50.5,49,38,0,0,44,58,47,49,40,0,0,35,0,0],
       backgroundColor: '#C8102E',
       borderRadius: 3
     }]
@@ -1728,7 +1735,7 @@ new Chart(document.getElementById('warehouseMonthlyChart'), {
   data: {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
-      { label: 'Boxes Built', data: [639, 637, 688, 861.5, 849.5, 1050], backgroundColor: '#C8102E', borderRadius: 4 },
+      { label: 'Boxes Built', data: [639, 637, 688, 861.5, 849.5, 1085], backgroundColor: '#C8102E', borderRadius: 4 },
       { label: 'Goal', data: [700, 731, 824, 879, 870, 870], backgroundColor: '#475569', borderRadius: 4 }
     ]
   },
@@ -1744,8 +1751,8 @@ new Chart(document.getElementById('warehouseDelPickChart'), {
   data: {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
-      { label: 'Deliveries', data: [44, 26, 33, 43, 44, 45], backgroundColor: '#475569', borderRadius: 4 },
-      { label: 'Pickups', data: [62, 89, 84, 85, 97, 129], backgroundColor: '#EAE5E0', borderRadius: 4 }
+      { label: 'Deliveries', data: [44, 26, 33, 43, 44, 51], backgroundColor: '#475569', borderRadius: 4 },
+      { label: 'Pickups', data: [62, 89, 84, 85, 97, 136], backgroundColor: '#EAE5E0', borderRadius: 4 }
     ]
   },
   options: {
@@ -1761,7 +1768,7 @@ new Chart(document.getElementById('assemblerMTDChart'), {
     labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'MTD Boxes',
-      data: [254, 306.5, 121.5, 366.5],
+      data: [0, 0, 0, 0],
       backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
@@ -1780,7 +1787,7 @@ new Chart(document.getElementById('assemblerYTDChart'), {
     labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'YTD Boxes',
-      data: [1361, 1541.5, 907.5, 637.5],
+      data: [1374, 1568.5, 907.5, 672],
       backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
@@ -1799,7 +1806,7 @@ new Chart(document.getElementById('assemblerPayPeriodChart'), {
     labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'This Pay Period',
-      data: [119, 117, 64, 139],
+      data: [85, 91, 13, 109],
       backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
@@ -1817,7 +1824,7 @@ new Chart(document.getElementById('setterChart'), {
   data: {
     labels: ['Passed', 'Not Passed'],
     datasets: [{
-      data: [69, 129],
+      data: [2, 19],
       backgroundColor: ['#C8102E', '#2d2d44'],
       borderWidth: 0
     }]
@@ -1827,19 +1834,19 @@ new Chart(document.getElementById('setterChart'), {
     maintainAspectRatio: false,
     plugins: {
       legend: { position: 'bottom' },
-      title: { display: true, text: 'MTD: 69 of 198 Contacts Passed (34.85%)', color: '#334155' }
+      title: { display: true, text: 'MTD (Jul): 2 of 21 Contacts Passed (9.52%)', color: '#334155' }
     }
   }
 });
 
 // ===================== MARKETING CHARTS =====================
-// June 2026 (month to date) — data through 6/28; refreshed 2026-06-29
-const mktDates = ['6/1', '6/2', '6/3', '6/4', '6/5', '6/6', '6/7', '6/8', '6/9', '6/10', '6/11', '6/12', '6/13', '6/14', '6/15', '6/16', '6/17', '6/18', '6/19', '6/20', '6/21', '6/22', '6/23', '6/24', '6/25', '6/26', '6/27', '6/28'];
-const mktSpend = [381.29, 412.27, 390.74, 354.09, 385.38, 366.43, 438.26, 384.19, 418.87, 376.44, 385.94, 379.87, 406.42, 460.40, 408.58, 420.91, 406.97, 396.08, 354.36, 355.66, 450.35, 434.92, 404.91, 395.77, 355.05, 378.97, 368.35, 436.16];
-const mktMetaLeads = [10, 12, 13, 11, 6, 13, 9, 18, 10, 14, 3, 8, 4, 5, 16, 9, 6, 1, 5, 6, 7, 8, 15, 9, 4, 12, 4, 2];
-const mktWICILeads = [0, 0, 0, 3, 2, 1, 0, 0, 0, 1, 0, 1, 0, 3, 0, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-const mktMetaCPL = [38.13, 34.36, 30.06, 32.19, 64.23, 28.19, 48.70, 21.34, 41.89, 26.89, 128.65, 47.48, 101.61, 92.08, 25.54, 46.77, 67.83, 396.08, 70.87, 59.28, 64.34, 54.37, 26.99, 43.97, 88.76, 31.58, 92.09, 218.08];
-const mktTotalCPL = [38.13, 34.36, 30.06, 25.29, 48.17, 26.17, 48.70, 21.34, 41.89, 25.10, 128.65, 42.21, 101.61, 57.55, 25.54, 46.77, 50.87, 198.04, 59.06, 59.28, 64.34, 54.37, 26.99, 43.97, 88.76, 31.58, 92.09, 218.08];
+// June 2026 (full month) — data through 6/30; finalized 2026-07-01 (July sheet not yet populated)
+const mktDates = ['6/1', '6/2', '6/3', '6/4', '6/5', '6/6', '6/7', '6/8', '6/9', '6/10', '6/11', '6/12', '6/13', '6/14', '6/15', '6/16', '6/17', '6/18', '6/19', '6/20', '6/21', '6/22', '6/23', '6/24', '6/25', '6/26', '6/27', '6/28', '6/29', '6/30'];
+const mktSpend = [381.29, 412.27, 390.74, 354.09, 385.38, 366.43, 438.26, 384.19, 418.87, 376.44, 385.94, 379.87, 406.42, 460.40, 408.58, 420.91, 406.97, 396.08, 354.36, 355.66, 450.35, 434.92, 404.91, 395.77, 355.05, 378.97, 368.35, 436.16, 428.03, 413.41];
+const mktMetaLeads = [10, 12, 13, 11, 6, 13, 9, 18, 10, 14, 3, 8, 4, 5, 16, 9, 6, 1, 5, 6, 7, 8, 15, 9, 4, 12, 4, 2, 13, 13];
+const mktWICILeads = [0, 0, 0, 3, 2, 1, 0, 0, 0, 1, 0, 1, 0, 3, 0, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const mktMetaCPL = [38.13, 34.36, 30.06, 32.19, 64.23, 28.19, 48.70, 21.34, 41.89, 26.89, 128.65, 47.48, 101.61, 92.08, 25.54, 46.77, 67.83, 396.08, 70.87, 59.28, 64.34, 54.37, 26.99, 43.97, 88.76, 31.58, 92.09, 218.08, 32.93, 31.80];
+const mktTotalCPL = [38.13, 34.36, 30.06, 25.29, 48.17, 26.17, 48.70, 21.34, 41.89, 25.10, 128.65, 42.21, 101.61, 57.55, 25.54, 46.77, 50.87, 198.04, 59.06, 59.28, 64.34, 54.37, 26.99, 43.97, 88.76, 31.58, 92.09, 218.08, 32.93, 31.80];
 
 // Daily Meta Spend
 new Chart(document.getElementById('metaSpendChart'), {
@@ -1940,7 +1947,7 @@ new Chart(document.getElementById('cacChart'), {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [{
       label: 'CAC',
-      data: [279.39, 172.38, 218.84, 283.85, 537.09, 530.64],
+      data: [279.39, 178.32, 233.93, 296.19, 698.22, 599.45],
       backgroundColor: ['#C8102E', '#C8102E', '#C8102E', '#C8102E', '#C8102E', '#C8102E'],
       borderRadius: 6
     }]
@@ -1960,14 +1967,14 @@ new Chart(document.getElementById('cacSpendChart'), {
     datasets: [
       {
         label: 'Meta Spend',
-        data: [6146.63, 5171.37, 6784.02, 6812.37, 6982.23, 11143.49],
+        data: [6146.63, 5171.37, 6784.02, 6812.37, 6982.23, 11989.01],
         backgroundColor: '#475569',
         borderRadius: 4,
         yAxisID: 'y'
       },
       {
         label: 'Total Closed',
-        data: [22, 30, 31, 24, 13, 21],
+        data: [22, 29, 29, 23, 10, 20],
         backgroundColor: '#2d6a9f',
         borderRadius: 4,
         yAxisID: 'y1'
@@ -1999,7 +2006,7 @@ new Chart(document.getElementById('cacRevenueChart'), {
       {
         label: 'ROAS',
         type: 'line',
-        data: [18.6, 32, 27.8, 15.8, 10, 7.3],
+        data: [18.6, 32, 27.8, 15.8, 10, 6.8],
         borderColor: '#1a1a2e',
         backgroundColor: 'rgba(26,26,46,0.1)',
         tension: 0.3,
