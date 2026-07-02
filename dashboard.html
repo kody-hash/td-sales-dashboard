@@ -311,7 +311,7 @@ signInAnonymously(auth)
     <h1>KPI Dashboard</h1>
   </div>
   <div class="week-info">Week of 6/28/2026 &bull; Updated: <span id="updateTime"></span></div>
-  <!-- Refresh: 2026-07-01 Wed — MONTH + QUARTER ROLLOVER. July begins; Q2 (Apr+May+Jun) complete, Q3 (Jul) starts. MTD Revenue $0 (July, nothing logged yet); QTD $0 (Q3=Jul). YTD $2,553,373.31 (up from $2,517,720.02 by the two new June days 6/29-30). June FINALIZED $536,815.49 / 93 sales (was mid-month $501,162.20/86). WTD (week of 6/28, in progress Mon-Tue) = $35,653.29 / 7 sales / 63.64% close / $5,093.33 avg — daily rev [Mon 19804.32, Tue 15848.97, Wed 0, 0, 0], quotes [8,3,0,0,0]. Per-rep MTD/QTD reset to $0/0/N-A; YTD revenue updated (Jon $777,810, Ronnie $769,920, Junior $311,318, Carel $590,534, Zach $103,791). Following June-1 rollover precedent: New Leads MTD reset to 0 (Calc col M holds stale June values → would produce negative Repeat Quotes); YTD New Leads/Repeat updated. Setter Passes daily switched to July 2026 (only 7/1 logged: Junior 1, Ronnie 1). Assembler MTD/QTD reset to 0 (July); YTD Colton 1374, Gustavo 1568.5, Jesse 907.5, Adrian 672 (team 4522); pay period 6/20-7/3: Colton 85, Gustavo 91, Jesse 13, Adrian 109. CAC board trued up (fresh Calc gviz): Jan 22/$279.39, Feb 29/$178.32, Mar 29/$233.93, Apr 23/$296.19, May 10/$698.22, Jun $11,989.01/20 closed/$599.45/6.8x. Days-since-$1K [Jon1,Ron1,Jun1,Car2,Zach7]. Pacer: 61 days into M5-8 tier; pre-tax YTD $2,342,544 (45.05%) vs tiered target $2,157,143 (41.48%) = +$185,401 AHEAD. Warehouse still shows June (source not rolled): finalized 1085/870 (124.71%), 51 del, 136 pickups. Marketing daily KEPT as June reference (July sheet empty). FLAGS: (1) Calc setter col M/scoreboard lag July — MTD setter cards use Slack-derived 7/1 (21 contacts, 2 passes). (2) Number_Input setter rows (col I/K) stale after ~6/22-6/23 → Setter Contact-Rate & Unique-Outreach table left at prior values (sparse-window). (3) Number_Input week 6/28 = $37,251.45 vs Calc WTD $35,653.29 (persistent Ronnie +$1,598.16 gap, also in Ronnie's col-G YTD) — used Calc scoreboard for WTD+weekly-chart consistency. Sources via CSV export / gviz. -->
+  <!-- Refresh: 2026-07-02 Thu — LIGHT DAY. Sales scoreboard IDENTICAL to 7/1 (no new $1K+ sales logged on 7/1 or 7/2): WTD (week of 6/28, Mon-Tue only) = $35,653.29 / 7 sales / 63.64% close / $5,093.33 avg; MTD $0 (July); QTD $0 (Q3=Jul); YTD $2,553,373.31. Per-rep revenue/close%/avg, weekly goals, monthly table, weekly-revenue chart (last wk 6/28 = $35,653.29), New Leads & Repeat Quotes, Returns — ALL unchanged & verified against fresh sources. CHANGES this run: (1) Days-since-$1K +1 each → [Jon2, Ron2, Jun2, Car3, Zach8]. (2) Assemblers — July MTD/QTD now 34 (Colton 13, Gustavo 10, Jesse 0, Adrian 11); YTD 4556 (Colton 1387, Gustavo 1578.5, Jesse 907.5, Adrian 683); pay period 6/20-7/3 Colton 97, Gustavo 100, Jesse 13, Adrian 123. Top MTD = Colton (13). (3) Pacer advanced to 62 days into M5-8: tiered target $2,171,429 (41.76%); pre-tax YTD $2,342,544 (45.05%) = +$171,116 AHEAD; projected EOY $5,392,544; 182 days left. Setter: only 7/1 posted in Slack (Contacts 21, Passes 2 → Junior 1, Ronnie 1); 7/2 numbers not yet sent by Derek — MTD setter cards & daily table unchanged (2 passes/9.52%). WTD scoreboard setter Contacts 16 / Passed 9 / 56.25%. Warehouse still June (source not rolled to July) — kept June final 1085/870. Marketing kept June reference (July sheet empty). CAC through June (July blank). FLAGS: (a) Calc col M setter still holds stale June per-rep values → New Leads MTD held at 0 (July precedent). (b) Number_Input setter rows reach only 6/29 → Contact-Rate table HELD at 6/28 values (window mismatch). (c) Fresh warehouse CSV shows June 1069/870 vs published 1085 (day-30 boxes now blank) and pickups 133 vs 136 — minor, June finalized, left as-is. (d) Marketing June KPI card ($11,949.07/266) is inconsistent with its own daily table (sums $11,536.80/254 meta, matches fresh CSV) — left untouched (out-of-scope finalized month; needs Kody review). Sources via CSV export (gviz stale-cached for Marketing). -->
 </div>
 
 <div class="container">
@@ -718,7 +718,7 @@ signInAnonymously(auth)
       <div class="kpi-card dark">
         <div class="label">Q3 QTD Daily Avg</div>
         <div class="value">$0</div>
-        <div class="sub">1 day into Q3 (Jul)</div>
+        <div class="sub">2 days into Q3 (Jul)</div>
       </div>
     </div>
 
@@ -761,8 +761,8 @@ signInAnonymously(auth)
             <div style="font-size:10px; font-weight:700; color:#fff; background:#C8102E; padding:3px 8px; border-radius:10px;">CURRENT</div>
           </div>
           <div style="font-size:22px; font-weight:700; color:#1a1a2e;">$100K<span style="font-size:13px; font-weight:500; color:#64748b;">/wk</span></div>
-          <div style="font-size:11px; color:#64748b; margin-top:6px;">May + Jun complete target: $871,429 &middot; Actual: <strong style="color:#16a34a;">$936,410</strong></div>
-          <div style="font-size:11px; font-weight:700; color:#16a34a; margin-top:2px;">+$64,982 (+7.46%) ahead (61 days in)</div>
+          <div style="font-size:11px; color:#64748b; margin-top:6px;">May + Jun complete target: $885,714 &middot; Actual: <strong style="color:#16a34a;">$936,410</strong></div>
+          <div style="font-size:11px; font-weight:700; color:#16a34a; margin-top:2px;">+$50,696 (+5.72%) ahead (62 days in)</div>
         </div>
         <div style="padding:16px; background:#f8f9fb; border:2px solid #cbd5e1; border-radius:10px;">
           <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
@@ -782,12 +782,12 @@ signInAnonymously(auth)
       </div>
       <div style="position:relative; height:42px; background:#eceef3; border-radius:21px; overflow:hidden; margin-bottom:8px;">
         <div style="position:absolute; left:0; top:0; height:100%; width:45.05%; background:linear-gradient(90deg,#16a34a,#22c55e); border-radius:21px 0 0 21px; display:flex; align-items:center; padding-left:14px; color:#fff; font-weight:700; font-size:13px;">$2,342,544</div>
-        <div style="position:absolute; left:41.48%; top:-6px; bottom:-6px; width:3px; background:#1a1a2e; z-index:2;"></div>
-        <div style="position:absolute; left:41.48%; top:-22px; transform:translateX(-50%); font-size:10px; font-weight:700; color:#1a1a2e; white-space:nowrap;">TIERED PACE &darr;</div>
+        <div style="position:absolute; left:41.76%; top:-6px; bottom:-6px; width:3px; background:#1a1a2e; z-index:2;"></div>
+        <div style="position:absolute; left:41.76%; top:-22px; transform:translateX(-50%); font-size:10px; font-weight:700; color:#1a1a2e; white-space:nowrap;">TIERED PACE &darr;</div>
       </div>
       <div style="display:flex; justify-content:space-between; font-size:12px; color:#64748b; margin-bottom:18px;">
         <span>$0</span>
-        <span>Tiered target by today: <strong style="color:#1a1a2e;">$2,157,143</strong> (M1-4 done + 61 days of M5-8)</span>
+        <span>Tiered target by today: <strong style="color:#1a1a2e;">$2,171,429</strong> (M1-4 done + 62 days of M5-8)</span>
         <span>$5.2M</span>
       </div>
 
@@ -809,7 +809,7 @@ signInAnonymously(auth)
       <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-top:20px; padding-top:20px; border-top:1px solid #eceef3;">
         <div>
           <div style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px;">Variance to Tiered Pace</div>
-          <div style="font-size:18px; font-weight:700; color:#16a34a;">+$185,401</div>
+          <div style="font-size:18px; font-weight:700; color:#16a34a;">+$171,116</div>
           <div style="font-size:11px; color:#64748b;">pre-tax ahead</div>
         </div>
         <div>
@@ -820,11 +820,11 @@ signInAnonymously(auth)
         <div>
           <div style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px;">Remaining Pre-tax</div>
           <div style="font-size:18px; font-weight:700; color:#1a1a2e;">$2,857,456</div>
-          <div style="font-size:11px; color:#64748b;">to hit $5.2M (183 days)</div>
+          <div style="font-size:11px; color:#64748b;">to hit $5.2M (182 days)</div>
         </div>
         <div>
           <div style="font-size:10px; color:#9ca3af; text-transform:uppercase; letter-spacing:1px;">If Tiered Pace Holds</div>
-          <div style="font-size:18px; font-weight:700; color:#16a34a;">$5,406,830</div>
+          <div style="font-size:18px; font-weight:700; color:#16a34a;">$5,392,544</div>
           <div style="font-size:11px; color:#64748b;">projected EOY pre-tax</div>
         </div>
       </div>
@@ -906,7 +906,7 @@ signInAnonymously(auth)
           <tr><th>Period</th><th>Contacts</th><th>Total Leads</th><th>Contact Rate</th><th>Unique Leads Attempted to Contact</th><th>Avg / Business Day</th></tr>
         </thead>
         <tbody>
-          <!-- 2026-07-01 NOT RECOMPUTED: Number_Input setter rows (col I/K) are stale after ~6/22–6/23 (no rows for 6/24 onward; placeholder 7/10 rows are empty). A fresh last-7-day window (6/25–7/1) captures 0 rows → 0 contacts/0 unique; the 14- and 30-day windows are also sparse (3–4 and 12–15 populated days). Recomputing would publish a misleading collapse. Values below are held from the 2026-06-28 refresh (fuller data); recompute once the sheet's setter entries catch up. -->
+          <!-- 2026-07-02 NOT RECOMPUTED: Number_Input setter rows (col I/K) now reach 6/29 but 6/30–7/2 are not yet entered, so recent windows are anchored to old data. A fresh last-7-day window (6/26–7/2) captures only 6/26 + 6/29 → 31 contacts / 144 unique over an effective 2 populated business days; dividing by 5 business days understates. The 14/30-day windows compute to 74/270 and 214/562 but the 7-day mismatch (setter data through 6/29 vs lead data through 7/2) distorts the contact rate. Values below are HELD from the 2026-06-28 refresh (fuller, self-consistent window); recompute once the sheet's setter entries catch up to the current date. -->
           <tr><td>Last 7 Days</td><td>50</td><td>52</td><td>96.15%</td><td>146</td><td>29.2</td></tr>
           <tr><td>Last 14 Days</td><td>97</td><td>106</td><td>91.51%</td><td>257</td><td>25.7</td></tr>
           <tr><td>Last 30 Days</td><td>198</td><td>264</td><td>75.00%</td><td>478</td><td>21.7</td></tr>
@@ -996,23 +996,23 @@ signInAnonymously(auth)
     <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
       <div class="kpi-card">
         <div class="label">Total MTD Boxes</div>
-        <div class="value">0</div>
-        <div class="sub">July 2026 (just started)</div>
+        <div class="value">34</div>
+        <div class="sub">July 2026</div>
       </div>
       <div class="kpi-card dark">
         <div class="label">Total YTD Boxes</div>
-        <div class="value">4,522</div>
+        <div class="value">4,556</div>
         <div class="sub">2026</div>
       </div>
       <div class="kpi-card">
         <div class="label">Top MTD Producer</div>
-        <div class="value">&mdash;</div>
-        <div class="sub">July MTD all 0</div>
+        <div class="value">Colton S</div>
+        <div class="sub">13 boxes</div>
       </div>
       <div class="kpi-card dark">
         <div class="label">Top YTD Producer</div>
         <div class="value">Gustavo L</div>
-        <div class="sub">1,568.5 boxes</div>
+        <div class="sub">1,578.5 boxes</div>
       </div>
     </div>
 
@@ -1028,10 +1028,10 @@ signInAnonymously(auth)
         </tr>
       </thead>
       <tbody>
-        <tr><td>Colton S</td><td>85</td><td>0</td><td>0</td><td>1,374</td></tr>
-        <tr><td>Gustavo L</td><td>91</td><td>0</td><td>0</td><td>1,568.5</td></tr>
+        <tr><td>Colton S</td><td>97</td><td>13</td><td>13</td><td>1,387</td></tr>
+        <tr><td>Gustavo L</td><td>100</td><td>10</td><td>10</td><td>1,578.5</td></tr>
         <tr><td>Jesse B</td><td>13</td><td>0</td><td>0</td><td>907.5</td></tr>
-        <tr><td>Adrian</td><td>109</td><td>0</td><td>0</td><td>672</td></tr>
+        <tr><td>Adrian</td><td>123</td><td>11</td><td>11</td><td>683</td></tr>
       </tbody>
     </table>
 
@@ -1538,7 +1538,7 @@ new Chart(document.getElementById('daysSinceLastSaleChart'), {
     labels: repNames.slice(0, 5),
     datasets: [{
       label: 'Days Since Last $1K+ Sale',
-      data: [1, 1, 1, 2, 7],
+      data: [2, 2, 2, 3, 8],
       backgroundColor: '#C8102E',
       borderRadius: 6
     }]
@@ -1768,7 +1768,7 @@ new Chart(document.getElementById('assemblerMTDChart'), {
     labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'MTD Boxes',
-      data: [0, 0, 0, 0],
+      data: [13, 10, 0, 11],
       backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
@@ -1787,7 +1787,7 @@ new Chart(document.getElementById('assemblerYTDChart'), {
     labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'YTD Boxes',
-      data: [1374, 1568.5, 907.5, 672],
+      data: [1387, 1578.5, 907.5, 683],
       backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
@@ -1806,7 +1806,7 @@ new Chart(document.getElementById('assemblerPayPeriodChart'), {
     labels: ['Colton S', 'Gustavo L', 'Jesse B', 'Adrian'],
     datasets: [{
       label: 'This Pay Period',
-      data: [85, 91, 13, 109],
+      data: [97, 100, 13, 123],
       backgroundColor: ['#C8102E', '#475569', '#2d6a9f', '#f59e0b'],
       borderRadius: 6
     }]
